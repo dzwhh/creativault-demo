@@ -1,0 +1,17 @@
+[
+  {
+    "id": "m7otaghw177bi7wbu7w9b8",
+    "userId": "user1",
+    "targetType": "ad",
+    "targetId": "g73rn26cnhdmfvxx6gmas",
+    "note": "很有创意的广告",
+    "createdAt": "2025-09-13T20:39:25.436Z"
+  },
+  {
+    "id": "srzw93j5zyyee793s6j6",
+    "userId": "user1",
+    "targetType": "product",
+    "targetId": "zfckmefx4xeap16w16h1f",
+    "createdAt": "2025-09-13T20:39:25.436Z"
+  }
+]

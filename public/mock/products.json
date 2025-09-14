@@ -1,0 +1,3009 @@
+[
+  {
+    "id": "zfckmefx4xeap16w16h1f",
+    "productName": "Product 1",
+    "image": "https://images.unsplash.com/photo-11500000000?w=300&h=300&fit=crop",
+    "category": "Books",
+    "subCategory": "Sub Books",
+    "sellingPriceRange": [
+      96,
+      447
+    ],
+    "supplierLinks": [
+      "https://supplier1.com"
+    ],
+    "trendingScore": 96.29470589325126,
+    "adCountLinked": 2,
+    "firstSeen": "2025-07-08T22:56:52.962Z",
+    "lastSeen": "2025-08-17T20:17:04.392Z",
+    "regions": [
+      "KR",
+      "CA"
+    ],
+    "platforms": [
+      "instagram",
+      "tiktok"
+    ],
+    "tags": [
+      "热销",
+      "推荐",
+      "新品"
+    ]
+  },
+  {
+    "id": "gffi1jm1eq9mdbkn0txzq",
+    "productName": "Product 2",
+    "image": "https://images.unsplash.com/photo-11500000001?w=300&h=300&fit=crop",
+    "category": "Home & Garden",
+    "subCategory": "Sub Home & Garden",
+    "sellingPriceRange": [
+      53,
+      410
+    ],
+    "supplierLinks": [
+      "https://supplier2.com"
+    ],
+    "trendingScore": 9.138467445450683,
+    "adCountLinked": 25,
+    "firstSeen": "2025-08-07T22:25:18.650Z",
+    "lastSeen": "2025-08-15T13:37:10.896Z",
+    "regions": [
+      "FR",
+      "KR"
+    ],
+    "platforms": [
+      "youtube",
+      "tiktok"
+    ],
+    "tags": [
+      "热销",
+      "推荐"
+    ]
+  },
+  {
+    "id": "ffg5nvgbul8t7czmxxn3g",
+    "productName": "Product 3",
+    "image": "https://images.unsplash.com/photo-11500000002?w=300&h=300&fit=crop",
+    "category": "Sports",
+    "subCategory": "Sub Sports",
+    "sellingPriceRange": [
+      75,
+      114
+    ],
+    "supplierLinks": [
+      "https://supplier3.com"
+    ],
+    "trendingScore": 78.27652079795244,
+    "adCountLinked": 82,
+    "firstSeen": "2025-04-27T14:50:18.925Z",
+    "lastSeen": "2025-08-19T15:50:09.259Z",
+    "regions": [
+      "US",
+      "KR"
+    ],
+    "platforms": [
+      "tiktok",
+      "other"
+    ],
+    "tags": [
+      "热销",
+      "推荐",
+      "新品"
+    ]
+  },
+  {
+    "id": "132jtxz4oebbrefq56048",
+    "productName": "Product 4",
+    "image": "https://images.unsplash.com/photo-11500000003?w=300&h=300&fit=crop",
+    "category": "Home & Garden",
+    "subCategory": "Sub Home & Garden",
+    "sellingPriceRange": [
+      20,
+      417
+    ],
+    "supplierLinks": [
+      "https://supplier4.com"
+    ],
+    "trendingScore": 57.60525267714656,
+    "adCountLinked": 26,
+    "firstSeen": "2025-09-11T07:44:11.742Z",
+    "lastSeen": "2025-08-15T13:33:03.945Z",
+    "regions": [
+      "KR",
+      "GB"
+    ],
+    "platforms": [
+      "facebook",
+      "tiktok"
+    ],
+    "tags": [
+      "热销",
+      "推荐",
+      "新品"
+    ]
+  },
+  {
+    "id": "jsk4fk2faexu88j3ilo98",
+    "productName": "Product 5",
+    "image": "https://images.unsplash.com/photo-11500000004?w=300&h=300&fit=crop",
+    "category": "Home & Garden",
+    "subCategory": "Sub Home & Garden",
+    "sellingPriceRange": [
+      16,
+      606
+    ],
+    "supplierLinks": [
+      "https://supplier5.com"
+    ],
+    "trendingScore": 3.2254646198790704,
+    "adCountLinked": 9,
+    "firstSeen": "2025-03-17T23:24:44.234Z",
+    "lastSeen": "2025-08-23T17:03:17.403Z",
+    "regions": [
+      "IN",
+      "AU"
+    ],
+    "platforms": [
+      "other",
+      "other"
+    ],
+    "tags": [
+      "热销",
+      "推荐",
+      "新品"
+    ]
+  },
+  {
+    "id": "ewsfradqaoe13r9jq1n1lo",
+    "productName": "Product 6",
+    "image": "https://images.unsplash.com/photo-11500000005?w=300&h=300&fit=crop",
+    "category": "Fashion",
+    "subCategory": "Sub Fashion",
+    "sellingPriceRange": [
+      36,
+      273
+    ],
+    "supplierLinks": [
+      "https://supplier6.com"
+    ],
+    "trendingScore": 40.542592069241536,
+    "adCountLinked": 9,
+    "firstSeen": "2025-06-27T03:25:29.451Z",
+    "lastSeen": "2025-08-23T17:20:31.419Z",
+    "regions": [
+      "CA",
+      "DE"
+    ],
+    "platforms": [
+      "other",
+      "tiktok"
+    ],
+    "tags": [
+      "热销",
+      "推荐",
+      "新品"
+    ]
+  },
+  {
+    "id": "og1x7ey9plx4reaypv8ve",
+    "productName": "Product 7",
+    "image": "https://images.unsplash.com/photo-11500000006?w=300&h=300&fit=crop",
+    "category": "Fashion",
+    "subCategory": "Sub Fashion",
+    "sellingPriceRange": [
+      40,
+      582
+    ],
+    "supplierLinks": [
+      "https://supplier7.com"
+    ],
+    "trendingScore": 21.0099567772561,
+    "adCountLinked": 6,
+    "firstSeen": "2025-07-12T20:54:53.184Z",
+    "lastSeen": "2025-09-02T22:08:21.380Z",
+    "regions": [
+      "JP",
+      "CA"
+    ],
+    "platforms": [
+      "facebook",
+      "tiktok"
+    ],
+    "tags": [
+      "热销",
+      "推荐"
+    ]
+  },
+  {
+    "id": "fho8u73ht5kcjjbs61c4o",
+    "productName": "Product 8",
+    "image": "https://images.unsplash.com/photo-11500000007?w=300&h=300&fit=crop",
+    "category": "Fashion",
+    "subCategory": "Sub Fashion",
+    "sellingPriceRange": [
+      93,
+      461
+    ],
+    "supplierLinks": [
+      "https://supplier8.com"
+    ],
+    "trendingScore": 93.73813139494081,
+    "adCountLinked": 62,
+    "firstSeen": "2025-07-28T11:46:52.614Z",
+    "lastSeen": "2025-09-06T07:25:56.328Z",
+    "regions": [
+      "GB",
+      "DE"
+    ],
+    "platforms": [
+      "tiktok",
+      "youtube"
+    ],
+    "tags": [
+      "热销",
+      "推荐"
+    ]
+  },
+  {
+    "id": "ilr1c9xztya9w8cn41h4o",
+    "productName": "Product 9",
+    "image": "https://images.unsplash.com/photo-11500000008?w=300&h=300&fit=crop",
+    "category": "Sports",
+    "subCategory": "Sub Sports",
+    "sellingPriceRange": [
+      59,
+      882
+    ],
+    "supplierLinks": [
+      "https://supplier9.com"
+    ],
+    "trendingScore": 82.82607226109526,
+    "adCountLinked": 91,
+    "firstSeen": "2025-04-18T06:28:00.097Z",
+    "lastSeen": "2025-08-16T10:18:10.750Z",
+    "regions": [
+      "JP",
+      "US"
+    ],
+    "platforms": [
+      "tiktok",
+      "other"
+    ],
+    "tags": [
+      "热销",
+      "推荐"
+    ]
+  },
+  {
+    "id": "af4l8niy2mijsnpt0fqn6",
+    "productName": "Product 10",
+    "image": "https://images.unsplash.com/photo-11500000009?w=300&h=300&fit=crop",
+    "category": "Beauty",
+    "subCategory": "Sub Beauty",
+    "sellingPriceRange": [
+      93,
+      621
+    ],
+    "supplierLinks": [
+      "https://supplier10.com"
+    ],
+    "trendingScore": 7.18226938998765,
+    "adCountLinked": 35,
+    "firstSeen": "2025-03-29T21:19:05.519Z",
+    "lastSeen": "2025-09-09T05:41:23.576Z",
+    "regions": [
+      "FR",
+      "JP"
+    ],
+    "platforms": [
+      "facebook",
+      "other"
+    ],
+    "tags": [
+      "热销",
+      "推荐",
+      "新品"
+    ]
+  },
+  {
+    "id": "69m7rfc1oalkmb4fwma38",
+    "productName": "Product 11",
+    "image": "https://images.unsplash.com/photo-11500000010?w=300&h=300&fit=crop",
+    "category": "Fashion",
+    "subCategory": "Sub Fashion",
+    "sellingPriceRange": [
+      58,
+      584
+    ],
+    "supplierLinks": [
+      "https://supplier11.com"
+    ],
+    "trendingScore": 53.09233102796327,
+    "adCountLinked": 68,
+    "firstSeen": "2025-09-08T10:04:59.751Z",
+    "lastSeen": "2025-08-25T20:03:22.841Z",
+    "regions": [
+      "DE",
+      "KR"
+    ],
+    "platforms": [
+      "instagram",
+      "facebook"
+    ],
+    "tags": [
+      "热销",
+      "推荐"
+    ]
+  },
+  {
+    "id": "yib1audqfut1vvqau5g4bs",
+    "productName": "Product 12",
+    "image": "https://images.unsplash.com/photo-11500000011?w=300&h=300&fit=crop",
+    "category": "Sports",
+    "subCategory": "Sub Sports",
+    "sellingPriceRange": [
+      38,
+      209
+    ],
+    "supplierLinks": [
+      "https://supplier12.com"
+    ],
+    "trendingScore": 83.30718998921118,
+    "adCountLinked": 96,
+    "firstSeen": "2025-05-08T03:06:41.158Z",
+    "lastSeen": "2025-08-24T06:49:46.529Z",
+    "regions": [
+      "CA",
+      "GB"
+    ],
+    "platforms": [
+      "youtube",
+      "facebook"
+    ],
+    "tags": [
+      "热销"
+    ]
+  },
+  {
+    "id": "if1kv74woesleofyggtzf",
+    "productName": "Product 13",
+    "image": "https://images.unsplash.com/photo-11500000012?w=300&h=300&fit=crop",
+    "category": "Books",
+    "subCategory": "Sub Books",
+    "sellingPriceRange": [
+      96,
+      120
+    ],
+    "supplierLinks": [
+      "https://supplier13.com"
+    ],
+    "trendingScore": 29.156490983842232,
+    "adCountLinked": 16,
+    "firstSeen": "2025-05-15T01:56:01.550Z",
+    "lastSeen": "2025-09-04T23:50:58.689Z",
+    "regions": [
+      "IN",
+      "FR"
+    ],
+    "platforms": [
+      "youtube",
+      "youtube"
+    ],
+    "tags": [
+      "热销",
+      "推荐"
+    ]
+  },
+  {
+    "id": "3zru5l6kwke1c3eeg7dulm",
+    "productName": "Product 14",
+    "image": "https://images.unsplash.com/photo-11500000013?w=300&h=300&fit=crop",
+    "category": "Sports",
+    "subCategory": "Sub Sports",
+    "sellingPriceRange": [
+      16,
+      558
+    ],
+    "supplierLinks": [
+      "https://supplier14.com"
+    ],
+    "trendingScore": 40.314888397375206,
+    "adCountLinked": 62,
+    "firstSeen": "2025-09-07T10:28:09.465Z",
+    "lastSeen": "2025-08-31T00:42:40.480Z",
+    "regions": [
+      "DE",
+      "JP"
+    ],
+    "platforms": [
+      "other",
+      "facebook"
+    ],
+    "tags": [
+      "热销",
+      "推荐",
+      "新品"
+    ]
+  },
+  {
+    "id": "vl8r7u4d1ykp0mavdojldm",
+    "productName": "Product 15",
+    "image": "https://images.unsplash.com/photo-11500000014?w=300&h=300&fit=crop",
+    "category": "Home & Garden",
+    "subCategory": "Sub Home & Garden",
+    "sellingPriceRange": [
+      69,
+      601
+    ],
+    "supplierLinks": [
+      "https://supplier15.com"
+    ],
+    "trendingScore": 12.6325850303034,
+    "adCountLinked": 68,
+    "firstSeen": "2025-06-22T19:06:51.716Z",
+    "lastSeen": "2025-08-17T11:43:15.321Z",
+    "regions": [
+      "DE",
+      "CA"
+    ],
+    "platforms": [
+      "facebook",
+      "instagram"
+    ],
+    "tags": [
+      "热销",
+      "推荐",
+      "新品"
+    ]
+  },
+  {
+    "id": "gz959rq7rynggh7482kkuv",
+    "productName": "Product 16",
+    "image": "https://images.unsplash.com/photo-11500000015?w=300&h=300&fit=crop",
+    "category": "Home & Garden",
+    "subCategory": "Sub Home & Garden",
+    "sellingPriceRange": [
+      27,
+      743
+    ],
+    "supplierLinks": [
+      "https://supplier16.com"
+    ],
+    "trendingScore": 74.41687852885393,
+    "adCountLinked": 94,
+    "firstSeen": "2025-07-26T04:15:57.062Z",
+    "lastSeen": "2025-09-03T23:02:47.621Z",
+    "regions": [
+      "CN",
+      "IN"
+    ],
+    "platforms": [
+      "facebook",
+      "facebook"
+    ],
+    "tags": [
+      "热销",
+      "推荐"
+    ]
+  },
+  {
+    "id": "ivwwmrd9ifiy10ajbwa91d",
+    "productName": "Product 17",
+    "image": "https://images.unsplash.com/photo-11500000016?w=300&h=300&fit=crop",
+    "category": "Books",
+    "subCategory": "Sub Books",
+    "sellingPriceRange": [
+      75,
+      298
+    ],
+    "supplierLinks": [
+      "https://supplier17.com"
+    ],
+    "trendingScore": 63.33615941686579,
+    "adCountLinked": 8,
+    "firstSeen": "2025-03-26T07:34:28.494Z",
+    "lastSeen": "2025-09-11T05:08:14.342Z",
+    "regions": [
+      "GB",
+      "JP"
+    ],
+    "platforms": [
+      "other",
+      "instagram"
+    ],
+    "tags": [
+      "热销"
+    ]
+  },
+  {
+    "id": "4wcdl2vv7yxtj213dz1tq",
+    "productName": "Product 18",
+    "image": "https://images.unsplash.com/photo-11500000017?w=300&h=300&fit=crop",
+    "category": "Home & Garden",
+    "subCategory": "Sub Home & Garden",
+    "sellingPriceRange": [
+      74,
+      227
+    ],
+    "supplierLinks": [
+      "https://supplier18.com"
+    ],
+    "trendingScore": 37.180206872538314,
+    "adCountLinked": 30,
+    "firstSeen": "2025-06-17T10:07:43.116Z",
+    "lastSeen": "2025-09-04T09:44:22.709Z",
+    "regions": [
+      "CN",
+      "IN"
+    ],
+    "platforms": [
+      "youtube",
+      "tiktok"
+    ],
+    "tags": [
+      "热销",
+      "推荐",
+      "新品"
+    ]
+  },
+  {
+    "id": "ijne8d7tr716bvvh3uqm",
+    "productName": "Product 19",
+    "image": "https://images.unsplash.com/photo-11500000018?w=300&h=300&fit=crop",
+    "category": "Beauty",
+    "subCategory": "Sub Beauty",
+    "sellingPriceRange": [
+      91,
+      549
+    ],
+    "supplierLinks": [
+      "https://supplier19.com"
+    ],
+    "trendingScore": 34.38287691703694,
+    "adCountLinked": 12,
+    "firstSeen": "2025-07-31T00:00:50.403Z",
+    "lastSeen": "2025-09-08T23:46:37.659Z",
+    "regions": [
+      "KR",
+      "AU"
+    ],
+    "platforms": [
+      "youtube",
+      "instagram"
+    ],
+    "tags": [
+      "热销",
+      "推荐",
+      "新品"
+    ]
+  },
+  {
+    "id": "4lhkm9xfmh42ab76fap5v2",
+    "productName": "Product 20",
+    "image": "https://images.unsplash.com/photo-11500000019?w=300&h=300&fit=crop",
+    "category": "Home & Garden",
+    "subCategory": "Sub Home & Garden",
+    "sellingPriceRange": [
+      24,
+      195
+    ],
+    "supplierLinks": [
+      "https://supplier20.com"
+    ],
+    "trendingScore": 63.82132254792494,
+    "adCountLinked": 32,
+    "firstSeen": "2025-04-03T00:23:02.294Z",
+    "lastSeen": "2025-08-20T18:47:50.789Z",
+    "regions": [
+      "GB",
+      "CN"
+    ],
+    "platforms": [
+      "facebook",
+      "youtube"
+    ],
+    "tags": [
+      "热销"
+    ]
+  },
+  {
+    "id": "f8jw0r37owhb14n1iznzfl",
+    "productName": "Product 21",
+    "image": "https://images.unsplash.com/photo-11500000020?w=300&h=300&fit=crop",
+    "category": "Sports",
+    "subCategory": "Sub Sports",
+    "sellingPriceRange": [
+      30,
+      382
+    ],
+    "supplierLinks": [
+      "https://supplier21.com"
+    ],
+    "trendingScore": 63.00819853148414,
+    "adCountLinked": 100,
+    "firstSeen": "2025-04-12T22:05:07.635Z",
+    "lastSeen": "2025-09-07T22:56:29.117Z",
+    "regions": [
+      "KR",
+      "AU"
+    ],
+    "platforms": [
+      "other",
+      "other"
+    ],
+    "tags": [
+      "热销"
+    ]
+  },
+  {
+    "id": "21071ms64j2v3mbqknagp",
+    "productName": "Product 22",
+    "image": "https://images.unsplash.com/photo-11500000021?w=300&h=300&fit=crop",
+    "category": "Sports",
+    "subCategory": "Sub Sports",
+    "sellingPriceRange": [
+      48,
+      645
+    ],
+    "supplierLinks": [
+      "https://supplier22.com"
+    ],
+    "trendingScore": 28.348860096071494,
+    "adCountLinked": 62,
+    "firstSeen": "2025-03-24T16:05:32.488Z",
+    "lastSeen": "2025-09-09T15:36:43.698Z",
+    "regions": [
+      "CN",
+      "IN"
+    ],
+    "platforms": [
+      "instagram",
+      "other"
+    ],
+    "tags": [
+      "热销",
+      "推荐"
+    ]
+  },
+  {
+    "id": "f24k4y0aio9ycbpjq1rfug",
+    "productName": "Product 23",
+    "image": "https://images.unsplash.com/photo-11500000022?w=300&h=300&fit=crop",
+    "category": "Home & Garden",
+    "subCategory": "Sub Home & Garden",
+    "sellingPriceRange": [
+      41,
+      723
+    ],
+    "supplierLinks": [
+      "https://supplier23.com"
+    ],
+    "trendingScore": 87.88776443977966,
+    "adCountLinked": 54,
+    "firstSeen": "2025-08-02T22:03:34.654Z",
+    "lastSeen": "2025-08-30T05:53:33.350Z",
+    "regions": [
+      "AU",
+      "JP"
+    ],
+    "platforms": [
+      "facebook",
+      "youtube"
+    ],
+    "tags": [
+      "热销",
+      "推荐"
+    ]
+  },
+  {
+    "id": "xk23pzgsd6l1l1em05ac5t",
+    "productName": "Product 24",
+    "image": "https://images.unsplash.com/photo-11500000023?w=300&h=300&fit=crop",
+    "category": "Beauty",
+    "subCategory": "Sub Beauty",
+    "sellingPriceRange": [
+      92,
+      875
+    ],
+    "supplierLinks": [
+      "https://supplier24.com"
+    ],
+    "trendingScore": 38.62510145911775,
+    "adCountLinked": 85,
+    "firstSeen": "2025-08-29T07:23:37.112Z",
+    "lastSeen": "2025-09-04T05:38:34.042Z",
+    "regions": [
+      "IN",
+      "FR"
+    ],
+    "platforms": [
+      "tiktok",
+      "facebook"
+    ],
+    "tags": [
+      "热销"
+    ]
+  },
+  {
+    "id": "iz10l0jlolrgmdcsp31qm7",
+    "productName": "Product 25",
+    "image": "https://images.unsplash.com/photo-11500000024?w=300&h=300&fit=crop",
+    "category": "Fashion",
+    "subCategory": "Sub Fashion",
+    "sellingPriceRange": [
+      90,
+      868
+    ],
+    "supplierLinks": [
+      "https://supplier25.com"
+    ],
+    "trendingScore": 73.77423668084863,
+    "adCountLinked": 25,
+    "firstSeen": "2025-06-10T21:54:37.682Z",
+    "lastSeen": "2025-08-16T08:25:06.096Z",
+    "regions": [
+      "DE",
+      "GB"
+    ],
+    "platforms": [
+      "other",
+      "facebook"
+    ],
+    "tags": [
+      "热销",
+      "推荐",
+      "新品"
+    ]
+  },
+  {
+    "id": "anwa882uvrqzjsrdz6w5w",
+    "productName": "Product 26",
+    "image": "https://images.unsplash.com/photo-11500000025?w=300&h=300&fit=crop",
+    "category": "Books",
+    "subCategory": "Sub Books",
+    "sellingPriceRange": [
+      42,
+      341
+    ],
+    "supplierLinks": [
+      "https://supplier26.com"
+    ],
+    "trendingScore": 56.30361503850172,
+    "adCountLinked": 4,
+    "firstSeen": "2025-06-25T02:02:33.373Z",
+    "lastSeen": "2025-09-08T18:18:30.726Z",
+    "regions": [
+      "FR",
+      "US"
+    ],
+    "platforms": [
+      "youtube",
+      "youtube"
+    ],
+    "tags": [
+      "热销"
+    ]
+  },
+  {
+    "id": "7i9ikl5bzfu2wnbinf4w96",
+    "productName": "Product 27",
+    "image": "https://images.unsplash.com/photo-11500000026?w=300&h=300&fit=crop",
+    "category": "Books",
+    "subCategory": "Sub Books",
+    "sellingPriceRange": [
+      75,
+      493
+    ],
+    "supplierLinks": [
+      "https://supplier27.com"
+    ],
+    "trendingScore": 84.22272277380412,
+    "adCountLinked": 26,
+    "firstSeen": "2025-05-13T16:42:16.861Z",
+    "lastSeen": "2025-08-21T20:29:27.936Z",
+    "regions": [
+      "CA",
+      "FR"
+    ],
+    "platforms": [
+      "instagram",
+      "youtube"
+    ],
+    "tags": [
+      "热销",
+      "推荐"
+    ]
+  },
+  {
+    "id": "wizz5qsf2i69tkj3kvd6",
+    "productName": "Product 28",
+    "image": "https://images.unsplash.com/photo-11500000027?w=300&h=300&fit=crop",
+    "category": "Books",
+    "subCategory": "Sub Books",
+    "sellingPriceRange": [
+      19,
+      929
+    ],
+    "supplierLinks": [
+      "https://supplier28.com"
+    ],
+    "trendingScore": 4.659855073729324,
+    "adCountLinked": 84,
+    "firstSeen": "2025-04-12T23:03:02.831Z",
+    "lastSeen": "2025-09-02T18:04:17.483Z",
+    "regions": [
+      "KR",
+      "FR"
+    ],
+    "platforms": [
+      "tiktok",
+      "other"
+    ],
+    "tags": [
+      "热销"
+    ]
+  },
+  {
+    "id": "eq7ro1nwrtnxtkbvbgitze",
+    "productName": "Product 29",
+    "image": "https://images.unsplash.com/photo-11500000028?w=300&h=300&fit=crop",
+    "category": "Electronics",
+    "subCategory": "Sub Electronics",
+    "sellingPriceRange": [
+      46,
+      372
+    ],
+    "supplierLinks": [
+      "https://supplier29.com"
+    ],
+    "trendingScore": 81.5392848373319,
+    "adCountLinked": 62,
+    "firstSeen": "2025-09-02T05:17:15.971Z",
+    "lastSeen": "2025-09-06T05:54:58.070Z",
+    "regions": [
+      "KR",
+      "GB"
+    ],
+    "platforms": [
+      "tiktok",
+      "tiktok"
+    ],
+    "tags": [
+      "热销"
+    ]
+  },
+  {
+    "id": "n16f8vqhwaf1oknyy92fm",
+    "productName": "Product 30",
+    "image": "https://images.unsplash.com/photo-11500000029?w=300&h=300&fit=crop",
+    "category": "Sports",
+    "subCategory": "Sub Sports",
+    "sellingPriceRange": [
+      83,
+      903
+    ],
+    "supplierLinks": [
+      "https://supplier30.com"
+    ],
+    "trendingScore": 98.58187238799694,
+    "adCountLinked": 29,
+    "firstSeen": "2025-03-27T08:25:41.601Z",
+    "lastSeen": "2025-09-10T12:48:46.933Z",
+    "regions": [
+      "US",
+      "IN"
+    ],
+    "platforms": [
+      "facebook",
+      "tiktok"
+    ],
+    "tags": [
+      "热销"
+    ]
+  },
+  {
+    "id": "bwnlre4lx67u0dv9qnds8",
+    "productName": "Product 31",
+    "image": "https://images.unsplash.com/photo-11500000030?w=300&h=300&fit=crop",
+    "category": "Beauty",
+    "subCategory": "Sub Beauty",
+    "sellingPriceRange": [
+      78,
+      369
+    ],
+    "supplierLinks": [
+      "https://supplier31.com"
+    ],
+    "trendingScore": 93.10608372826326,
+    "adCountLinked": 46,
+    "firstSeen": "2025-05-24T15:11:22.657Z",
+    "lastSeen": "2025-09-09T21:14:52.788Z",
+    "regions": [
+      "AU",
+      "US"
+    ],
+    "platforms": [
+      "other",
+      "tiktok"
+    ],
+    "tags": [
+      "热销",
+      "推荐"
+    ]
+  },
+  {
+    "id": "lzr5eejollhvt9ltpoa3mp",
+    "productName": "Product 32",
+    "image": "https://images.unsplash.com/photo-11500000031?w=300&h=300&fit=crop",
+    "category": "Beauty",
+    "subCategory": "Sub Beauty",
+    "sellingPriceRange": [
+      80,
+      601
+    ],
+    "supplierLinks": [
+      "https://supplier32.com"
+    ],
+    "trendingScore": 60.90385703062042,
+    "adCountLinked": 56,
+    "firstSeen": "2025-03-29T12:12:26.848Z",
+    "lastSeen": "2025-08-25T06:49:11.482Z",
+    "regions": [
+      "JP",
+      "GB"
+    ],
+    "platforms": [
+      "facebook",
+      "instagram"
+    ],
+    "tags": [
+      "热销",
+      "推荐"
+    ]
+  },
+  {
+    "id": "n4k1mpty3a9wjolpkzwkff",
+    "productName": "Product 33",
+    "image": "https://images.unsplash.com/photo-11500000032?w=300&h=300&fit=crop",
+    "category": "Home & Garden",
+    "subCategory": "Sub Home & Garden",
+    "sellingPriceRange": [
+      34,
+      630
+    ],
+    "supplierLinks": [
+      "https://supplier33.com"
+    ],
+    "trendingScore": 81.29570499882416,
+    "adCountLinked": 39,
+    "firstSeen": "2025-07-22T03:09:08.108Z",
+    "lastSeen": "2025-08-22T21:29:24.323Z",
+    "regions": [
+      "IN",
+      "JP"
+    ],
+    "platforms": [
+      "instagram",
+      "other"
+    ],
+    "tags": [
+      "热销",
+      "推荐",
+      "新品"
+    ]
+  },
+  {
+    "id": "xrjfl259sjn5yfjk1bx0h",
+    "productName": "Product 34",
+    "image": "https://images.unsplash.com/photo-11500000033?w=300&h=300&fit=crop",
+    "category": "Books",
+    "subCategory": "Sub Books",
+    "sellingPriceRange": [
+      24,
+      988
+    ],
+    "supplierLinks": [
+      "https://supplier34.com"
+    ],
+    "trendingScore": 33.7665027912031,
+    "adCountLinked": 94,
+    "firstSeen": "2025-04-30T03:32:57.260Z",
+    "lastSeen": "2025-08-18T11:01:41.254Z",
+    "regions": [
+      "DE",
+      "US"
+    ],
+    "platforms": [
+      "tiktok",
+      "other"
+    ],
+    "tags": [
+      "热销",
+      "推荐",
+      "新品"
+    ]
+  },
+  {
+    "id": "55m5ycayoqb6wz7wat98sr",
+    "productName": "Product 35",
+    "image": "https://images.unsplash.com/photo-11500000034?w=300&h=300&fit=crop",
+    "category": "Books",
+    "subCategory": "Sub Books",
+    "sellingPriceRange": [
+      43,
+      197
+    ],
+    "supplierLinks": [
+      "https://supplier35.com"
+    ],
+    "trendingScore": 65.47865728932823,
+    "adCountLinked": 11,
+    "firstSeen": "2025-05-26T01:07:07.625Z",
+    "lastSeen": "2025-08-16T04:56:56.750Z",
+    "regions": [
+      "GB",
+      "DE"
+    ],
+    "platforms": [
+      "facebook",
+      "instagram"
+    ],
+    "tags": [
+      "热销",
+      "推荐",
+      "新品"
+    ]
+  },
+  {
+    "id": "ik9wykwghynaa4nww3qqxh",
+    "productName": "Product 36",
+    "image": "https://images.unsplash.com/photo-11500000035?w=300&h=300&fit=crop",
+    "category": "Sports",
+    "subCategory": "Sub Sports",
+    "sellingPriceRange": [
+      87,
+      757
+    ],
+    "supplierLinks": [
+      "https://supplier36.com"
+    ],
+    "trendingScore": 74.00344458455868,
+    "adCountLinked": 21,
+    "firstSeen": "2025-08-27T09:43:12.942Z",
+    "lastSeen": "2025-09-07T17:36:19.499Z",
+    "regions": [
+      "IN",
+      "DE"
+    ],
+    "platforms": [
+      "tiktok",
+      "tiktok"
+    ],
+    "tags": [
+      "热销",
+      "推荐"
+    ]
+  },
+  {
+    "id": "k3stbkwehpe2uoibe9z8l7",
+    "productName": "Product 37",
+    "image": "https://images.unsplash.com/photo-11500000036?w=300&h=300&fit=crop",
+    "category": "Beauty",
+    "subCategory": "Sub Beauty",
+    "sellingPriceRange": [
+      80,
+      425
+    ],
+    "supplierLinks": [
+      "https://supplier37.com"
+    ],
+    "trendingScore": 69.01768650204356,
+    "adCountLinked": 8,
+    "firstSeen": "2025-06-18T04:39:06.731Z",
+    "lastSeen": "2025-09-05T09:37:17.998Z",
+    "regions": [
+      "CN",
+      "US"
+    ],
+    "platforms": [
+      "other",
+      "instagram"
+    ],
+    "tags": [
+      "热销",
+      "推荐"
+    ]
+  },
+  {
+    "id": "mnowq4j11s803y2axgvpb",
+    "productName": "Product 38",
+    "image": "https://images.unsplash.com/photo-11500000037?w=300&h=300&fit=crop",
+    "category": "Fashion",
+    "subCategory": "Sub Fashion",
+    "sellingPriceRange": [
+      60,
+      613
+    ],
+    "supplierLinks": [
+      "https://supplier38.com"
+    ],
+    "trendingScore": 74.95078608705035,
+    "adCountLinked": 77,
+    "firstSeen": "2025-04-20T13:53:25.520Z",
+    "lastSeen": "2025-08-17T22:45:22.463Z",
+    "regions": [
+      "FR",
+      "GB"
+    ],
+    "platforms": [
+      "facebook",
+      "facebook"
+    ],
+    "tags": [
+      "热销"
+    ]
+  },
+  {
+    "id": "6dr132i48bfxl2upxx2r6m",
+    "productName": "Product 39",
+    "image": "https://images.unsplash.com/photo-11500000038?w=300&h=300&fit=crop",
+    "category": "Electronics",
+    "subCategory": "Sub Electronics",
+    "sellingPriceRange": [
+      53,
+      151
+    ],
+    "supplierLinks": [
+      "https://supplier39.com"
+    ],
+    "trendingScore": 49.67060139615474,
+    "adCountLinked": 7,
+    "firstSeen": "2025-08-15T19:52:56.501Z",
+    "lastSeen": "2025-08-28T00:17:09.627Z",
+    "regions": [
+      "AU",
+      "CA"
+    ],
+    "platforms": [
+      "tiktok",
+      "instagram"
+    ],
+    "tags": [
+      "热销"
+    ]
+  },
+  {
+    "id": "3ial28acb051tz7bmiso0g",
+    "productName": "Product 40",
+    "image": "https://images.unsplash.com/photo-11500000039?w=300&h=300&fit=crop",
+    "category": "Home & Garden",
+    "subCategory": "Sub Home & Garden",
+    "sellingPriceRange": [
+      43,
+      704
+    ],
+    "supplierLinks": [
+      "https://supplier40.com"
+    ],
+    "trendingScore": 75.60433405641787,
+    "adCountLinked": 47,
+    "firstSeen": "2025-04-10T14:17:12.267Z",
+    "lastSeen": "2025-08-23T05:41:14.918Z",
+    "regions": [
+      "IN",
+      "JP"
+    ],
+    "platforms": [
+      "facebook",
+      "instagram"
+    ],
+    "tags": [
+      "热销",
+      "推荐",
+      "新品"
+    ]
+  },
+  {
+    "id": "sa2ykbvypjji7aabqfmj7d",
+    "productName": "Product 41",
+    "image": "https://images.unsplash.com/photo-11500000040?w=300&h=300&fit=crop",
+    "category": "Electronics",
+    "subCategory": "Sub Electronics",
+    "sellingPriceRange": [
+      78,
+      475
+    ],
+    "supplierLinks": [
+      "https://supplier41.com"
+    ],
+    "trendingScore": 15.642344814618614,
+    "adCountLinked": 42,
+    "firstSeen": "2025-07-15T03:58:42.851Z",
+    "lastSeen": "2025-08-28T06:16:44.264Z",
+    "regions": [
+      "IN",
+      "AU"
+    ],
+    "platforms": [
+      "youtube",
+      "youtube"
+    ],
+    "tags": [
+      "热销",
+      "推荐",
+      "新品"
+    ]
+  },
+  {
+    "id": "9h4imjd8p5mofbluen3cpl",
+    "productName": "Product 42",
+    "image": "https://images.unsplash.com/photo-11500000041?w=300&h=300&fit=crop",
+    "category": "Home & Garden",
+    "subCategory": "Sub Home & Garden",
+    "sellingPriceRange": [
+      52,
+      763
+    ],
+    "supplierLinks": [
+      "https://supplier42.com"
+    ],
+    "trendingScore": 60.144630936264875,
+    "adCountLinked": 76,
+    "firstSeen": "2025-09-03T11:55:56.740Z",
+    "lastSeen": "2025-08-20T23:49:44.924Z",
+    "regions": [
+      "FR",
+      "US"
+    ],
+    "platforms": [
+      "youtube",
+      "tiktok"
+    ],
+    "tags": [
+      "热销",
+      "推荐",
+      "新品"
+    ]
+  },
+  {
+    "id": "kk7zalior4obf3a0d4eqw8",
+    "productName": "Product 43",
+    "image": "https://images.unsplash.com/photo-11500000042?w=300&h=300&fit=crop",
+    "category": "Fashion",
+    "subCategory": "Sub Fashion",
+    "sellingPriceRange": [
+      40,
+      742
+    ],
+    "supplierLinks": [
+      "https://supplier43.com"
+    ],
+    "trendingScore": 10.544919627567628,
+    "adCountLinked": 73,
+    "firstSeen": "2025-06-16T14:12:24.350Z",
+    "lastSeen": "2025-08-18T11:45:27.163Z",
+    "regions": [
+      "CA",
+      "CA"
+    ],
+    "platforms": [
+      "other",
+      "other"
+    ],
+    "tags": [
+      "热销",
+      "推荐"
+    ]
+  },
+  {
+    "id": "iv5bsx161ecqzt8q2zxx5",
+    "productName": "Product 44",
+    "image": "https://images.unsplash.com/photo-11500000043?w=300&h=300&fit=crop",
+    "category": "Fashion",
+    "subCategory": "Sub Fashion",
+    "sellingPriceRange": [
+      43,
+      362
+    ],
+    "supplierLinks": [
+      "https://supplier44.com"
+    ],
+    "trendingScore": 75.52674816594576,
+    "adCountLinked": 81,
+    "firstSeen": "2025-04-06T08:44:41.021Z",
+    "lastSeen": "2025-08-24T03:48:23.474Z",
+    "regions": [
+      "KR",
+      "DE"
+    ],
+    "platforms": [
+      "instagram",
+      "other"
+    ],
+    "tags": [
+      "热销",
+      "推荐",
+      "新品"
+    ]
+  },
+  {
+    "id": "dz3hnvcxkn8m5jkrict0hg",
+    "productName": "Product 45",
+    "image": "https://images.unsplash.com/photo-11500000044?w=300&h=300&fit=crop",
+    "category": "Electronics",
+    "subCategory": "Sub Electronics",
+    "sellingPriceRange": [
+      21,
+      694
+    ],
+    "supplierLinks": [
+      "https://supplier45.com"
+    ],
+    "trendingScore": 92.19326204872014,
+    "adCountLinked": 56,
+    "firstSeen": "2025-05-07T20:26:46.974Z",
+    "lastSeen": "2025-09-04T13:28:10.835Z",
+    "regions": [
+      "CA",
+      "GB"
+    ],
+    "platforms": [
+      "facebook",
+      "other"
+    ],
+    "tags": [
+      "热销"
+    ]
+  },
+  {
+    "id": "vx736e4nhlcm35uzv3779b",
+    "productName": "Product 46",
+    "image": "https://images.unsplash.com/photo-11500000045?w=300&h=300&fit=crop",
+    "category": "Electronics",
+    "subCategory": "Sub Electronics",
+    "sellingPriceRange": [
+      93,
+      881
+    ],
+    "supplierLinks": [
+      "https://supplier46.com"
+    ],
+    "trendingScore": 76.04349812825512,
+    "adCountLinked": 60,
+    "firstSeen": "2025-06-10T07:41:45.443Z",
+    "lastSeen": "2025-08-18T02:06:20.514Z",
+    "regions": [
+      "AU",
+      "GB"
+    ],
+    "platforms": [
+      "youtube",
+      "instagram"
+    ],
+    "tags": [
+      "热销",
+      "推荐",
+      "新品"
+    ]
+  },
+  {
+    "id": "9brtvlv196rpz5kcssz73k",
+    "productName": "Product 47",
+    "image": "https://images.unsplash.com/photo-11500000046?w=300&h=300&fit=crop",
+    "category": "Books",
+    "subCategory": "Sub Books",
+    "sellingPriceRange": [
+      80,
+      381
+    ],
+    "supplierLinks": [
+      "https://supplier47.com"
+    ],
+    "trendingScore": 53.22338484908429,
+    "adCountLinked": 85,
+    "firstSeen": "2025-07-09T05:09:32.739Z",
+    "lastSeen": "2025-08-24T00:12:44.072Z",
+    "regions": [
+      "FR",
+      "GB"
+    ],
+    "platforms": [
+      "instagram",
+      "tiktok"
+    ],
+    "tags": [
+      "热销",
+      "推荐"
+    ]
+  },
+  {
+    "id": "fufalftxdlhqpc7zgu6i3",
+    "productName": "Product 48",
+    "image": "https://images.unsplash.com/photo-11500000047?w=300&h=300&fit=crop",
+    "category": "Electronics",
+    "subCategory": "Sub Electronics",
+    "sellingPriceRange": [
+      38,
+      860
+    ],
+    "supplierLinks": [
+      "https://supplier48.com"
+    ],
+    "trendingScore": 60.30533329929422,
+    "adCountLinked": 11,
+    "firstSeen": "2025-08-02T13:40:59.574Z",
+    "lastSeen": "2025-09-04T11:57:13.121Z",
+    "regions": [
+      "DE",
+      "AU"
+    ],
+    "platforms": [
+      "other",
+      "tiktok"
+    ],
+    "tags": [
+      "热销"
+    ]
+  },
+  {
+    "id": "2yekog4k7b9qajbzu1sqr",
+    "productName": "Product 49",
+    "image": "https://images.unsplash.com/photo-11500000048?w=300&h=300&fit=crop",
+    "category": "Beauty",
+    "subCategory": "Sub Beauty",
+    "sellingPriceRange": [
+      87,
+      686
+    ],
+    "supplierLinks": [
+      "https://supplier49.com"
+    ],
+    "trendingScore": 32.11446022612914,
+    "adCountLinked": 79,
+    "firstSeen": "2025-05-08T16:52:23.061Z",
+    "lastSeen": "2025-09-02T23:08:09.436Z",
+    "regions": [
+      "KR",
+      "DE"
+    ],
+    "platforms": [
+      "other",
+      "facebook"
+    ],
+    "tags": [
+      "热销",
+      "推荐",
+      "新品"
+    ]
+  },
+  {
+    "id": "1uaobc1n5olhjb8xv8ia4f",
+    "productName": "Product 50",
+    "image": "https://images.unsplash.com/photo-11500000049?w=300&h=300&fit=crop",
+    "category": "Books",
+    "subCategory": "Sub Books",
+    "sellingPriceRange": [
+      21,
+      634
+    ],
+    "supplierLinks": [
+      "https://supplier50.com"
+    ],
+    "trendingScore": 31.214794852532847,
+    "adCountLinked": 76,
+    "firstSeen": "2025-07-27T12:17:41.746Z",
+    "lastSeen": "2025-09-13T09:50:34.957Z",
+    "regions": [
+      "US",
+      "GB"
+    ],
+    "platforms": [
+      "other",
+      "tiktok"
+    ],
+    "tags": [
+      "热销",
+      "推荐",
+      "新品"
+    ]
+  },
+  {
+    "id": "e2b8k2qx4naj5xyzzg66g",
+    "productName": "Product 51",
+    "image": "https://images.unsplash.com/photo-11500000050?w=300&h=300&fit=crop",
+    "category": "Sports",
+    "subCategory": "Sub Sports",
+    "sellingPriceRange": [
+      44,
+      500
+    ],
+    "supplierLinks": [
+      "https://supplier51.com"
+    ],
+    "trendingScore": 29.924957427497702,
+    "adCountLinked": 15,
+    "firstSeen": "2025-04-01T07:06:46.401Z",
+    "lastSeen": "2025-08-29T01:34:05.729Z",
+    "regions": [
+      "FR",
+      "DE"
+    ],
+    "platforms": [
+      "youtube",
+      "other"
+    ],
+    "tags": [
+      "热销"
+    ]
+  },
+  {
+    "id": "wm5ni9fz9qcv0w3fzurx",
+    "productName": "Product 52",
+    "image": "https://images.unsplash.com/photo-11500000051?w=300&h=300&fit=crop",
+    "category": "Books",
+    "subCategory": "Sub Books",
+    "sellingPriceRange": [
+      72,
+      601
+    ],
+    "supplierLinks": [
+      "https://supplier52.com"
+    ],
+    "trendingScore": 5.177643311115454,
+    "adCountLinked": 43,
+    "firstSeen": "2025-07-12T00:28:21.191Z",
+    "lastSeen": "2025-08-23T06:08:28.394Z",
+    "regions": [
+      "CA",
+      "DE"
+    ],
+    "platforms": [
+      "youtube",
+      "other"
+    ],
+    "tags": [
+      "热销",
+      "推荐",
+      "新品"
+    ]
+  },
+  {
+    "id": "74b8dqsq1mqvffpskbrca",
+    "productName": "Product 53",
+    "image": "https://images.unsplash.com/photo-11500000052?w=300&h=300&fit=crop",
+    "category": "Home & Garden",
+    "subCategory": "Sub Home & Garden",
+    "sellingPriceRange": [
+      59,
+      152
+    ],
+    "supplierLinks": [
+      "https://supplier53.com"
+    ],
+    "trendingScore": 23.60275650680208,
+    "adCountLinked": 43,
+    "firstSeen": "2025-09-05T01:38:31.664Z",
+    "lastSeen": "2025-09-09T06:56:47.400Z",
+    "regions": [
+      "KR",
+      "CA"
+    ],
+    "platforms": [
+      "tiktok",
+      "tiktok"
+    ],
+    "tags": [
+      "热销",
+      "推荐",
+      "新品"
+    ]
+  },
+  {
+    "id": "3owqxe18jwed8jd2s3savi",
+    "productName": "Product 54",
+    "image": "https://images.unsplash.com/photo-11500000053?w=300&h=300&fit=crop",
+    "category": "Sports",
+    "subCategory": "Sub Sports",
+    "sellingPriceRange": [
+      15,
+      819
+    ],
+    "supplierLinks": [
+      "https://supplier54.com"
+    ],
+    "trendingScore": 11.699615404948416,
+    "adCountLinked": 17,
+    "firstSeen": "2025-07-22T23:38:41.151Z",
+    "lastSeen": "2025-08-29T09:36:28.434Z",
+    "regions": [
+      "IN",
+      "JP"
+    ],
+    "platforms": [
+      "facebook",
+      "youtube"
+    ],
+    "tags": [
+      "热销",
+      "推荐"
+    ]
+  },
+  {
+    "id": "0f4167oh01fmliazwnnwpic",
+    "productName": "Product 55",
+    "image": "https://images.unsplash.com/photo-11500000054?w=300&h=300&fit=crop",
+    "category": "Books",
+    "subCategory": "Sub Books",
+    "sellingPriceRange": [
+      72,
+      742
+    ],
+    "supplierLinks": [
+      "https://supplier55.com"
+    ],
+    "trendingScore": 27.72142132975226,
+    "adCountLinked": 1,
+    "firstSeen": "2025-04-16T13:13:22.080Z",
+    "lastSeen": "2025-08-31T07:25:46.020Z",
+    "regions": [
+      "DE",
+      "IN"
+    ],
+    "platforms": [
+      "youtube",
+      "youtube"
+    ],
+    "tags": [
+      "热销",
+      "推荐"
+    ]
+  },
+  {
+    "id": "cxmstgffln8ii66ygmh2dh",
+    "productName": "Product 56",
+    "image": "https://images.unsplash.com/photo-11500000055?w=300&h=300&fit=crop",
+    "category": "Electronics",
+    "subCategory": "Sub Electronics",
+    "sellingPriceRange": [
+      73,
+      810
+    ],
+    "supplierLinks": [
+      "https://supplier56.com"
+    ],
+    "trendingScore": 52.663445292106935,
+    "adCountLinked": 22,
+    "firstSeen": "2025-05-26T01:00:12.267Z",
+    "lastSeen": "2025-09-07T04:50:53.147Z",
+    "regions": [
+      "FR",
+      "AU"
+    ],
+    "platforms": [
+      "instagram",
+      "other"
+    ],
+    "tags": [
+      "热销"
+    ]
+  },
+  {
+    "id": "u2eo9ph9bjqkn1z32sza5c",
+    "productName": "Product 57",
+    "image": "https://images.unsplash.com/photo-11500000056?w=300&h=300&fit=crop",
+    "category": "Books",
+    "subCategory": "Sub Books",
+    "sellingPriceRange": [
+      36,
+      195
+    ],
+    "supplierLinks": [
+      "https://supplier57.com"
+    ],
+    "trendingScore": 15.30412984634073,
+    "adCountLinked": 45,
+    "firstSeen": "2025-09-11T05:32:10.745Z",
+    "lastSeen": "2025-09-03T10:03:30.929Z",
+    "regions": [
+      "GB",
+      "JP"
+    ],
+    "platforms": [
+      "facebook",
+      "youtube"
+    ],
+    "tags": [
+      "热销",
+      "推荐"
+    ]
+  },
+  {
+    "id": "vk3dillzm22hz1vgjqgg2",
+    "productName": "Product 58",
+    "image": "https://images.unsplash.com/photo-11500000057?w=300&h=300&fit=crop",
+    "category": "Fashion",
+    "subCategory": "Sub Fashion",
+    "sellingPriceRange": [
+      60,
+      830
+    ],
+    "supplierLinks": [
+      "https://supplier58.com"
+    ],
+    "trendingScore": 17.905741049653166,
+    "adCountLinked": 77,
+    "firstSeen": "2025-07-05T15:02:03.902Z",
+    "lastSeen": "2025-09-07T03:02:05.120Z",
+    "regions": [
+      "DE",
+      "AU"
+    ],
+    "platforms": [
+      "youtube",
+      "tiktok"
+    ],
+    "tags": [
+      "热销"
+    ]
+  },
+  {
+    "id": "01d8g4e207m9anlcz1g2var",
+    "productName": "Product 59",
+    "image": "https://images.unsplash.com/photo-11500000058?w=300&h=300&fit=crop",
+    "category": "Electronics",
+    "subCategory": "Sub Electronics",
+    "sellingPriceRange": [
+      92,
+      277
+    ],
+    "supplierLinks": [
+      "https://supplier59.com"
+    ],
+    "trendingScore": 96.36998339944893,
+    "adCountLinked": 49,
+    "firstSeen": "2025-06-26T13:26:25.880Z",
+    "lastSeen": "2025-08-23T12:44:42.791Z",
+    "regions": [
+      "DE",
+      "JP"
+    ],
+    "platforms": [
+      "youtube",
+      "instagram"
+    ],
+    "tags": [
+      "热销",
+      "推荐"
+    ]
+  },
+  {
+    "id": "o2q1azd6rzhu29z4cvgwxa",
+    "productName": "Product 60",
+    "image": "https://images.unsplash.com/photo-11500000059?w=300&h=300&fit=crop",
+    "category": "Books",
+    "subCategory": "Sub Books",
+    "sellingPriceRange": [
+      100,
+      974
+    ],
+    "supplierLinks": [
+      "https://supplier60.com"
+    ],
+    "trendingScore": 14.29792800937233,
+    "adCountLinked": 93,
+    "firstSeen": "2025-04-06T01:33:10.218Z",
+    "lastSeen": "2025-08-26T16:36:53.642Z",
+    "regions": [
+      "KR",
+      "AU"
+    ],
+    "platforms": [
+      "youtube",
+      "youtube"
+    ],
+    "tags": [
+      "热销",
+      "推荐",
+      "新品"
+    ]
+  },
+  {
+    "id": "2utbdqbmuowwkhgqmd3es",
+    "productName": "Product 61",
+    "image": "https://images.unsplash.com/photo-11500000060?w=300&h=300&fit=crop",
+    "category": "Sports",
+    "subCategory": "Sub Sports",
+    "sellingPriceRange": [
+      89,
+      725
+    ],
+    "supplierLinks": [
+      "https://supplier61.com"
+    ],
+    "trendingScore": 79.46930695523062,
+    "adCountLinked": 71,
+    "firstSeen": "2025-03-21T11:09:33.106Z",
+    "lastSeen": "2025-08-29T06:52:32.930Z",
+    "regions": [
+      "DE",
+      "GB"
+    ],
+    "platforms": [
+      "instagram",
+      "instagram"
+    ],
+    "tags": [
+      "热销",
+      "推荐"
+    ]
+  },
+  {
+    "id": "1bxh3qvmi996w6433b40nl",
+    "productName": "Product 62",
+    "image": "https://images.unsplash.com/photo-11500000061?w=300&h=300&fit=crop",
+    "category": "Sports",
+    "subCategory": "Sub Sports",
+    "sellingPriceRange": [
+      31,
+      494
+    ],
+    "supplierLinks": [
+      "https://supplier62.com"
+    ],
+    "trendingScore": 65.80161926119385,
+    "adCountLinked": 82,
+    "firstSeen": "2025-07-27T02:07:36.672Z",
+    "lastSeen": "2025-08-28T05:25:17.882Z",
+    "regions": [
+      "CA",
+      "DE"
+    ],
+    "platforms": [
+      "instagram",
+      "youtube"
+    ],
+    "tags": [
+      "热销"
+    ]
+  },
+  {
+    "id": "zzn7lzr32cyvbhf4d97ll",
+    "productName": "Product 63",
+    "image": "https://images.unsplash.com/photo-11500000062?w=300&h=300&fit=crop",
+    "category": "Home & Garden",
+    "subCategory": "Sub Home & Garden",
+    "sellingPriceRange": [
+      22,
+      568
+    ],
+    "supplierLinks": [
+      "https://supplier63.com"
+    ],
+    "trendingScore": 48.52114216305612,
+    "adCountLinked": 13,
+    "firstSeen": "2025-08-01T09:34:43.184Z",
+    "lastSeen": "2025-09-04T22:05:37.263Z",
+    "regions": [
+      "US",
+      "AU"
+    ],
+    "platforms": [
+      "other",
+      "other"
+    ],
+    "tags": [
+      "热销",
+      "推荐",
+      "新品"
+    ]
+  },
+  {
+    "id": "r4hnpl2dthl4jrgnunmj2r",
+    "productName": "Product 64",
+    "image": "https://images.unsplash.com/photo-11500000063?w=300&h=300&fit=crop",
+    "category": "Sports",
+    "subCategory": "Sub Sports",
+    "sellingPriceRange": [
+      51,
+      857
+    ],
+    "supplierLinks": [
+      "https://supplier64.com"
+    ],
+    "trendingScore": 58.982231740554795,
+    "adCountLinked": 39,
+    "firstSeen": "2025-03-30T07:31:20.594Z",
+    "lastSeen": "2025-09-02T10:18:47.711Z",
+    "regions": [
+      "FR",
+      "CN"
+    ],
+    "platforms": [
+      "other",
+      "youtube"
+    ],
+    "tags": [
+      "热销",
+      "推荐"
+    ]
+  },
+  {
+    "id": "d3kbqfmowzedwm7c1ynnws",
+    "productName": "Product 65",
+    "image": "https://images.unsplash.com/photo-11500000064?w=300&h=300&fit=crop",
+    "category": "Books",
+    "subCategory": "Sub Books",
+    "sellingPriceRange": [
+      56,
+      190
+    ],
+    "supplierLinks": [
+      "https://supplier65.com"
+    ],
+    "trendingScore": 83.06833870201685,
+    "adCountLinked": 16,
+    "firstSeen": "2025-08-05T08:39:37.716Z",
+    "lastSeen": "2025-09-06T19:26:42.489Z",
+    "regions": [
+      "DE",
+      "FR"
+    ],
+    "platforms": [
+      "youtube",
+      "other"
+    ],
+    "tags": [
+      "热销",
+      "推荐"
+    ]
+  },
+  {
+    "id": "ojwc3h3zsx8247cfhv6kwi",
+    "productName": "Product 66",
+    "image": "https://images.unsplash.com/photo-11500000065?w=300&h=300&fit=crop",
+    "category": "Sports",
+    "subCategory": "Sub Sports",
+    "sellingPriceRange": [
+      42,
+      847
+    ],
+    "supplierLinks": [
+      "https://supplier66.com"
+    ],
+    "trendingScore": 66.8073313789517,
+    "adCountLinked": 30,
+    "firstSeen": "2025-03-27T13:38:49.842Z",
+    "lastSeen": "2025-09-04T23:30:21.862Z",
+    "regions": [
+      "US",
+      "CN"
+    ],
+    "platforms": [
+      "facebook",
+      "instagram"
+    ],
+    "tags": [
+      "热销",
+      "推荐",
+      "新品"
+    ]
+  },
+  {
+    "id": "clam7boayxi4kdlmvg1rsy",
+    "productName": "Product 67",
+    "image": "https://images.unsplash.com/photo-11500000066?w=300&h=300&fit=crop",
+    "category": "Beauty",
+    "subCategory": "Sub Beauty",
+    "sellingPriceRange": [
+      88,
+      454
+    ],
+    "supplierLinks": [
+      "https://supplier67.com"
+    ],
+    "trendingScore": 25.631630071551893,
+    "adCountLinked": 1,
+    "firstSeen": "2025-05-19T20:54:28.865Z",
+    "lastSeen": "2025-09-01T14:37:15.987Z",
+    "regions": [
+      "US",
+      "AU"
+    ],
+    "platforms": [
+      "facebook",
+      "other"
+    ],
+    "tags": [
+      "热销",
+      "推荐"
+    ]
+  },
+  {
+    "id": "vj3zvanzbff0gxze5gqa7",
+    "productName": "Product 68",
+    "image": "https://images.unsplash.com/photo-11500000067?w=300&h=300&fit=crop",
+    "category": "Fashion",
+    "subCategory": "Sub Fashion",
+    "sellingPriceRange": [
+      94,
+      656
+    ],
+    "supplierLinks": [
+      "https://supplier68.com"
+    ],
+    "trendingScore": 27.08379288852416,
+    "adCountLinked": 50,
+    "firstSeen": "2025-04-21T03:08:39.924Z",
+    "lastSeen": "2025-09-04T16:28:43.282Z",
+    "regions": [
+      "FR",
+      "US"
+    ],
+    "platforms": [
+      "youtube",
+      "youtube"
+    ],
+    "tags": [
+      "热销",
+      "推荐"
+    ]
+  },
+  {
+    "id": "a3qvy6cqt9gpm457w8h1ei",
+    "productName": "Product 69",
+    "image": "https://images.unsplash.com/photo-11500000068?w=300&h=300&fit=crop",
+    "category": "Home & Garden",
+    "subCategory": "Sub Home & Garden",
+    "sellingPriceRange": [
+      23,
+      537
+    ],
+    "supplierLinks": [
+      "https://supplier69.com"
+    ],
+    "trendingScore": 70.6683866029483,
+    "adCountLinked": 58,
+    "firstSeen": "2025-06-15T15:31:00.066Z",
+    "lastSeen": "2025-08-28T14:17:42.715Z",
+    "regions": [
+      "GB",
+      "US"
+    ],
+    "platforms": [
+      "instagram",
+      "instagram"
+    ],
+    "tags": [
+      "热销"
+    ]
+  },
+  {
+    "id": "qf4z89q48j9bez1agp3a7w",
+    "productName": "Product 70",
+    "image": "https://images.unsplash.com/photo-11500000069?w=300&h=300&fit=crop",
+    "category": "Electronics",
+    "subCategory": "Sub Electronics",
+    "sellingPriceRange": [
+      27,
+      142
+    ],
+    "supplierLinks": [
+      "https://supplier70.com"
+    ],
+    "trendingScore": 18.38991738785909,
+    "adCountLinked": 65,
+    "firstSeen": "2025-06-07T02:50:48.661Z",
+    "lastSeen": "2025-08-30T10:02:28.891Z",
+    "regions": [
+      "DE",
+      "FR"
+    ],
+    "platforms": [
+      "facebook",
+      "instagram"
+    ],
+    "tags": [
+      "热销",
+      "推荐",
+      "新品"
+    ]
+  },
+  {
+    "id": "aj0ldfhgxx5ldjrf1b4k9i",
+    "productName": "Product 71",
+    "image": "https://images.unsplash.com/photo-11500000070?w=300&h=300&fit=crop",
+    "category": "Home & Garden",
+    "subCategory": "Sub Home & Garden",
+    "sellingPriceRange": [
+      12,
+      522
+    ],
+    "supplierLinks": [
+      "https://supplier71.com"
+    ],
+    "trendingScore": 51.03801471314624,
+    "adCountLinked": 76,
+    "firstSeen": "2025-07-11T20:37:10.242Z",
+    "lastSeen": "2025-08-23T07:42:45.582Z",
+    "regions": [
+      "CN",
+      "CA"
+    ],
+    "platforms": [
+      "instagram",
+      "youtube"
+    ],
+    "tags": [
+      "热销"
+    ]
+  },
+  {
+    "id": "v7epa8zfo3nxym7lvlalm",
+    "productName": "Product 72",
+    "image": "https://images.unsplash.com/photo-11500000071?w=300&h=300&fit=crop",
+    "category": "Fashion",
+    "subCategory": "Sub Fashion",
+    "sellingPriceRange": [
+      21,
+      556
+    ],
+    "supplierLinks": [
+      "https://supplier72.com"
+    ],
+    "trendingScore": 56.66452870798109,
+    "adCountLinked": 24,
+    "firstSeen": "2025-07-31T22:29:20.387Z",
+    "lastSeen": "2025-08-22T07:23:57.108Z",
+    "regions": [
+      "CA",
+      "CN"
+    ],
+    "platforms": [
+      "tiktok",
+      "tiktok"
+    ],
+    "tags": [
+      "热销",
+      "推荐"
+    ]
+  },
+  {
+    "id": "ntsdtg4cv4cyzd3x3v2rhl",
+    "productName": "Product 73",
+    "image": "https://images.unsplash.com/photo-11500000072?w=300&h=300&fit=crop",
+    "category": "Electronics",
+    "subCategory": "Sub Electronics",
+    "sellingPriceRange": [
+      50,
+      176
+    ],
+    "supplierLinks": [
+      "https://supplier73.com"
+    ],
+    "trendingScore": 11.402994025315461,
+    "adCountLinked": 91,
+    "firstSeen": "2025-08-21T13:47:22.797Z",
+    "lastSeen": "2025-09-09T16:48:13.911Z",
+    "regions": [
+      "FR",
+      "KR"
+    ],
+    "platforms": [
+      "youtube",
+      "tiktok"
+    ],
+    "tags": [
+      "热销",
+      "推荐"
+    ]
+  },
+  {
+    "id": "n39g9ghs1n3mjuj2jnkve",
+    "productName": "Product 74",
+    "image": "https://images.unsplash.com/photo-11500000073?w=300&h=300&fit=crop",
+    "category": "Beauty",
+    "subCategory": "Sub Beauty",
+    "sellingPriceRange": [
+      38,
+      508
+    ],
+    "supplierLinks": [
+      "https://supplier74.com"
+    ],
+    "trendingScore": 90.41348408992795,
+    "adCountLinked": 59,
+    "firstSeen": "2025-08-11T06:24:01.076Z",
+    "lastSeen": "2025-08-31T17:23:24.718Z",
+    "regions": [
+      "IN",
+      "GB"
+    ],
+    "platforms": [
+      "youtube",
+      "youtube"
+    ],
+    "tags": [
+      "热销"
+    ]
+  },
+  {
+    "id": "z7f2nr0zfvgchzmzybndvo",
+    "productName": "Product 75",
+    "image": "https://images.unsplash.com/photo-11500000074?w=300&h=300&fit=crop",
+    "category": "Sports",
+    "subCategory": "Sub Sports",
+    "sellingPriceRange": [
+      54,
+      441
+    ],
+    "supplierLinks": [
+      "https://supplier75.com"
+    ],
+    "trendingScore": 98.56040330562261,
+    "adCountLinked": 80,
+    "firstSeen": "2025-08-24T17:50:41.765Z",
+    "lastSeen": "2025-08-22T13:19:43.604Z",
+    "regions": [
+      "JP",
+      "JP"
+    ],
+    "platforms": [
+      "other",
+      "youtube"
+    ],
+    "tags": [
+      "热销",
+      "推荐",
+      "新品"
+    ]
+  },
+  {
+    "id": "y3g57841qump51lsnrzq",
+    "productName": "Product 76",
+    "image": "https://images.unsplash.com/photo-11500000075?w=300&h=300&fit=crop",
+    "category": "Electronics",
+    "subCategory": "Sub Electronics",
+    "sellingPriceRange": [
+      30,
+      346
+    ],
+    "supplierLinks": [
+      "https://supplier76.com"
+    ],
+    "trendingScore": 97.64835269387066,
+    "adCountLinked": 70,
+    "firstSeen": "2025-06-13T15:21:26.454Z",
+    "lastSeen": "2025-08-20T08:57:32.281Z",
+    "regions": [
+      "AU",
+      "KR"
+    ],
+    "platforms": [
+      "facebook",
+      "tiktok"
+    ],
+    "tags": [
+      "热销",
+      "推荐"
+    ]
+  },
+  {
+    "id": "rqhe3n9jtbqduj22xyjqe",
+    "productName": "Product 77",
+    "image": "https://images.unsplash.com/photo-11500000076?w=300&h=300&fit=crop",
+    "category": "Fashion",
+    "subCategory": "Sub Fashion",
+    "sellingPriceRange": [
+      68,
+      749
+    ],
+    "supplierLinks": [
+      "https://supplier77.com"
+    ],
+    "trendingScore": 87.11493928443788,
+    "adCountLinked": 98,
+    "firstSeen": "2025-06-15T18:05:01.928Z",
+    "lastSeen": "2025-09-09T11:07:24.139Z",
+    "regions": [
+      "KR",
+      "DE"
+    ],
+    "platforms": [
+      "facebook",
+      "tiktok"
+    ],
+    "tags": [
+      "热销",
+      "推荐",
+      "新品"
+    ]
+  },
+  {
+    "id": "bz7id1ch6pl8uo0b2h1dnc",
+    "productName": "Product 78",
+    "image": "https://images.unsplash.com/photo-11500000077?w=300&h=300&fit=crop",
+    "category": "Books",
+    "subCategory": "Sub Books",
+    "sellingPriceRange": [
+      75,
+      614
+    ],
+    "supplierLinks": [
+      "https://supplier78.com"
+    ],
+    "trendingScore": 3.66707015554697,
+    "adCountLinked": 71,
+    "firstSeen": "2025-04-17T01:30:17.070Z",
+    "lastSeen": "2025-08-16T03:06:36.980Z",
+    "regions": [
+      "CN",
+      "CA"
+    ],
+    "platforms": [
+      "youtube",
+      "tiktok"
+    ],
+    "tags": [
+      "热销",
+      "推荐",
+      "新品"
+    ]
+  },
+  {
+    "id": "lya1ama02wd611q4vk5bv",
+    "productName": "Product 79",
+    "image": "https://images.unsplash.com/photo-11500000078?w=300&h=300&fit=crop",
+    "category": "Books",
+    "subCategory": "Sub Books",
+    "sellingPriceRange": [
+      95,
+      333
+    ],
+    "supplierLinks": [
+      "https://supplier79.com"
+    ],
+    "trendingScore": 28.11582038763096,
+    "adCountLinked": 50,
+    "firstSeen": "2025-08-26T10:42:30.341Z",
+    "lastSeen": "2025-09-06T15:52:55.124Z",
+    "regions": [
+      "IN",
+      "JP"
+    ],
+    "platforms": [
+      "instagram",
+      "other"
+    ],
+    "tags": [
+      "热销",
+      "推荐",
+      "新品"
+    ]
+  },
+  {
+    "id": "tlhfvx0w1ubatreq0nmwn",
+    "productName": "Product 80",
+    "image": "https://images.unsplash.com/photo-11500000079?w=300&h=300&fit=crop",
+    "category": "Fashion",
+    "subCategory": "Sub Fashion",
+    "sellingPriceRange": [
+      79,
+      427
+    ],
+    "supplierLinks": [
+      "https://supplier80.com"
+    ],
+    "trendingScore": 74.63456545902483,
+    "adCountLinked": 13,
+    "firstSeen": "2025-04-11T19:31:12.058Z",
+    "lastSeen": "2025-08-27T10:40:48.033Z",
+    "regions": [
+      "JP",
+      "CN"
+    ],
+    "platforms": [
+      "tiktok",
+      "youtube"
+    ],
+    "tags": [
+      "热销",
+      "推荐",
+      "新品"
+    ]
+  },
+  {
+    "id": "q912ntdlksmjbujlormte",
+    "productName": "Product 81",
+    "image": "https://images.unsplash.com/photo-11500000080?w=300&h=300&fit=crop",
+    "category": "Electronics",
+    "subCategory": "Sub Electronics",
+    "sellingPriceRange": [
+      80,
+      663
+    ],
+    "supplierLinks": [
+      "https://supplier81.com"
+    ],
+    "trendingScore": 62.73697345389648,
+    "adCountLinked": 13,
+    "firstSeen": "2025-05-19T03:29:16.916Z",
+    "lastSeen": "2025-08-31T11:03:24.866Z",
+    "regions": [
+      "CN",
+      "JP"
+    ],
+    "platforms": [
+      "tiktok",
+      "facebook"
+    ],
+    "tags": [
+      "热销",
+      "推荐",
+      "新品"
+    ]
+  },
+  {
+    "id": "9o8k2kib1xe6g1253kyq19",
+    "productName": "Product 82",
+    "image": "https://images.unsplash.com/photo-11500000081?w=300&h=300&fit=crop",
+    "category": "Sports",
+    "subCategory": "Sub Sports",
+    "sellingPriceRange": [
+      93,
+      200
+    ],
+    "supplierLinks": [
+      "https://supplier82.com"
+    ],
+    "trendingScore": 5.512249409007874,
+    "adCountLinked": 69,
+    "firstSeen": "2025-05-23T16:35:27.757Z",
+    "lastSeen": "2025-09-12T23:04:38.458Z",
+    "regions": [
+      "AU",
+      "CN"
+    ],
+    "platforms": [
+      "youtube",
+      "instagram"
+    ],
+    "tags": [
+      "热销",
+      "推荐",
+      "新品"
+    ]
+  },
+  {
+    "id": "xos112xsjjh52plaohtq",
+    "productName": "Product 83",
+    "image": "https://images.unsplash.com/photo-11500000082?w=300&h=300&fit=crop",
+    "category": "Home & Garden",
+    "subCategory": "Sub Home & Garden",
+    "sellingPriceRange": [
+      46,
+      474
+    ],
+    "supplierLinks": [
+      "https://supplier83.com"
+    ],
+    "trendingScore": 64.68439883484467,
+    "adCountLinked": 6,
+    "firstSeen": "2025-09-06T03:29:31.686Z",
+    "lastSeen": "2025-08-31T13:46:07.379Z",
+    "regions": [
+      "DE",
+      "KR"
+    ],
+    "platforms": [
+      "tiktok",
+      "other"
+    ],
+    "tags": [
+      "热销"
+    ]
+  },
+  {
+    "id": "b4qe61ya9klwfy2f0crd1",
+    "productName": "Product 84",
+    "image": "https://images.unsplash.com/photo-11500000083?w=300&h=300&fit=crop",
+    "category": "Fashion",
+    "subCategory": "Sub Fashion",
+    "sellingPriceRange": [
+      70,
+      223
+    ],
+    "supplierLinks": [
+      "https://supplier84.com"
+    ],
+    "trendingScore": 27.41101756458706,
+    "adCountLinked": 31,
+    "firstSeen": "2025-06-19T20:01:23.314Z",
+    "lastSeen": "2025-09-10T12:14:59.188Z",
+    "regions": [
+      "KR",
+      "JP"
+    ],
+    "platforms": [
+      "other",
+      "instagram"
+    ],
+    "tags": [
+      "热销",
+      "推荐",
+      "新品"
+    ]
+  },
+  {
+    "id": "a0dc0zz2s8dg4zk0hgmzdr",
+    "productName": "Product 85",
+    "image": "https://images.unsplash.com/photo-11500000084?w=300&h=300&fit=crop",
+    "category": "Books",
+    "subCategory": "Sub Books",
+    "sellingPriceRange": [
+      50,
+      632
+    ],
+    "supplierLinks": [
+      "https://supplier85.com"
+    ],
+    "trendingScore": 30.33641175809474,
+    "adCountLinked": 83,
+    "firstSeen": "2025-04-05T15:39:09.439Z",
+    "lastSeen": "2025-09-03T09:17:34.190Z",
+    "regions": [
+      "FR",
+      "CA"
+    ],
+    "platforms": [
+      "instagram",
+      "youtube"
+    ],
+    "tags": [
+      "热销",
+      "推荐"
+    ]
+  },
+  {
+    "id": "gxo3w9euu1q6lwhgfocslh",
+    "productName": "Product 86",
+    "image": "https://images.unsplash.com/photo-11500000085?w=300&h=300&fit=crop",
+    "category": "Fashion",
+    "subCategory": "Sub Fashion",
+    "sellingPriceRange": [
+      65,
+      748
+    ],
+    "supplierLinks": [
+      "https://supplier86.com"
+    ],
+    "trendingScore": 50.66077272846985,
+    "adCountLinked": 19,
+    "firstSeen": "2025-07-11T17:19:25.265Z",
+    "lastSeen": "2025-09-08T12:21:48.204Z",
+    "regions": [
+      "CA",
+      "JP"
+    ],
+    "platforms": [
+      "youtube",
+      "other"
+    ],
+    "tags": [
+      "热销"
+    ]
+  },
+  {
+    "id": "4rqe8mwk06wmase5u5uzni",
+    "productName": "Product 87",
+    "image": "https://images.unsplash.com/photo-11500000086?w=300&h=300&fit=crop",
+    "category": "Fashion",
+    "subCategory": "Sub Fashion",
+    "sellingPriceRange": [
+      85,
+      376
+    ],
+    "supplierLinks": [
+      "https://supplier87.com"
+    ],
+    "trendingScore": 29.039977087837965,
+    "adCountLinked": 32,
+    "firstSeen": "2025-07-27T23:50:09.385Z",
+    "lastSeen": "2025-08-25T18:41:09.399Z",
+    "regions": [
+      "GB",
+      "US"
+    ],
+    "platforms": [
+      "facebook",
+      "tiktok"
+    ],
+    "tags": [
+      "热销"
+    ]
+  },
+  {
+    "id": "dwdf45zt9cfxpif27sp37e",
+    "productName": "Product 88",
+    "image": "https://images.unsplash.com/photo-11500000087?w=300&h=300&fit=crop",
+    "category": "Sports",
+    "subCategory": "Sub Sports",
+    "sellingPriceRange": [
+      80,
+      102
+    ],
+    "supplierLinks": [
+      "https://supplier88.com"
+    ],
+    "trendingScore": 39.73487169550172,
+    "adCountLinked": 50,
+    "firstSeen": "2025-05-21T02:57:43.414Z",
+    "lastSeen": "2025-08-24T23:21:41.345Z",
+    "regions": [
+      "DE",
+      "DE"
+    ],
+    "platforms": [
+      "tiktok",
+      "tiktok"
+    ],
+    "tags": [
+      "热销"
+    ]
+  },
+  {
+    "id": "vo4pas6gcaexjazg8vtejd",
+    "productName": "Product 89",
+    "image": "https://images.unsplash.com/photo-11500000088?w=300&h=300&fit=crop",
+    "category": "Home & Garden",
+    "subCategory": "Sub Home & Garden",
+    "sellingPriceRange": [
+      12,
+      588
+    ],
+    "supplierLinks": [
+      "https://supplier89.com"
+    ],
+    "trendingScore": 36.002896013662486,
+    "adCountLinked": 81,
+    "firstSeen": "2025-04-25T23:53:24.327Z",
+    "lastSeen": "2025-09-01T09:38:31.951Z",
+    "regions": [
+      "US",
+      "GB"
+    ],
+    "platforms": [
+      "instagram",
+      "facebook"
+    ],
+    "tags": [
+      "热销",
+      "推荐"
+    ]
+  },
+  {
+    "id": "62b8nnn7oc8rx0b8qnwv6s",
+    "productName": "Product 90",
+    "image": "https://images.unsplash.com/photo-11500000089?w=300&h=300&fit=crop",
+    "category": "Electronics",
+    "subCategory": "Sub Electronics",
+    "sellingPriceRange": [
+      84,
+      926
+    ],
+    "supplierLinks": [
+      "https://supplier90.com"
+    ],
+    "trendingScore": 46.45276434942745,
+    "adCountLinked": 11,
+    "firstSeen": "2025-06-28T18:27:08.816Z",
+    "lastSeen": "2025-08-22T19:01:40.075Z",
+    "regions": [
+      "DE",
+      "CN"
+    ],
+    "platforms": [
+      "tiktok",
+      "facebook"
+    ],
+    "tags": [
+      "热销"
+    ]
+  },
+  {
+    "id": "slclnvjj82i2q0wbi2j86a",
+    "productName": "Product 91",
+    "image": "https://images.unsplash.com/photo-11500000090?w=300&h=300&fit=crop",
+    "category": "Books",
+    "subCategory": "Sub Books",
+    "sellingPriceRange": [
+      48,
+      161
+    ],
+    "supplierLinks": [
+      "https://supplier91.com"
+    ],
+    "trendingScore": 26.8546726885317,
+    "adCountLinked": 68,
+    "firstSeen": "2025-03-22T11:49:58.185Z",
+    "lastSeen": "2025-08-23T01:03:31.019Z",
+    "regions": [
+      "IN",
+      "CN"
+    ],
+    "platforms": [
+      "youtube",
+      "instagram"
+    ],
+    "tags": [
+      "热销",
+      "推荐"
+    ]
+  },
+  {
+    "id": "s1l4cb5pienyn5d2qsn7s",
+    "productName": "Product 92",
+    "image": "https://images.unsplash.com/photo-11500000091?w=300&h=300&fit=crop",
+    "category": "Home & Garden",
+    "subCategory": "Sub Home & Garden",
+    "sellingPriceRange": [
+      68,
+      957
+    ],
+    "supplierLinks": [
+      "https://supplier92.com"
+    ],
+    "trendingScore": 45.427455146252726,
+    "adCountLinked": 16,
+    "firstSeen": "2025-06-14T04:28:28.176Z",
+    "lastSeen": "2025-08-23T08:56:04.959Z",
+    "regions": [
+      "DE",
+      "AU"
+    ],
+    "platforms": [
+      "youtube",
+      "tiktok"
+    ],
+    "tags": [
+      "热销",
+      "推荐"
+    ]
+  },
+  {
+    "id": "bwbfyoff31tkhhjomy43k",
+    "productName": "Product 93",
+    "image": "https://images.unsplash.com/photo-11500000092?w=300&h=300&fit=crop",
+    "category": "Fashion",
+    "subCategory": "Sub Fashion",
+    "sellingPriceRange": [
+      59,
+      196
+    ],
+    "supplierLinks": [
+      "https://supplier93.com"
+    ],
+    "trendingScore": 73.10520616951625,
+    "adCountLinked": 89,
+    "firstSeen": "2025-04-15T10:50:11.647Z",
+    "lastSeen": "2025-09-01T11:26:06.742Z",
+    "regions": [
+      "KR",
+      "GB"
+    ],
+    "platforms": [
+      "facebook",
+      "other"
+    ],
+    "tags": [
+      "热销"
+    ]
+  },
+  {
+    "id": "36v4o5mt1twhif27tiq3ck",
+    "productName": "Product 94",
+    "image": "https://images.unsplash.com/photo-11500000093?w=300&h=300&fit=crop",
+    "category": "Books",
+    "subCategory": "Sub Books",
+    "sellingPriceRange": [
+      18,
+      730
+    ],
+    "supplierLinks": [
+      "https://supplier94.com"
+    ],
+    "trendingScore": 53.82590461199768,
+    "adCountLinked": 28,
+    "firstSeen": "2025-04-22T03:33:29.701Z",
+    "lastSeen": "2025-08-26T23:29:43.706Z",
+    "regions": [
+      "CA",
+      "CN"
+    ],
+    "platforms": [
+      "other",
+      "facebook"
+    ],
+    "tags": [
+      "热销",
+      "推荐",
+      "新品"
+    ]
+  },
+  {
+    "id": "qs5ud6xn4qnxigcclth4e",
+    "productName": "Product 95",
+    "image": "https://images.unsplash.com/photo-11500000094?w=300&h=300&fit=crop",
+    "category": "Home & Garden",
+    "subCategory": "Sub Home & Garden",
+    "sellingPriceRange": [
+      36,
+      769
+    ],
+    "supplierLinks": [
+      "https://supplier95.com"
+    ],
+    "trendingScore": 68.58280041387914,
+    "adCountLinked": 44,
+    "firstSeen": "2025-06-23T04:04:01.167Z",
+    "lastSeen": "2025-09-06T06:48:52.137Z",
+    "regions": [
+      "JP",
+      "CN"
+    ],
+    "platforms": [
+      "instagram",
+      "youtube"
+    ],
+    "tags": [
+      "热销",
+      "推荐"
+    ]
+  },
+  {
+    "id": "99k71dsdlta6pji8pbqwen",
+    "productName": "Product 96",
+    "image": "https://images.unsplash.com/photo-11500000095?w=300&h=300&fit=crop",
+    "category": "Beauty",
+    "subCategory": "Sub Beauty",
+    "sellingPriceRange": [
+      85,
+      285
+    ],
+    "supplierLinks": [
+      "https://supplier96.com"
+    ],
+    "trendingScore": 53.48681701132052,
+    "adCountLinked": 97,
+    "firstSeen": "2025-06-20T07:14:22.966Z",
+    "lastSeen": "2025-08-31T01:00:19.112Z",
+    "regions": [
+      "JP",
+      "US"
+    ],
+    "platforms": [
+      "other",
+      "other"
+    ],
+    "tags": [
+      "热销"
+    ]
+  },
+  {
+    "id": "764zovckw1cjvz4g0lynaa",
+    "productName": "Product 97",
+    "image": "https://images.unsplash.com/photo-11500000096?w=300&h=300&fit=crop",
+    "category": "Books",
+    "subCategory": "Sub Books",
+    "sellingPriceRange": [
+      27,
+      647
+    ],
+    "supplierLinks": [
+      "https://supplier97.com"
+    ],
+    "trendingScore": 17.962485866215072,
+    "adCountLinked": 43,
+    "firstSeen": "2025-04-19T16:33:26.140Z",
+    "lastSeen": "2025-08-29T12:48:56.449Z",
+    "regions": [
+      "CN",
+      "CN"
+    ],
+    "platforms": [
+      "instagram",
+      "facebook"
+    ],
+    "tags": [
+      "热销",
+      "推荐"
+    ]
+  },
+  {
+    "id": "lr5ojodr2q4wn346qx1q",
+    "productName": "Product 98",
+    "image": "https://images.unsplash.com/photo-11500000097?w=300&h=300&fit=crop",
+    "category": "Electronics",
+    "subCategory": "Sub Electronics",
+    "sellingPriceRange": [
+      93,
+      764
+    ],
+    "supplierLinks": [
+      "https://supplier98.com"
+    ],
+    "trendingScore": 17.134791516491177,
+    "adCountLinked": 8,
+    "firstSeen": "2025-04-09T12:34:26.711Z",
+    "lastSeen": "2025-08-19T06:11:11.109Z",
+    "regions": [
+      "CA",
+      "GB"
+    ],
+    "platforms": [
+      "tiktok",
+      "other"
+    ],
+    "tags": [
+      "热销"
+    ]
+  },
+  {
+    "id": "0p36rra48hiryvqw9rtkjym",
+    "productName": "Product 99",
+    "image": "https://images.unsplash.com/photo-11500000098?w=300&h=300&fit=crop",
+    "category": "Home & Garden",
+    "subCategory": "Sub Home & Garden",
+    "sellingPriceRange": [
+      58,
+      784
+    ],
+    "supplierLinks": [
+      "https://supplier99.com"
+    ],
+    "trendingScore": 87.6665790943901,
+    "adCountLinked": 3,
+    "firstSeen": "2025-04-03T08:32:47.215Z",
+    "lastSeen": "2025-08-19T00:15:47.710Z",
+    "regions": [
+      "JP",
+      "IN"
+    ],
+    "platforms": [
+      "tiktok",
+      "tiktok"
+    ],
+    "tags": [
+      "热销"
+    ]
+  },
+  {
+    "id": "c9e71bs5s7bd605iutwi5r",
+    "productName": "Product 100",
+    "image": "https://images.unsplash.com/photo-11500000099?w=300&h=300&fit=crop",
+    "category": "Fashion",
+    "subCategory": "Sub Fashion",
+    "sellingPriceRange": [
+      37,
+      182
+    ],
+    "supplierLinks": [
+      "https://supplier100.com"
+    ],
+    "trendingScore": 87.06634676078492,
+    "adCountLinked": 46,
+    "firstSeen": "2025-04-12T22:05:26.273Z",
+    "lastSeen": "2025-08-20T04:25:49.203Z",
+    "regions": [
+      "CA",
+      "KR"
+    ],
+    "platforms": [
+      "instagram",
+      "tiktok"
+    ],
+    "tags": [
+      "热销",
+      "推荐"
+    ]
+  }
+]

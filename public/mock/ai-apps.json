@@ -1,0 +1,1198 @@
+[
+  {
+    "id": "zb5svh9205d6q7cncawnn",
+    "appName": "AI App 1",
+    "category": "Creative Tools",
+    "pricingModel": "one-time",
+    "userGrowthEst": [
+      50782,
+      29014,
+      27069,
+      65517,
+      57066,
+      46377,
+      47088,
+      67096,
+      46831,
+      20000,
+      24430,
+      81925
+    ],
+    "website": "https://aiapp1.com",
+    "trafficSources": [
+      "organic",
+      "paid"
+    ],
+    "relatedAdIds": [],
+    "differentiators": [
+      "Fast",
+      "Accurate"
+    ]
+  },
+  {
+    "id": "7j7uc5jq0vypfavr7qtdbe",
+    "appName": "AI App 2",
+    "category": "Text Processing",
+    "pricingModel": "one-time",
+    "userGrowthEst": [
+      70393,
+      2024,
+      77312,
+      69980,
+      50374,
+      61268,
+      4973,
+      75787,
+      58568,
+      91944,
+      20201,
+      15909
+    ],
+    "website": "https://aiapp2.com",
+    "trafficSources": [
+      "organic",
+      "paid",
+      "social"
+    ],
+    "relatedAdIds": [],
+    "differentiators": [
+      "Fast",
+      "Accurate"
+    ]
+  },
+  {
+    "id": "sgdj9i1hr2y9ymfx0uez9",
+    "appName": "AI App 3",
+    "category": "Image Generation",
+    "pricingModel": "subscription",
+    "userGrowthEst": [
+      53648,
+      16372,
+      94406,
+      9759,
+      78082,
+      91737,
+      48173,
+      27980,
+      50207,
+      19272,
+      47777,
+      31331
+    ],
+    "website": "https://aiapp3.com",
+    "trafficSources": [
+      "organic",
+      "paid"
+    ],
+    "relatedAdIds": [],
+    "differentiators": [
+      "Fast",
+      "Accurate",
+      "User-friendly"
+    ]
+  },
+  {
+    "id": "qj03dzmeofqhnmhx79lvci",
+    "appName": "AI App 4",
+    "category": "Text Processing",
+    "pricingModel": "one-time",
+    "userGrowthEst": [
+      41162,
+      79894,
+      22484,
+      60800,
+      74143,
+      14374,
+      67056,
+      35721,
+      31862,
+      56330,
+      82419,
+      15946
+    ],
+    "website": "https://aiapp4.com",
+    "trafficSources": [
+      "organic",
+      "paid",
+      "social"
+    ],
+    "relatedAdIds": [],
+    "differentiators": [
+      "Fast"
+    ]
+  },
+  {
+    "id": "bm0cqbwbo3wu5obxagwek",
+    "appName": "AI App 5",
+    "category": "Code Assistant",
+    "pricingModel": "usage-based",
+    "userGrowthEst": [
+      47579,
+      35353,
+      36147,
+      34121,
+      29710,
+      44604,
+      27044,
+      47821,
+      23444,
+      93170,
+      17850,
+      59670
+    ],
+    "website": "https://aiapp5.com",
+    "trafficSources": [
+      "organic"
+    ],
+    "relatedAdIds": [],
+    "differentiators": [
+      "Fast"
+    ]
+  },
+  {
+    "id": "3256msxp6t5rg4k4ybrhz",
+    "appName": "AI App 6",
+    "category": "Text Processing",
+    "pricingModel": "subscription",
+    "userGrowthEst": [
+      82394,
+      49636,
+      76831,
+      65255,
+      51897,
+      38137,
+      77959,
+      34839,
+      34094,
+      51911,
+      65774,
+      24659
+    ],
+    "website": "https://aiapp6.com",
+    "trafficSources": [
+      "organic",
+      "paid"
+    ],
+    "relatedAdIds": [],
+    "differentiators": [
+      "Fast",
+      "Accurate",
+      "User-friendly"
+    ]
+  },
+  {
+    "id": "eyy6piufudtqe9micekwpc",
+    "appName": "AI App 7",
+    "category": "Image Generation",
+    "pricingModel": "freemium",
+    "userGrowthEst": [
+      49351,
+      42664,
+      81725,
+      68806,
+      49171,
+      43904,
+      98586,
+      83691,
+      42062,
+      51719,
+      92877,
+      68681
+    ],
+    "website": "https://aiapp7.com",
+    "trafficSources": [
+      "organic"
+    ],
+    "relatedAdIds": [],
+    "differentiators": [
+      "Fast",
+      "Accurate",
+      "User-friendly"
+    ]
+  },
+  {
+    "id": "4pqra0l6r6j44mk7r8cowa",
+    "appName": "AI App 8",
+    "category": "Voice Assistant",
+    "pricingModel": "subscription",
+    "userGrowthEst": [
+      39975,
+      81957,
+      97610,
+      36945,
+      60030,
+      58291,
+      31912,
+      80694,
+      88735,
+      3310,
+      69078,
+      56407
+    ],
+    "website": "https://aiapp8.com",
+    "trafficSources": [
+      "organic",
+      "paid"
+    ],
+    "relatedAdIds": [],
+    "differentiators": [
+      "Fast"
+    ]
+  },
+  {
+    "id": "wsma0j7scsnph37qdt8yk",
+    "appName": "AI App 9",
+    "category": "Code Assistant",
+    "pricingModel": "usage-based",
+    "userGrowthEst": [
+      15600,
+      86735,
+      32160,
+      48479,
+      50061,
+      89491,
+      74583,
+      83923,
+      11821,
+      10702,
+      60964,
+      35848
+    ],
+    "website": "https://aiapp9.com",
+    "trafficSources": [
+      "organic"
+    ],
+    "relatedAdIds": [],
+    "differentiators": [
+      "Fast",
+      "Accurate"
+    ]
+  },
+  {
+    "id": "y8qbubwk3prdeyfblq6uz6",
+    "appName": "AI App 10",
+    "category": "Text Processing",
+    "pricingModel": "freemium",
+    "userGrowthEst": [
+      11611,
+      84944,
+      56675,
+      35283,
+      84890,
+      52050,
+      72071,
+      31384,
+      15322,
+      82906,
+      83197,
+      84309
+    ],
+    "website": "https://aiapp10.com",
+    "trafficSources": [
+      "organic",
+      "paid",
+      "social"
+    ],
+    "relatedAdIds": [],
+    "differentiators": [
+      "Fast",
+      "Accurate",
+      "User-friendly"
+    ]
+  },
+  {
+    "id": "ym0y49f9vn2w4qudy9b3v",
+    "appName": "AI App 11",
+    "category": "Code Assistant",
+    "pricingModel": "subscription",
+    "userGrowthEst": [
+      5328,
+      75848,
+      73542,
+      74961,
+      88533,
+      20193,
+      48278,
+      22806,
+      4450,
+      11127,
+      2092,
+      15752
+    ],
+    "website": "https://aiapp11.com",
+    "trafficSources": [
+      "organic",
+      "paid"
+    ],
+    "relatedAdIds": [],
+    "differentiators": [
+      "Fast",
+      "Accurate",
+      "User-friendly"
+    ]
+  },
+  {
+    "id": "l9riagacx8mpwvte6le5fc",
+    "appName": "AI App 12",
+    "category": "Text Processing",
+    "pricingModel": "one-time",
+    "userGrowthEst": [
+      31080,
+      11191,
+      47963,
+      63409,
+      86812,
+      23919,
+      42027,
+      44449,
+      16143,
+      30098,
+      2283,
+      16642
+    ],
+    "website": "https://aiapp12.com",
+    "trafficSources": [
+      "organic",
+      "paid"
+    ],
+    "relatedAdIds": [],
+    "differentiators": [
+      "Fast"
+    ]
+  },
+  {
+    "id": "suiphizdvqpyfnkaa1jl8p",
+    "appName": "AI App 13",
+    "category": "Image Generation",
+    "pricingModel": "usage-based",
+    "userGrowthEst": [
+      97302,
+      24214,
+      21718,
+      85530,
+      25469,
+      48743,
+      5415,
+      27376,
+      39759,
+      34661,
+      48298,
+      57341
+    ],
+    "website": "https://aiapp13.com",
+    "trafficSources": [
+      "organic",
+      "paid",
+      "social"
+    ],
+    "relatedAdIds": [],
+    "differentiators": [
+      "Fast",
+      "Accurate"
+    ]
+  },
+  {
+    "id": "aleiaw2g88f3errnxq81zn",
+    "appName": "AI App 14",
+    "category": "Data Analysis",
+    "pricingModel": "usage-based",
+    "userGrowthEst": [
+      6817,
+      55101,
+      2791,
+      4836,
+      60777,
+      15076,
+      23174,
+      53728,
+      63232,
+      88380,
+      28887,
+      88641
+    ],
+    "website": "https://aiapp14.com",
+    "trafficSources": [
+      "organic",
+      "paid",
+      "social"
+    ],
+    "relatedAdIds": [],
+    "differentiators": [
+      "Fast",
+      "Accurate"
+    ]
+  },
+  {
+    "id": "jseokpu442igxsfqa0foc",
+    "appName": "AI App 15",
+    "category": "Data Analysis",
+    "pricingModel": "subscription",
+    "userGrowthEst": [
+      84167,
+      51566,
+      69225,
+      57288,
+      13191,
+      30294,
+      12829,
+      7085,
+      36854,
+      4260,
+      61247,
+      68783
+    ],
+    "website": "https://aiapp15.com",
+    "trafficSources": [
+      "organic",
+      "paid",
+      "social"
+    ],
+    "relatedAdIds": [],
+    "differentiators": [
+      "Fast",
+      "Accurate",
+      "User-friendly"
+    ]
+  },
+  {
+    "id": "rpv4dcs5mgoi1cyxglgkuk",
+    "appName": "AI App 16",
+    "category": "Text Processing",
+    "pricingModel": "subscription",
+    "userGrowthEst": [
+      11880,
+      81473,
+      99875,
+      38252,
+      49935,
+      25064,
+      99037,
+      11040,
+      22778,
+      99618,
+      48930,
+      97739
+    ],
+    "website": "https://aiapp16.com",
+    "trafficSources": [
+      "organic"
+    ],
+    "relatedAdIds": [],
+    "differentiators": [
+      "Fast",
+      "Accurate"
+    ]
+  },
+  {
+    "id": "6k4b3hn5w2b8sbybyb1v1q",
+    "appName": "AI App 17",
+    "category": "Data Analysis",
+    "pricingModel": "usage-based",
+    "userGrowthEst": [
+      78114,
+      33744,
+      27520,
+      82459,
+      3495,
+      42392,
+      88128,
+      86619,
+      47719,
+      73606,
+      2192,
+      38946
+    ],
+    "website": "https://aiapp17.com",
+    "trafficSources": [
+      "organic",
+      "paid",
+      "social"
+    ],
+    "relatedAdIds": [],
+    "differentiators": [
+      "Fast"
+    ]
+  },
+  {
+    "id": "y7qq34vwsyrpprtufhn3k8",
+    "appName": "AI App 18",
+    "category": "Voice Assistant",
+    "pricingModel": "subscription",
+    "userGrowthEst": [
+      31567,
+      72379,
+      54275,
+      48209,
+      36233,
+      16026,
+      95596,
+      18277,
+      66106,
+      98339,
+      97087,
+      28290
+    ],
+    "website": "https://aiapp18.com",
+    "trafficSources": [
+      "organic"
+    ],
+    "relatedAdIds": [],
+    "differentiators": [
+      "Fast",
+      "Accurate"
+    ]
+  },
+  {
+    "id": "ptrlhde06rnc4vj32z6315",
+    "appName": "AI App 19",
+    "category": "Code Assistant",
+    "pricingModel": "subscription",
+    "userGrowthEst": [
+      48085,
+      81900,
+      10000,
+      59613,
+      46379,
+      7034,
+      40334,
+      47085,
+      11992,
+      43443,
+      97038,
+      15881
+    ],
+    "website": "https://aiapp19.com",
+    "trafficSources": [
+      "organic",
+      "paid"
+    ],
+    "relatedAdIds": [],
+    "differentiators": [
+      "Fast",
+      "Accurate",
+      "User-friendly"
+    ]
+  },
+  {
+    "id": "2z0ez69r2k9oj4hp83h8mn",
+    "appName": "AI App 20",
+    "category": "Creative Tools",
+    "pricingModel": "usage-based",
+    "userGrowthEst": [
+      69018,
+      25381,
+      99599,
+      32847,
+      72219,
+      63857,
+      48928,
+      61602,
+      61511,
+      70951,
+      98449,
+      81431
+    ],
+    "website": "https://aiapp20.com",
+    "trafficSources": [
+      "organic"
+    ],
+    "relatedAdIds": [],
+    "differentiators": [
+      "Fast",
+      "Accurate"
+    ]
+  },
+  {
+    "id": "xy9dodeiy3piuu30ysf88",
+    "appName": "AI App 21",
+    "category": "Image Generation",
+    "pricingModel": "usage-based",
+    "userGrowthEst": [
+      83855,
+      31544,
+      25817,
+      23249,
+      4837,
+      89184,
+      13667,
+      32004,
+      98023,
+      34623,
+      84462,
+      19077
+    ],
+    "website": "https://aiapp21.com",
+    "trafficSources": [
+      "organic"
+    ],
+    "relatedAdIds": [],
+    "differentiators": [
+      "Fast"
+    ]
+  },
+  {
+    "id": "cinhya13qid5x2d2pcx05d",
+    "appName": "AI App 22",
+    "category": "Voice Assistant",
+    "pricingModel": "usage-based",
+    "userGrowthEst": [
+      21743,
+      6964,
+      45253,
+      66847,
+      71082,
+      53087,
+      5059,
+      88398,
+      57253,
+      72276,
+      3741,
+      13874
+    ],
+    "website": "https://aiapp22.com",
+    "trafficSources": [
+      "organic"
+    ],
+    "relatedAdIds": [],
+    "differentiators": [
+      "Fast",
+      "Accurate",
+      "User-friendly"
+    ]
+  },
+  {
+    "id": "8x65svjzblyzto6murlg",
+    "appName": "AI App 23",
+    "category": "Data Analysis",
+    "pricingModel": "subscription",
+    "userGrowthEst": [
+      33640,
+      9190,
+      75426,
+      39432,
+      8765,
+      32073,
+      11033,
+      58565,
+      55584,
+      92749,
+      72744,
+      65739
+    ],
+    "website": "https://aiapp23.com",
+    "trafficSources": [
+      "organic"
+    ],
+    "relatedAdIds": [],
+    "differentiators": [
+      "Fast",
+      "Accurate"
+    ]
+  },
+  {
+    "id": "t1p5m1fry9hmyacdukd2df",
+    "appName": "AI App 24",
+    "category": "Voice Assistant",
+    "pricingModel": "one-time",
+    "userGrowthEst": [
+      15823,
+      56280,
+      18888,
+      50431,
+      83213,
+      78353,
+      54037,
+      95579,
+      87391,
+      16216,
+      43337,
+      83263
+    ],
+    "website": "https://aiapp24.com",
+    "trafficSources": [
+      "organic",
+      "paid",
+      "social"
+    ],
+    "relatedAdIds": [],
+    "differentiators": [
+      "Fast",
+      "Accurate",
+      "User-friendly"
+    ]
+  },
+  {
+    "id": "qb74pznjdvjm25yk8eswx9",
+    "appName": "AI App 25",
+    "category": "Data Analysis",
+    "pricingModel": "subscription",
+    "userGrowthEst": [
+      75723,
+      17619,
+      43031,
+      57516,
+      24340,
+      12482,
+      59629,
+      44381,
+      49658,
+      10863,
+      86974,
+      87410
+    ],
+    "website": "https://aiapp25.com",
+    "trafficSources": [
+      "organic",
+      "paid",
+      "social"
+    ],
+    "relatedAdIds": [],
+    "differentiators": [
+      "Fast"
+    ]
+  },
+  {
+    "id": "zkf9hozwxjfu3jossfgnu",
+    "appName": "AI App 26",
+    "category": "Voice Assistant",
+    "pricingModel": "usage-based",
+    "userGrowthEst": [
+      88170,
+      43192,
+      75281,
+      63876,
+      67515,
+      52800,
+      70698,
+      72672,
+      88114,
+      37807,
+      11543,
+      69995
+    ],
+    "website": "https://aiapp26.com",
+    "trafficSources": [
+      "organic",
+      "paid"
+    ],
+    "relatedAdIds": [],
+    "differentiators": [
+      "Fast",
+      "Accurate"
+    ]
+  },
+  {
+    "id": "bigcih4zt1tw6svp105nwq",
+    "appName": "AI App 27",
+    "category": "Creative Tools",
+    "pricingModel": "freemium",
+    "userGrowthEst": [
+      40358,
+      73735,
+      83823,
+      2455,
+      1768,
+      2894,
+      69579,
+      63531,
+      18157,
+      14393,
+      93763,
+      75346
+    ],
+    "website": "https://aiapp27.com",
+    "trafficSources": [
+      "organic",
+      "paid"
+    ],
+    "relatedAdIds": [],
+    "differentiators": [
+      "Fast"
+    ]
+  },
+  {
+    "id": "xq8srg6539jntt2y9rsv8",
+    "appName": "AI App 28",
+    "category": "Creative Tools",
+    "pricingModel": "usage-based",
+    "userGrowthEst": [
+      47666,
+      18551,
+      66853,
+      80294,
+      91163,
+      30244,
+      89315,
+      36166,
+      96565,
+      53038,
+      68980,
+      11491
+    ],
+    "website": "https://aiapp28.com",
+    "trafficSources": [
+      "organic"
+    ],
+    "relatedAdIds": [],
+    "differentiators": [
+      "Fast"
+    ]
+  },
+  {
+    "id": "xov6980xil1pol4llbo5v",
+    "appName": "AI App 29",
+    "category": "Data Analysis",
+    "pricingModel": "one-time",
+    "userGrowthEst": [
+      50795,
+      24480,
+      32546,
+      43793,
+      15805,
+      52321,
+      92788,
+      56083,
+      6119,
+      71034,
+      29613,
+      30924
+    ],
+    "website": "https://aiapp29.com",
+    "trafficSources": [
+      "organic",
+      "paid",
+      "social"
+    ],
+    "relatedAdIds": [],
+    "differentiators": [
+      "Fast",
+      "Accurate"
+    ]
+  },
+  {
+    "id": "6xhkm33t7x8qlint2mub5d",
+    "appName": "AI App 30",
+    "category": "Data Analysis",
+    "pricingModel": "freemium",
+    "userGrowthEst": [
+      21792,
+      45042,
+      50816,
+      95913,
+      66923,
+      26673,
+      74551,
+      55849,
+      42954,
+      46064,
+      40405,
+      83453
+    ],
+    "website": "https://aiapp30.com",
+    "trafficSources": [
+      "organic"
+    ],
+    "relatedAdIds": [],
+    "differentiators": [
+      "Fast",
+      "Accurate",
+      "User-friendly"
+    ]
+  },
+  {
+    "id": "qheem6b5tsdwtbp5ixfxwf",
+    "appName": "AI App 31",
+    "category": "Creative Tools",
+    "pricingModel": "one-time",
+    "userGrowthEst": [
+      72023,
+      53746,
+      5110,
+      47588,
+      15152,
+      6927,
+      51682,
+      64445,
+      67833,
+      2736,
+      22927,
+      45261
+    ],
+    "website": "https://aiapp31.com",
+    "trafficSources": [
+      "organic"
+    ],
+    "relatedAdIds": [],
+    "differentiators": [
+      "Fast",
+      "Accurate"
+    ]
+  },
+  {
+    "id": "iqeicxsezh5a5jcfx5pji",
+    "appName": "AI App 32",
+    "category": "Voice Assistant",
+    "pricingModel": "freemium",
+    "userGrowthEst": [
+      24244,
+      19113,
+      12297,
+      60491,
+      83276,
+      21712,
+      66964,
+      87063,
+      81376,
+      38251,
+      1237,
+      84838
+    ],
+    "website": "https://aiapp32.com",
+    "trafficSources": [
+      "organic"
+    ],
+    "relatedAdIds": [],
+    "differentiators": [
+      "Fast"
+    ]
+  },
+  {
+    "id": "rlad977s0wlmnypyaub3kc",
+    "appName": "AI App 33",
+    "category": "Voice Assistant",
+    "pricingModel": "one-time",
+    "userGrowthEst": [
+      8304,
+      96588,
+      89020,
+      34930,
+      30184,
+      94944,
+      31600,
+      42761,
+      34966,
+      36542,
+      11174,
+      12940
+    ],
+    "website": "https://aiapp33.com",
+    "trafficSources": [
+      "organic"
+    ],
+    "relatedAdIds": [],
+    "differentiators": [
+      "Fast",
+      "Accurate"
+    ]
+  },
+  {
+    "id": "gd4novwphy6fobgba9g69",
+    "appName": "AI App 34",
+    "category": "Image Generation",
+    "pricingModel": "one-time",
+    "userGrowthEst": [
+      50828,
+      53899,
+      65751,
+      34500,
+      66528,
+      51481,
+      76963,
+      65195,
+      9131,
+      81457,
+      74616,
+      20628
+    ],
+    "website": "https://aiapp34.com",
+    "trafficSources": [
+      "organic",
+      "paid",
+      "social"
+    ],
+    "relatedAdIds": [],
+    "differentiators": [
+      "Fast",
+      "Accurate"
+    ]
+  },
+  {
+    "id": "0bprcxuriyhnap21lz2lfrf",
+    "appName": "AI App 35",
+    "category": "Creative Tools",
+    "pricingModel": "usage-based",
+    "userGrowthEst": [
+      7576,
+      3801,
+      68188,
+      32581,
+      74839,
+      50979,
+      88155,
+      2976,
+      35460,
+      84713,
+      72341,
+      75468
+    ],
+    "website": "https://aiapp35.com",
+    "trafficSources": [
+      "organic"
+    ],
+    "relatedAdIds": [],
+    "differentiators": [
+      "Fast",
+      "Accurate",
+      "User-friendly"
+    ]
+  },
+  {
+    "id": "550989zzzab2uw5umo6y5",
+    "appName": "AI App 36",
+    "category": "Image Generation",
+    "pricingModel": "freemium",
+    "userGrowthEst": [
+      89066,
+      37991,
+      28966,
+      8889,
+      77882,
+      24202,
+      74340,
+      91355,
+      32187,
+      47838,
+      94280,
+      50400
+    ],
+    "website": "https://aiapp36.com",
+    "trafficSources": [
+      "organic"
+    ],
+    "relatedAdIds": [],
+    "differentiators": [
+      "Fast"
+    ]
+  },
+  {
+    "id": "qxrc92f99dp5zyk6ygva",
+    "appName": "AI App 37",
+    "category": "Voice Assistant",
+    "pricingModel": "freemium",
+    "userGrowthEst": [
+      61478,
+      28770,
+      71610,
+      71809,
+      89798,
+      80978,
+      52495,
+      69339,
+      63486,
+      35864,
+      14194,
+      84787
+    ],
+    "website": "https://aiapp37.com",
+    "trafficSources": [
+      "organic"
+    ],
+    "relatedAdIds": [],
+    "differentiators": [
+      "Fast",
+      "Accurate",
+      "User-friendly"
+    ]
+  },
+  {
+    "id": "ignyzmunugdkd3x7a4o5te",
+    "appName": "AI App 38",
+    "category": "Text Processing",
+    "pricingModel": "subscription",
+    "userGrowthEst": [
+      90343,
+      8493,
+      42974,
+      41695,
+      78953,
+      54354,
+      6951,
+      15137,
+      62337,
+      59603,
+      79830,
+      16639
+    ],
+    "website": "https://aiapp38.com",
+    "trafficSources": [
+      "organic"
+    ],
+    "relatedAdIds": [],
+    "differentiators": [
+      "Fast"
+    ]
+  },
+  {
+    "id": "6vjx3e4dts3p5pjfb3jmm",
+    "appName": "AI App 39",
+    "category": "Creative Tools",
+    "pricingModel": "freemium",
+    "userGrowthEst": [
+      36416,
+      54645,
+      13439,
+      49395,
+      33349,
+      35554,
+      84176,
+      86654,
+      20599,
+      70376,
+      68285,
+      72806
+    ],
+    "website": "https://aiapp39.com",
+    "trafficSources": [
+      "organic",
+      "paid",
+      "social"
+    ],
+    "relatedAdIds": [],
+    "differentiators": [
+      "Fast",
+      "Accurate",
+      "User-friendly"
+    ]
+  },
+  {
+    "id": "ne2hf7cnbvlkj9gpf9cda",
+    "appName": "AI App 40",
+    "category": "Image Generation",
+    "pricingModel": "usage-based",
+    "userGrowthEst": [
+      75870,
+      14390,
+      74043,
+      46530,
+      48672,
+      45080,
+      43851,
+      91067,
+      60170,
+      40257,
+      75779,
+      91372
+    ],
+    "website": "https://aiapp40.com",
+    "trafficSources": [
+      "organic",
+      "paid",
+      "social"
+    ],
+    "relatedAdIds": [],
+    "differentiators": [
+      "Fast",
+      "Accurate"
+    ]
+  }
+]
