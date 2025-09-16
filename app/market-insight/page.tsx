@@ -274,12 +274,32 @@ const chartData = {
 
 export default function MarketInsightPage() {
   const [activeTab, setActiveTab] = useState('meta');
+  const [showVideoModal, setShowVideoModal] = useState(false);
+
+  const handleWatchTutorial = () => {
+    setShowVideoModal(true);
+  };
+
+  const closeVideoModal = () => {
+    setShowVideoModal(false);
+  };
 
   return (
     <div className="min-h-screen bg-background">
       <PageHeader 
         title="Market Insight"
         description="Provide cross-platform, cross-country, cross-industry advertising benchmark metrics to quickly evaluate campaign performance and identify optimization opportunities."
+        actions={
+          <button 
+            onClick={handleWatchTutorial}
+            className="flex items-center gap-1.5 px-3 py-1.5 bg-white text-black border border-gray-300 rounded-md hover:bg-gray-50 transition-colors text-sm font-semibold"
+          >
+            <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M8 6.82v10.36c0 .79.87 1.27 1.54.84l8.14-5.18c.62-.39.62-1.29 0-1.69L9.54 5.98C8.87 5.55 8 6.03 8 6.82z"/>
+            </svg>
+            Watch tutorial
+          </button>
+        }
       />
 
       {/* Content Section */}
@@ -381,6 +401,37 @@ export default function MarketInsightPage() {
           </div>
         </div>
       </div>
+
+      {/* YouTube Video Modal */}
+      {showVideoModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50" onClick={closeVideoModal}>
+          <div className="relative bg-white rounded-lg overflow-hidden max-w-4xl w-full mx-4" onClick={(e) => e.stopPropagation()}>
+            {/* Close Button */}
+            <button 
+              onClick={closeVideoModal}
+              className="absolute top-4 right-4 z-10 bg-black bg-opacity-50 text-white rounded-full p-2 hover:bg-opacity-75 transition-colors"
+            >
+              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+            
+            {/* Video Player */}
+            <div className="aspect-video">
+              <iframe
+                width="100%"
+                height="100%"
+                src="https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1"
+                title="Market Insight Tutorial Video"
+                frameBorder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowFullScreen
+                className="w-full h-full"
+              ></iframe>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

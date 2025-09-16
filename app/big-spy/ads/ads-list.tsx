@@ -7,72 +7,272 @@ interface AdsListProps {
   searchParams: { [key: string]: string | string[] | undefined };
 }
 
+// 模拟广告数据
+const mockAds = [
+  {
+    id: '1',
+    title: 'Betoppar',
+    domain: 'instagram.com',
+    publishedDate: 'Sep 16, 2025',
+    adsets: 1,
+    likes: 229,
+    spend: 3.9,
+    isNew: true,
+    mediaUrl: 'https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=400&h=300&fit=crop',
+    hasVideo: true
+  },
+  {
+    id: '2',
+    title: 'Svensk anti-age hudvård utan ond...',
+    domain: 'www.topibio.com',
+    publishedDate: 'Sep 16, 2025',
+    adsets: 3,
+    likes: 1,
+    spend: 0,
+    isNew: true,
+    mediaUrl: 'https://images.unsplash.com/photo-1556228453-efd6c1ff04f6?w=400&h=300&fit=crop',
+    hasVideo: false
+  },
+  {
+    id: '3',
+    title: '+100 000 clients satisfaits',
+    domain: 'soya-paris.com',
+    publishedDate: 'Sep 16, 2025',
+    adsets: 1,
+    likes: 37,
+    spend: 0.6,
+    isNew: true,
+    mediaUrl: 'https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=400&h=300&fit=crop',
+    hasVideo: false
+  },
+  {
+    id: '4',
+    title: 'Genius Nutrition',
+    domain: 'www.geniusnutrition.ro',
+    publishedDate: 'Sep 16, 2025',
+    adsets: 1,
+    likes: 211,
+    spend: 3.6,
+    isNew: true,
+    mediaUrl: 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400&h=300&fit=crop',
+    hasVideo: true
+  },
+  {
+    id: '5',
+    title: 'Like a quiet blessing on your wrist ...',
+    domain: 'www.oliviajewelry.com',
+    publishedDate: 'Sep 16, 2025',
+    adsets: 1,
+    likes: 1,
+    spend: 0,
+    isNew: true,
+    mediaUrl: 'https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=400&h=300&fit=crop',
+    hasVideo: false
+  },
+  {
+    id: '6',
+    title: 'Like a quiet blessing on your wrist ...',
+    domain: 'www.oliviajewelry.com',
+    publishedDate: 'Sep 16, 2025',
+    adsets: 1,
+    likes: 5,
+    spend: 0.1,
+    isNew: true,
+    mediaUrl: 'https://images.unsplash.com/photo-1573408301185-9146fe634ad0?w=400&h=300&fit=crop',
+    hasVideo: true
+  },
+  {
+    id: '7',
+    title: 'OQ HAIR',
+    domain: 'oqhair.com',
+    publishedDate: 'Sep 16, 2025',
+    adsets: 2,
+    likes: 9,
+    spend: 0.2,
+    isNew: true,
+    mediaUrl: 'https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=400&h=300&fit=crop',
+    hasVideo: true
+  },
+  {
+    id: '8',
+    title: 'Sowhatchish cool',
+    domain: 'sowhatshop.com',
+    publishedDate: 'Sep 16, 2025',
+    adsets: 1,
+    likes: 205,
+    spend: 3.5,
+    isNew: true,
+    mediaUrl: 'https://images.unsplash.com/photo-1509631179647-0177331693ae?w=400&h=300&fit=crop',
+    hasVideo: false
+  },
+  {
+    id: '9',
+    title: 'bedsurely',
+    domain: 'bedsurely.com',
+    publishedDate: 'Sep 16, 2025',
+    adsets: 2,
+    likes: 522,
+    spend: 5.8,
+    isNew: true,
+    mediaUrl: 'https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=400&h=300&fit=crop',
+    hasVideo: true
+  },
+  {
+    id: '10',
+    title: 'Your New A/W Fit.',
+    domain: 'badmonday.com',
+    publishedDate: 'Sep 16, 2025',
+    adsets: 1,
+    likes: 20,
+    spend: 0.3,
+    isNew: true,
+    mediaUrl: 'https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?w=400&h=300&fit=crop',
+    hasVideo: false
+  },
+  {
+    id: '11',
+    title: 'Experimento Noches Sin...',
+    domain: 'zensleep.shop',
+    publishedDate: 'Sep 16, 2025',
+    adsets: 2,
+    likes: 2400,
+    spend: 41.2,
+    isNew: true,
+    mediaUrl: 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400&h=300&fit=crop',
+    hasVideo: true
+  },
+  {
+    id: '12',
+    title: 'Handmade accessories',
+    domain: 'craftshop.com',
+    publishedDate: 'Sep 16, 2025',
+    adsets: 4,
+    likes: 187,
+    spend: 3.2,
+    isNew: true,
+    mediaUrl: 'https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=400&h=300&fit=crop',
+    hasVideo: true
+  }
+];
+
+interface AdCardProps {
+  ad: any;
+}
+
+const AdCard = ({ ad }: AdCardProps) => {
+  return (
+    <div className="bg-white rounded-lg border border-slate-200 overflow-hidden hover:shadow-lg transition-shadow cursor-pointer group">
+      {/* Image/Video Container */}
+      <div className="relative aspect-[4/3] overflow-hidden">
+        <img
+          src={ad.mediaUrl}
+          alt={ad.title}
+          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+        />
+        
+        {/* Play Button Overlay */}
+        {ad.hasVideo && (
+          <div className="absolute inset-0 bg-black/20 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+            <div className="w-16 h-16 bg-black/70 rounded-full flex items-center justify-center">
+              <svg className="w-6 h-6 text-white ml-1" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M8 6.82v10.36c0 .79.87 1.27 1.54.84l8.14-5.18c.62-.39.62-1.29 0-1.69L9.54 5.98C8.87 5.55 8 6.03 8 6.82z"/>
+              </svg>
+            </div>
+          </div>
+        )}
+        
+        {/* Top Right - Adsets Count */}
+        <div className="absolute top-3 right-3 bg-black/70 text-white text-xs px-2 py-1 rounded flex items-center gap-1">
+          <span>{ad.adsets} adsets</span>
+        </div>
+        
+        {/* Bottom Left - Stats */}
+        <div className="absolute bottom-3 left-3 flex items-center gap-3 text-white text-xs">
+          <div className="flex items-center gap-1">
+            <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+            </svg>
+            <span>{ad.likes}</span>
+          </div>
+          <div className="flex items-center gap-1">
+            <span>$</span>
+            <span>{ad.spend}</span>
+          </div>
+        </div>
+        
+        {/* New Badge */}
+        {ad.isNew && (
+          <div className="absolute top-3 left-3 bg-indigo-600 text-white text-xs px-2 py-1 rounded flex items-center gap-1">
+            <div className="w-2 h-2 bg-green-400 rounded-full"></div>
+            <span>New</span>
+          </div>
+        )}
+      </div>
+      
+      {/* Content */}
+      <div className="p-4">
+        <h3 className="font-medium text-sm text-slate-900 mb-1 line-clamp-1">
+          {ad.title}
+        </h3>
+        <p className="text-xs text-slate-600 mb-2">{ad.domain}</p>
+        <p className="text-xs text-slate-500">Published on: {ad.publishedDate}</p>
+      </div>
+    </div>
+  );
+};
+
 export function AdsList({ searchParams }: AdsListProps) {
-  const [ads, setAds] = useState<Ad[]>([]);
+  const [ads, setAds] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    fetchAds();
-  }, [searchParams]);
-
-  const fetchAds = async () => {
-    try {
-      setLoading(true);
-      const params = new URLSearchParams();
-      
-      Object.entries(searchParams).forEach(([key, value]) => {
-        if (value && typeof value === 'string') {
-          params.append(key, value);
-        }
-      });
-
-      const response = await fetch(`/api/ads?${params.toString()}`);
-      if (!response.ok) {
-        throw new Error('Failed to fetch ads');
-      }
-      
-      const data = await response.json();
-      setAds(data.data || []);
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'Unknown error');
-    } finally {
+    // 模拟加载
+    const timer = setTimeout(() => {
+      setAds(mockAds);
       setLoading(false);
-    }
-  };
+    }, 800);
+    
+    return () => clearTimeout(timer);
+  }, [searchParams]);
 
   if (loading) {
     return (
-      <div className="p-6">
-        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-          {Array.from({ length: 6 }).map((_, i) => (
-            <div key={i} className="h-64 rounded-lg bg-muted animate-pulse" />
-          ))}
-        </div>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+        {Array.from({ length: 12 }).map((_, i) => (
+          <div key={i} className="bg-white rounded-lg border border-slate-200 overflow-hidden animate-pulse">
+            <div className="aspect-[4/3] bg-slate-200"></div>
+            <div className="p-4">
+              <div className="h-4 bg-slate-200 rounded mb-2"></div>
+              <div className="h-3 bg-slate-200 rounded w-2/3 mb-2"></div>
+              <div className="h-3 bg-slate-200 rounded w-1/2"></div>
+            </div>
+          </div>
+        ))}
       </div>
     );
   }
 
   if (error) {
     return (
-      <div className="p-6">
-        <div className="text-center text-muted-foreground">
+      <div className="text-center py-12">
+        <div className="text-slate-500 mb-4">
           <p>加载失败: {error}</p>
-          <button 
-            onClick={fetchAds}
-            className="mt-2 px-4 py-2 bg-primary text-primary-foreground rounded-md hover:bg-primary/90"
-          >
-            重试
-          </button>
         </div>
+        <button 
+          onClick={() => window.location.reload()}
+          className="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors"
+        >
+          重试
+        </button>
       </div>
     );
   }
 
   if (ads.length === 0) {
     return (
-      <div className="p-6">
-        <div className="text-center text-muted-foreground">
+      <div className="text-center py-12">
+        <div className="text-slate-500">
           <p>暂无数据</p>
         </div>
       </div>
@@ -80,58 +280,10 @@ export function AdsList({ searchParams }: AdsListProps) {
   }
 
   return (
-    <div className="p-6">
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-        {ads.map((ad) => (
-          <div key={ad.id} className="border rounded-lg p-4 hover:shadow-md transition-shadow">
-            <div className="flex items-center gap-2 mb-3">
-              {ad.brandLogo && (
-                <img 
-                  src={ad.brandLogo} 
-                  alt={ad.advertiserName}
-                  className="w-8 h-8 rounded-full"
-                />
-              )}
-              <div>
-                <p className="font-medium text-sm">{ad.advertiserName}</p>
-                <p className="text-xs text-muted-foreground">{ad.platform}</p>
-              </div>
-            </div>
-            
-            {ad.mediaUrls[0] && (
-              <img 
-                src={ad.mediaUrls[0]} 
-                alt="Ad media"
-                className="w-full h-32 object-cover rounded-md mb-3"
-              />
-            )}
-            
-            {ad.headline && (
-              <h3 className="font-medium text-sm mb-2 line-clamp-2">{ad.headline}</h3>
-            )}
-            
-            {ad.primaryText && (
-              <p className="text-xs text-muted-foreground mb-3 line-clamp-3">{ad.primaryText}</p>
-            )}
-            
-            <div className="flex items-center justify-between text-xs text-muted-foreground">
-              <span>{ad.mediaType}</span>
-              {ad.cta && (
-                <span className="bg-primary/10 text-primary px-2 py-1 rounded">{ad.cta}</span>
-              )}
-            </div>
-            
-            <div className="flex items-center justify-between mt-3 text-xs">
-              <div className="flex gap-3">
-                <span>👍 {ad.engagement.likes.toLocaleString()}</span>
-                <span>💬 {ad.engagement.comments.toLocaleString()}</span>
-                <span>📤 {ad.engagement.shares.toLocaleString()}</span>
-              </div>
-              <span className="text-muted-foreground">{ad.country}</span>
-            </div>
-          </div>
-        ))}
-      </div>
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+      {ads.map((ad) => (
+        <AdCard key={ad.id} ad={ad} />
+      ))}
     </div>
   );
 }
