@@ -7,7 +7,7 @@ interface AdsListProps {
   searchParams: { [key: string]: string | string[] | undefined };
 }
 
-// 模拟广告数据
+// 模拟广告数据 - 扩展到20个
 const mockAds = [
   {
     id: '1',
@@ -152,6 +152,102 @@ const mockAds = [
     isNew: true,
     mediaUrl: 'https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=400&h=300&fit=crop',
     hasVideo: true
+  },
+  {
+    id: '13',
+    title: 'Premium Skincare Solutions',
+    domain: 'skincare.com',
+    publishedDate: 'Sep 15, 2025',
+    adsets: 2,
+    likes: 456,
+    spend: 7.8,
+    isNew: true,
+    mediaUrl: 'https://images.unsplash.com/photo-1556228578-8c89e6adf883?w=400&h=300&fit=crop',
+    hasVideo: true
+  },
+  {
+    id: '14',
+    title: 'Fitness Revolution',
+    domain: 'fitnesshub.com',
+    publishedDate: 'Sep 15, 2025',
+    adsets: 1,
+    likes: 89,
+    spend: 1.5,
+    isNew: true,
+    mediaUrl: 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400&h=300&fit=crop',
+    hasVideo: false
+  },
+  {
+    id: '15',
+    title: 'Smart Home Technology',
+    domain: 'smarthome.tech',
+    publishedDate: 'Sep 15, 2025',
+    adsets: 3,
+    likes: 312,
+    spend: 5.4,
+    isNew: true,
+    mediaUrl: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&h=300&fit=crop',
+    hasVideo: true
+  },
+  {
+    id: '16',
+    title: 'Eco-Friendly Fashion',
+    domain: 'ecofashion.com',
+    publishedDate: 'Sep 14, 2025',
+    adsets: 2,
+    likes: 178,
+    spend: 2.9,
+    isNew: true,
+    mediaUrl: 'https://images.unsplash.com/photo-1445205170230-053b83016050?w=400&h=300&fit=crop',
+    hasVideo: false
+  },
+  {
+    id: '17',
+    title: 'Gourmet Coffee Experience',
+    domain: 'coffeehouse.com',
+    publishedDate: 'Sep 14, 2025',
+    adsets: 1,
+    likes: 267,
+    spend: 4.1,
+    isNew: true,
+    mediaUrl: 'https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=400&h=300&fit=crop',
+    hasVideo: true
+  },
+  {
+    id: '18',
+    title: 'Travel Adventures Await',
+    domain: 'traveladventures.com',
+    publishedDate: 'Sep 14, 2025',
+    adsets: 4,
+    likes: 834,
+    spend: 12.3,
+    isNew: true,
+    mediaUrl: 'https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=400&h=300&fit=crop',
+    hasVideo: true
+  },
+  {
+    id: '19',
+    title: 'Luxury Watch Collection',
+    domain: 'luxurywatches.com',
+    publishedDate: 'Sep 13, 2025',
+    adsets: 2,
+    likes: 445,
+    spend: 8.7,
+    isNew: true,
+    mediaUrl: 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400&h=300&fit=crop',
+    hasVideo: false
+  },
+  {
+    id: '20',
+    title: 'Digital Marketing Mastery',
+    domain: 'digitalmarketing.pro',
+    publishedDate: 'Sep 13, 2025',
+    adsets: 3,
+    likes: 623,
+    spend: 9.8,
+    isNew: true,
+    mediaUrl: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=400&h=300&fit=crop',
+    hasVideo: true
   }
 ];
 
@@ -239,7 +335,7 @@ export function AdsList({ searchParams }: AdsListProps) {
   if (loading) {
     return (
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-        {Array.from({ length: 12 }).map((_, i) => (
+        {Array.from({ length: 20 }).map((_, i) => (
           <div key={i} className="bg-white rounded-lg border border-slate-200 overflow-hidden animate-pulse">
             <div className="aspect-[4/3] bg-slate-200"></div>
             <div className="p-4">

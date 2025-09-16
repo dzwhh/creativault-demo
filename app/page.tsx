@@ -1,4 +1,8 @@
+'use client';
+'use client';
+
 import Link from 'next/link';
+import { useState } from 'react';
 import { cn } from '@/lib/utils';
 import {
   AdsIcon,
@@ -7,7 +11,10 @@ import {
   AppWindowIcon,
   FilmIcon,
   BrainCircuitIcon,
+  MetaIcon,
+  TikTokIcon,
 } from '@/components/icons';
+import { HomeAdCard } from '@/components/home-ads-card';
 
 interface QuickLink {
   title: string;
@@ -53,6 +60,256 @@ function HomeQuickLinkCard({ link }: { link: QuickLink }) {
 }
 
 export default function HomePage() {
+  const [activeTab, setActiveTab] = useState('meta');
+
+  const platforms = [
+    { id: 'meta', name: 'Meta', icon: MetaIcon, activeColor: 'text-blue-600 border-blue-600 bg-blue-50' },
+    { id: 'tiktok', name: 'TikTok', icon: TikTokIcon, activeColor: 'text-black border-black bg-gray-200' },
+  ];
+
+  // 模拟20个广告数据用于Home页面展示
+  const homeAdsData = [
+    {
+      id: '1',
+      title: 'Betoppar',
+      domain: 'instagram.com',
+      publishedDate: 'Sep 16, 2025',
+      adsets: 1,
+      likes: 229,
+      spend: 3.9,
+      isNew: true,
+      mediaUrl: 'https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=400&h=300&fit=crop',
+      hasVideo: true
+    },
+    {
+      id: '2',
+      title: 'Svensk anti-age hudvård utan ond...',
+      domain: 'www.topibio.com',
+      publishedDate: 'Sep 16, 2025',
+      adsets: 3,
+      likes: 1,
+      spend: 0,
+      isNew: true,
+      mediaUrl: 'https://images.unsplash.com/photo-1556228453-efd6c1ff04f6?w=400&h=300&fit=crop',
+      hasVideo: false
+    },
+    {
+      id: '3',
+      title: '+100 000 clients satisfaits',
+      domain: 'soya-paris.com',
+      publishedDate: 'Sep 16, 2025',
+      adsets: 1,
+      likes: 37,
+      spend: 0.6,
+      isNew: true,
+      mediaUrl: 'https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=400&h=300&fit=crop',
+      hasVideo: false
+    },
+    {
+      id: '4',
+      title: 'Genius Nutrition',
+      domain: 'www.geniusnutrition.ro',
+      publishedDate: 'Sep 16, 2025',
+      adsets: 1,
+      likes: 211,
+      spend: 3.6,
+      isNew: true,
+      mediaUrl: 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400&h=300&fit=crop',
+      hasVideo: true
+    },
+    {
+      id: '5',
+      title: 'Like a quiet blessing on your wrist ...',
+      domain: 'www.oliviajewelry.com',
+      publishedDate: 'Sep 16, 2025',
+      adsets: 1,
+      likes: 1,
+      spend: 0,
+      isNew: true,
+      mediaUrl: 'https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=400&h=300&fit=crop',
+      hasVideo: false
+    },
+    {
+      id: '6',
+      title: 'Like a quiet blessing on your wrist ...',
+      domain: 'www.oliviajewelry.com',
+      publishedDate: 'Sep 16, 2025',
+      adsets: 1,
+      likes: 5,
+      spend: 0.1,
+      isNew: true,
+      mediaUrl: 'https://images.unsplash.com/photo-1573408301185-9146fe634ad0?w=400&h=300&fit=crop',
+      hasVideo: true
+    },
+    {
+      id: '7',
+      title: 'OQ HAIR',
+      domain: 'oqhair.com',
+      publishedDate: 'Sep 16, 2025',
+      adsets: 2,
+      likes: 9,
+      spend: 0.2,
+      isNew: true,
+      mediaUrl: 'https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=400&h=300&fit=crop',
+      hasVideo: true
+    },
+    {
+      id: '8',
+      title: 'Sowhatchish cool',
+      domain: 'sowhatshop.com',
+      publishedDate: 'Sep 16, 2025',
+      adsets: 1,
+      likes: 205,
+      spend: 3.5,
+      isNew: true,
+      mediaUrl: 'https://images.unsplash.com/photo-1509631179647-0177331693ae?w=400&h=300&fit=crop',
+      hasVideo: false
+    },
+    {
+      id: '9',
+      title: 'bedsurely',
+      domain: 'bedsurely.com',
+      publishedDate: 'Sep 16, 2025',
+      adsets: 2,
+      likes: 522,
+      spend: 5.8,
+      isNew: true,
+      mediaUrl: 'https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=400&h=300&fit=crop',
+      hasVideo: true
+    },
+    {
+      id: '10',
+      title: 'Your New A/W Fit.',
+      domain: 'badmonday.com',
+      publishedDate: 'Sep 16, 2025',
+      adsets: 1,
+      likes: 20,
+      spend: 0.3,
+      isNew: true,
+      mediaUrl: 'https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?w=400&h=300&fit=crop',
+      hasVideo: false
+    },
+    {
+      id: '11',
+      title: 'Experimento Noches Sin...',
+      domain: 'zensleep.shop',
+      publishedDate: 'Sep 16, 2025',
+      adsets: 2,
+      likes: 2400,
+      spend: 41.2,
+      isNew: true,
+      mediaUrl: 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400&h=300&fit=crop',
+      hasVideo: true
+    },
+    {
+      id: '12',
+      title: 'Handmade accessories',
+      domain: 'craftshop.com',
+      publishedDate: 'Sep 16, 2025',
+      adsets: 4,
+      likes: 187,
+      spend: 3.2,
+      isNew: true,
+      mediaUrl: 'https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=400&h=300&fit=crop',
+      hasVideo: true
+    },
+    {
+      id: '13',
+      title: 'Premium Skincare Solutions',
+      domain: 'skincare.com',
+      publishedDate: 'Sep 15, 2025',
+      adsets: 2,
+      likes: 456,
+      spend: 7.8,
+      isNew: true,
+      mediaUrl: 'https://images.unsplash.com/photo-1556228578-8c89e6adf883?w=400&h=300&fit=crop',
+      hasVideo: true
+    },
+    {
+      id: '14',
+      title: 'Fitness Revolution',
+      domain: 'fitnesshub.com',
+      publishedDate: 'Sep 15, 2025',
+      adsets: 1,
+      likes: 89,
+      spend: 1.5,
+      isNew: true,
+      mediaUrl: 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400&h=300&fit=crop',
+      hasVideo: false
+    },
+    {
+      id: '15',
+      title: 'Smart Home Technology',
+      domain: 'smarthome.tech',
+      publishedDate: 'Sep 15, 2025',
+      adsets: 3,
+      likes: 312,
+      spend: 5.4,
+      isNew: true,
+      mediaUrl: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&h=300&fit=crop',
+      hasVideo: true
+    },
+    {
+      id: '16',
+      title: 'Eco-Friendly Fashion',
+      domain: 'ecofashion.com',
+      publishedDate: 'Sep 14, 2025',
+      adsets: 2,
+      likes: 178,
+      spend: 2.9,
+      isNew: true,
+      mediaUrl: 'https://images.unsplash.com/photo-1445205170230-053b83016050?w=400&h=300&fit=crop',
+      hasVideo: false
+    },
+    {
+      id: '17',
+      title: 'Gourmet Coffee Experience',
+      domain: 'coffeehouse.com',
+      publishedDate: 'Sep 14, 2025',
+      adsets: 1,
+      likes: 267,
+      spend: 4.1,
+      isNew: true,
+      mediaUrl: 'https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=400&h=300&fit=crop',
+      hasVideo: true
+    },
+    {
+      id: '18',
+      title: 'Travel Adventures Await',
+      domain: 'traveladventures.com',
+      publishedDate: 'Sep 14, 2025',
+      adsets: 4,
+      likes: 834,
+      spend: 12.3,
+      isNew: true,
+      mediaUrl: 'https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=400&h=300&fit=crop',
+      hasVideo: true
+    },
+    {
+      id: '19',
+      title: 'Luxury Watch Collection',
+      domain: 'luxurywatches.com',
+      publishedDate: 'Sep 13, 2025',
+      adsets: 2,
+      likes: 445,
+      spend: 8.7,
+      isNew: true,
+      mediaUrl: 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400&h=300&fit=crop',
+      hasVideo: false
+    },
+    {
+      id: '20',
+      title: 'Digital Marketing Mastery',
+      domain: 'digitalmarketing.pro',
+      publishedDate: 'Sep 13, 2025',
+      adsets: 3,
+      likes: 623,
+      spend: 9.8,
+      isNew: true,
+      mediaUrl: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=400&h=300&fit=crop',
+      hasVideo: true
+    }
+  ];
   return (
     <main className="p-6 space-y-10">
       <section className="space-y-3">
@@ -108,6 +365,85 @@ export default function HomePage() {
             <li className="whitespace-nowrap">Use Marketing Agent to generate market / audience / competitor / creative insights</li>
             <li className="whitespace-nowrap">Save key materials and manage them centrally in "My Favorites" later</li>
           </ul>
+        </div>
+      </section>
+
+      {/* Today's Recommendation Section */}
+      <section className="space-y-6">
+        <div className="flex items-center justify-between">
+          <h2 className="text-2xl font-bold tracking-tight text-foreground">Today's Recommendation</h2>
+        </div>
+        
+        {/* Platform Tabs */}
+        <div className="inline-flex h-10 items-center justify-center rounded-md bg-muted p-1 text-muted-foreground">
+          {platforms.map((platform) => {
+            const Icon = platform.icon;
+            const isActive = activeTab === platform.id;
+            return (
+              <button
+                key={platform.id}
+                onClick={() => setActiveTab(platform.id)}
+                className={`inline-flex items-center justify-center whitespace-nowrap rounded-sm px-3 py-1.5 text-sm font-medium ring-offset-background transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 gap-2 ${
+                  isActive
+                    ? 'bg-background text-foreground shadow-sm'
+                    : 'hover:bg-muted/80'
+                }`}
+              >
+                <Icon className="flex-shrink-0 opacity-70" />
+                <span>{platform.name}</span>
+              </button>
+            );
+          })}
+        </div>
+
+        {/* Tab Content */}
+        <div className="mt-6">
+          {platforms.map((platform) => {
+            if (activeTab !== platform.id) return null;
+            
+            return (
+              <div key={platform.id} className="space-y-4">
+                {/* Meta Tab Description */}
+                {platform.id === 'meta' && (
+                  <div className="mb-6 p-4 bg-blue-50 border border-blue-200 rounded-lg">
+                    <h3 className="text-lg font-semibold text-blue-900 mb-2">Top 20 Popular Ads</h3>
+                    <p className="text-blue-700 text-sm">Discover the most successful Meta advertising campaigns ranked by performance and engagement.</p>
+                  </div>
+                )}
+                
+                {platform.id === 'meta' ? (
+                  <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+                    {homeAdsData.map((ad, index) => (
+                      <HomeAdCard 
+                        key={ad.id} 
+                        ad={ad} 
+                        rank={index + 1}
+                      />
+                    ))}
+                  </div>
+                ) : (
+                  <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+                    {/* Placeholder content for TikTok */}
+                    <div className="rounded-lg border p-4 space-y-3">
+                      <div className="aspect-video bg-muted rounded-md"></div>
+                      <h3 className="font-semibold">Recommended Ad #A</h3>
+                      <p className="text-sm text-muted-foreground">High-performing {platform.name} ad creative with excellent engagement rates.</p>
+                    </div>
+                    <div className="rounded-lg border p-4 space-y-3">
+                      <div className="aspect-video bg-muted rounded-md"></div>
+                      <h3 className="font-semibold">Recommended Ad #B</h3>
+                      <p className="text-sm text-muted-foreground">Trending {platform.name} campaign with high conversion potential.</p>
+                    </div>
+                    <div className="rounded-lg border p-4 space-y-3">
+                      <div className="aspect-video bg-muted rounded-md"></div>
+                      <h3 className="font-semibold">Recommended Ad #C</h3>
+                      <p className="text-sm text-muted-foreground">Popular {platform.name} creative with strong audience engagement.</p>
+                    </div>
+                  </div>
+                )}
+              </div>
+            );
+          })}
         </div>
       </section>
     </main>
