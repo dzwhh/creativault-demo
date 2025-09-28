@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { Ad } from '@/lib/types';
+import { AdDetail } from '@/components/ad-detail';
 
 interface AdsListProps {
   searchParams: { [key: string]: string | string[] | undefined };
@@ -11,15 +12,20 @@ interface AdsListProps {
 const mockAds = [
   {
     id: '1',
-    title: 'Betoppar',
-    domain: 'instagram.com',
+    title: 'Mixtiles',
+    domain: 'mixtiles.com',
     publishedDate: 'Sep 16, 2025',
     adsets: 1,
     likes: 229,
     spend: 3.9,
     isNew: true,
-    mediaUrl: 'https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=400&h=300&fit=crop',
-    hasVideo: true
+    mediaUrl: 'https://optimization-cdn.minea.com/minea-ads-media/lib_1329204472105376_52535667644af517005f381ade2bc116167a070e.jpg?format=auto&quality=75&width=256ad',
+    hasVideo: true,
+    platforms: [
+      { name: 'Facebook', icon: 'FacebookIcon' },
+      { name: 'Instagram', icon: 'InstagramIcon' },
+      { name: 'Threads', icon: 'ThreadsIcon' }
+    ]
   },
   {
     id: '2',
@@ -31,7 +37,11 @@ const mockAds = [
     spend: 0,
     isNew: true,
     mediaUrl: 'https://images.unsplash.com/photo-1556228453-efd6c1ff04f6?w=400&h=300&fit=crop',
-    hasVideo: false
+    hasVideo: false,
+    platforms: [
+      { name: 'Facebook', icon: 'FacebookIcon' },
+      { name: 'Instagram', icon: 'InstagramIcon' }
+    ]
   },
   {
     id: '3',
@@ -43,7 +53,10 @@ const mockAds = [
     spend: 0.6,
     isNew: true,
     mediaUrl: 'https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=400&h=300&fit=crop',
-    hasVideo: false
+    hasVideo: false,
+    platforms: [
+      { name: 'Facebook', icon: 'FacebookIcon' }
+    ]
   },
   {
     id: '4',
@@ -55,7 +68,11 @@ const mockAds = [
     spend: 3.6,
     isNew: true,
     mediaUrl: 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400&h=300&fit=crop',
-    hasVideo: true
+    hasVideo: true,
+    platforms: [
+      { name: 'Instagram', icon: 'InstagramIcon' },
+      { name: 'Threads', icon: 'ThreadsIcon' }
+    ]
   },
   {
     id: '5',
@@ -67,7 +84,11 @@ const mockAds = [
     spend: 0,
     isNew: true,
     mediaUrl: 'https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=400&h=300&fit=crop',
-    hasVideo: false
+    hasVideo: false,
+    platforms: [
+      { name: 'Facebook', icon: 'FacebookIcon' },
+      { name: 'Instagram', icon: 'InstagramIcon' }
+    ]
   },
   {
     id: '6',
@@ -79,7 +100,10 @@ const mockAds = [
     spend: 0.1,
     isNew: true,
     mediaUrl: 'https://images.unsplash.com/photo-1573408301185-9146fe634ad0?w=400&h=300&fit=crop',
-    hasVideo: true
+    hasVideo: true,
+    platforms: [
+      { name: 'Instagram', icon: 'InstagramIcon' }
+    ]
   },
   {
     id: '7',
@@ -91,7 +115,11 @@ const mockAds = [
     spend: 0.2,
     isNew: true,
     mediaUrl: 'https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=400&h=300&fit=crop',
-    hasVideo: true
+    hasVideo: true,
+    platforms: [
+      { name: 'Facebook', icon: 'FacebookIcon' },
+      { name: 'Threads', icon: 'ThreadsIcon' }
+    ]
   },
   {
     id: '8',
@@ -103,7 +131,12 @@ const mockAds = [
     spend: 3.5,
     isNew: true,
     mediaUrl: 'https://images.unsplash.com/photo-1509631179647-0177331693ae?w=400&h=300&fit=crop',
-    hasVideo: false
+    hasVideo: false,
+    platforms: [
+      { name: 'Facebook', icon: 'FacebookIcon' },
+      { name: 'Instagram', icon: 'InstagramIcon' },
+      { name: 'Threads', icon: 'ThreadsIcon' }
+    ]
   },
   {
     id: '9',
@@ -115,7 +148,10 @@ const mockAds = [
     spend: 5.8,
     isNew: true,
     mediaUrl: 'https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=400&h=300&fit=crop',
-    hasVideo: true
+    hasVideo: true,
+    platforms: [
+      { name: 'Instagram', icon: 'InstagramIcon' }
+    ]
   },
   {
     id: '10',
@@ -127,7 +163,10 @@ const mockAds = [
     spend: 0.3,
     isNew: true,
     mediaUrl: 'https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?w=400&h=300&fit=crop',
-    hasVideo: false
+    hasVideo: false,
+    platforms: [
+      { name: 'Facebook', icon: 'FacebookIcon' }
+    ]
   },
   {
     id: '11',
@@ -139,7 +178,11 @@ const mockAds = [
     spend: 41.2,
     isNew: true,
     mediaUrl: 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400&h=300&fit=crop',
-    hasVideo: true
+    hasVideo: true,
+    platforms: [
+      { name: 'Facebook', icon: 'FacebookIcon' },
+      { name: 'Instagram', icon: 'InstagramIcon' }
+    ]
   },
   {
     id: '12',
@@ -151,7 +194,11 @@ const mockAds = [
     spend: 3.2,
     isNew: true,
     mediaUrl: 'https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=400&h=300&fit=crop',
-    hasVideo: true
+    hasVideo: true,
+    platforms: [
+      { name: 'Instagram', icon: 'InstagramIcon' },
+      { name: 'Threads', icon: 'ThreadsIcon' }
+    ]
   },
   {
     id: '13',
@@ -163,7 +210,12 @@ const mockAds = [
     spend: 7.8,
     isNew: true,
     mediaUrl: 'https://images.unsplash.com/photo-1556228578-8c89e6adf883?w=400&h=300&fit=crop',
-    hasVideo: true
+    hasVideo: true,
+    platforms: [
+      { name: 'Facebook', icon: 'FacebookIcon' },
+      { name: 'Instagram', icon: 'InstagramIcon' },
+      { name: 'Threads', icon: 'ThreadsIcon' }
+    ]
   },
   {
     id: '14',
@@ -175,7 +227,10 @@ const mockAds = [
     spend: 1.5,
     isNew: true,
     mediaUrl: 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400&h=300&fit=crop',
-    hasVideo: false
+    hasVideo: false,
+    platforms: [
+      { name: 'Facebook', icon: 'FacebookIcon' }
+    ]
   },
   {
     id: '15',
@@ -187,7 +242,11 @@ const mockAds = [
     spend: 5.4,
     isNew: true,
     mediaUrl: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&h=300&fit=crop',
-    hasVideo: true
+    hasVideo: true,
+    platforms: [
+      { name: 'Instagram', icon: 'InstagramIcon' },
+      { name: 'Threads', icon: 'ThreadsIcon' }
+    ]
   },
   {
     id: '16',
@@ -199,7 +258,11 @@ const mockAds = [
     spend: 2.9,
     isNew: true,
     mediaUrl: 'https://images.unsplash.com/photo-1445205170230-053b83016050?w=400&h=300&fit=crop',
-    hasVideo: false
+    hasVideo: false,
+    platforms: [
+      { name: 'Facebook', icon: 'FacebookIcon' },
+      { name: 'Instagram', icon: 'InstagramIcon' }
+    ]
   },
   {
     id: '17',
@@ -211,7 +274,10 @@ const mockAds = [
     spend: 4.1,
     isNew: true,
     mediaUrl: 'https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=400&h=300&fit=crop',
-    hasVideo: true
+    hasVideo: true,
+    platforms: [
+      { name: 'Facebook', icon: 'FacebookIcon' }
+    ]
   },
   {
     id: '18',
@@ -223,7 +289,11 @@ const mockAds = [
     spend: 12.3,
     isNew: true,
     mediaUrl: 'https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=400&h=300&fit=crop',
-    hasVideo: true
+    hasVideo: true,
+    platforms: [
+      { name: 'Instagram', icon: 'InstagramIcon' },
+      { name: 'Threads', icon: 'ThreadsIcon' }
+    ]
   },
   {
     id: '19',
@@ -235,7 +305,11 @@ const mockAds = [
     spend: 8.7,
     isNew: true,
     mediaUrl: 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400&h=300&fit=crop',
-    hasVideo: false
+    hasVideo: false,
+    platforms: [
+      { name: 'Facebook', icon: 'FacebookIcon' },
+      { name: 'Instagram', icon: 'InstagramIcon' }
+    ]
   },
   {
     id: '20',
@@ -247,17 +321,31 @@ const mockAds = [
     spend: 9.8,
     isNew: true,
     mediaUrl: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=400&h=300&fit=crop',
-    hasVideo: true
+    hasVideo: true,
+    platforms: [
+      { name: 'Facebook', icon: 'FacebookIcon' },
+      { name: 'Instagram', icon: 'InstagramIcon' },
+      { name: 'Threads', icon: 'ThreadsIcon' }
+    ]
   }
 ];
 
 interface AdCardProps {
-  ad: any;
+  ad: any & {
+    platforms?: Array<{
+      name: string;
+      icon: string;
+    }>;
+  };
+  onClick: (ad: any) => void;
 }
 
-const AdCard = ({ ad }: AdCardProps) => {
+const AdCard = ({ ad, onClick }: AdCardProps) => {
   return (
-    <div className="bg-white rounded-lg border border-slate-200 overflow-hidden hover:shadow-lg transition-shadow cursor-pointer group">
+    <div 
+      className="bg-white rounded-lg border border-slate-200 overflow-hidden hover:shadow-lg transition-shadow cursor-pointer group"
+      onClick={() => onClick(ad)}
+    >
       {/* Image/Video Container */}
       <div className="relative aspect-[4/3] overflow-hidden">
         <img
@@ -321,6 +409,7 @@ export function AdsList({ searchParams }: AdsListProps) {
   const [ads, setAds] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [selectedAd, setSelectedAd] = useState<any | null>(null);
 
   useEffect(() => {
     // 模拟加载
@@ -376,10 +465,21 @@ export function AdsList({ searchParams }: AdsListProps) {
   }
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-      {ads.map((ad) => (
-        <AdCard key={ad.id} ad={ad} />
-      ))}
+    <div className="relative">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+        {ads.map((ad) => (
+          <AdCard key={ad.id} ad={ad} onClick={() => setSelectedAd(ad)} />
+        ))}
+      </div>
+      
+      {/* Ad Detail Panel */}
+      {selectedAd && (
+        <AdDetail 
+          ad={selectedAd} 
+          onClose={() => setSelectedAd(null)} 
+        />
+      )}
+
     </div>
   );
 }

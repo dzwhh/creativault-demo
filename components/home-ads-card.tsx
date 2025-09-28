@@ -13,6 +13,10 @@ interface HomeAdCardProps {
     isNew: boolean;
     mediaUrl: string;
     hasVideo: boolean;
+    platforms?: Array<{
+      name: string;
+      icon: string;
+    }>;
   };
   rank: number;
 }

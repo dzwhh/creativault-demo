@@ -71,15 +71,20 @@ export default function HomePage() {
   const homeAdsData = [
     {
       id: '1',
-      title: 'Betoppar',
-      domain: 'instagram.com',
+      title: 'Mixtiles',
+      domain: 'mixtiles.com',
       publishedDate: 'Sep 16, 2025',
       adsets: 1,
       likes: 229,
       spend: 3.9,
       isNew: true,
-      mediaUrl: 'https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=400&h=300&fit=crop',
-      hasVideo: true
+      mediaUrl: 'https://video-hkg4-1.xx.fbcdn.net/o1/v/t2/f2/m69/AQN8qJuYD5HGY9nPcW63_YbhrmFM6vo3Enqu5o_HgKbU2tF6qyHpNnblwU8uPdZWBsExKgVC8Rl5bF4q-zKcEgIN.mp4?strext=1&_nc_cat=106&_nc_sid=8bf8fe&_nc_ht=video-hkg4-1.xx.fbcdn.net&_nc_ohc=https://video-hkg4-1.xx.fbcdn.net/o1/v/t2/f2/m69/AQN8qJuYD5HGY9nPcW63_YbhrmFM6vo3Enqu5o_HgKbU2tF6qyHpNnblwU8uPdZWBsExKgVC8Rl5bF4q-zKcEgIN.mp4?strext=1&_nc_cat=106&_nc_sid=8bf8fe&_nc_ht=video-hkg4-1.xx.fbcdn.net&_nc_ohc=B24_tuzt3ysQ7kNvwGOgOVW&efg=eyJ2ZW5jb2RlX3RhZyI6Inhwdl9wcm9ncmVzc2l2ZS5WSV9VU0VDQVNFX1BST0RVQ1RfVFlQRS4uQzIuMzYwLnN2ZV9zZCIsInhwdl9hc3NldF9pZCI6NjE1MjQ0NTM3NjU3NTM1LCJ2aV91c2VjYXNlX2lkIjoxMDc5OSwiZHVyYXRpb25fcyI6MjUsInVybGdlbl9zb3VyY2UiOiJ3d3cifQ%3D%3D&ccb=17-1&_nc_gid=GhKkK14hcMwTSaq03N99Xg&_nc_zt=28&oh=00_AfZgo4YZtkNHJRReykH9lqanr5cG44YTVfcb1Kv5DzOuUg&oe=68DE63BC&efg=eyJ2ZW5jb2RlX3RhZyI6Inhwdl9wcm9ncmVzc2l2ZS5WSV9VU0VDQVNFX1BST0RVQ1RfVFlQRS4uQzIuMzYwLnN2ZV9zZCIsInhwdl9hc3NldF9pZCI6NjE1MjQ0NTM3NjU3NTM1LCJ2aV91c2VjYXNlX2lkIjoxMDc5OSwiZHVyYXRpb25fcyI6MjUsInVybGdlbl9zb3VyY2UiOiJ3d3cifQ%3D%3D&ccb=17-1&_nc_gid=GhKkK14hcMwTSaq03N99Xg&_nc_zt=28&oh=00_AfZgo4YZtkNHJRReykH9lqanr5cG44YTVfcb1Kv5DzOuUg&oe=68DE63BC',
+      hasVideo: true,
+      platforms: [
+        { name: 'Facebook', icon: 'FacebookIcon' },
+        { name: 'Instagram', icon: 'InstagramIcon' },
+        { name: 'Threads', icon: 'ThreadsIcon' }
+      ]
     },
     {
       id: '2',
@@ -91,7 +96,11 @@ export default function HomePage() {
       spend: 0,
       isNew: true,
       mediaUrl: 'https://images.unsplash.com/photo-1556228453-efd6c1ff04f6?w=400&h=300&fit=crop',
-      hasVideo: false
+      hasVideo: false,
+      platforms: [
+        { name: 'Facebook', icon: 'FacebookIcon' },
+        { name: 'Instagram', icon: 'InstagramIcon' }
+      ]
     },
     {
       id: '3',
@@ -103,7 +112,10 @@ export default function HomePage() {
       spend: 0.6,
       isNew: true,
       mediaUrl: 'https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=400&h=300&fit=crop',
-      hasVideo: false
+      hasVideo: false,
+      platforms: [
+        { name: 'Facebook', icon: 'FacebookIcon' }
+      ]
     },
     {
       id: '4',
@@ -115,7 +127,11 @@ export default function HomePage() {
       spend: 3.6,
       isNew: true,
       mediaUrl: 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400&h=300&fit=crop',
-      hasVideo: true
+      hasVideo: true,
+      platforms: [
+        { name: 'Instagram', icon: 'InstagramIcon' },
+        { name: 'Threads', icon: 'ThreadsIcon' }
+      ]
     },
     {
       id: '5',
@@ -127,7 +143,11 @@ export default function HomePage() {
       spend: 0,
       isNew: true,
       mediaUrl: 'https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=400&h=300&fit=crop',
-      hasVideo: false
+      hasVideo: false,
+      platforms: [
+        { name: 'Facebook', icon: 'FacebookIcon' },
+        { name: 'Instagram', icon: 'InstagramIcon' }
+      ]
     },
     {
       id: '6',
@@ -139,7 +159,10 @@ export default function HomePage() {
       spend: 0.1,
       isNew: true,
       mediaUrl: 'https://images.unsplash.com/photo-1573408301185-9146fe634ad0?w=400&h=300&fit=crop',
-      hasVideo: true
+      hasVideo: true,
+      platforms: [
+        { name: 'Instagram', icon: 'InstagramIcon' }
+      ]
     },
     {
       id: '7',
@@ -151,7 +174,11 @@ export default function HomePage() {
       spend: 0.2,
       isNew: true,
       mediaUrl: 'https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=400&h=300&fit=crop',
-      hasVideo: true
+      hasVideo: true,
+      platforms: [
+        { name: 'Facebook', icon: 'FacebookIcon' },
+        { name: 'Threads', icon: 'ThreadsIcon' }
+      ]
     },
     {
       id: '8',
@@ -163,7 +190,12 @@ export default function HomePage() {
       spend: 3.5,
       isNew: true,
       mediaUrl: 'https://images.unsplash.com/photo-1509631179647-0177331693ae?w=400&h=300&fit=crop',
-      hasVideo: false
+      hasVideo: false,
+      platforms: [
+        { name: 'Facebook', icon: 'FacebookIcon' },
+        { name: 'Instagram', icon: 'InstagramIcon' },
+        { name: 'Threads', icon: 'ThreadsIcon' }
+      ]
     },
     {
       id: '9',
@@ -175,7 +207,10 @@ export default function HomePage() {
       spend: 5.8,
       isNew: true,
       mediaUrl: 'https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=400&h=300&fit=crop',
-      hasVideo: true
+      hasVideo: true,
+      platforms: [
+        { name: 'Instagram', icon: 'InstagramIcon' }
+      ]
     },
     {
       id: '10',
@@ -187,7 +222,10 @@ export default function HomePage() {
       spend: 0.3,
       isNew: true,
       mediaUrl: 'https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?w=400&h=300&fit=crop',
-      hasVideo: false
+      hasVideo: false,
+      platforms: [
+        { name: 'Facebook', icon: 'FacebookIcon' }
+      ]
     },
     {
       id: '11',
@@ -199,7 +237,11 @@ export default function HomePage() {
       spend: 41.2,
       isNew: true,
       mediaUrl: 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400&h=300&fit=crop',
-      hasVideo: true
+      hasVideo: true,
+      platforms: [
+        { name: 'Facebook', icon: 'FacebookIcon' },
+        { name: 'Instagram', icon: 'InstagramIcon' }
+      ]
     },
     {
       id: '12',
@@ -211,7 +253,11 @@ export default function HomePage() {
       spend: 3.2,
       isNew: true,
       mediaUrl: 'https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=400&h=300&fit=crop',
-      hasVideo: true
+      hasVideo: true,
+      platforms: [
+        { name: 'Instagram', icon: 'InstagramIcon' },
+        { name: 'Threads', icon: 'ThreadsIcon' }
+      ]
     },
     {
       id: '13',
@@ -223,7 +269,12 @@ export default function HomePage() {
       spend: 7.8,
       isNew: true,
       mediaUrl: 'https://images.unsplash.com/photo-1556228578-8c89e6adf883?w=400&h=300&fit=crop',
-      hasVideo: true
+      hasVideo: true,
+      platforms: [
+        { name: 'Facebook', icon: 'FacebookIcon' },
+        { name: 'Instagram', icon: 'InstagramIcon' },
+        { name: 'Threads', icon: 'ThreadsIcon' }
+      ]
     },
     {
       id: '14',
@@ -235,7 +286,10 @@ export default function HomePage() {
       spend: 1.5,
       isNew: true,
       mediaUrl: 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400&h=300&fit=crop',
-      hasVideo: false
+      hasVideo: false,
+      platforms: [
+        { name: 'Facebook', icon: 'FacebookIcon' }
+      ]
     },
     {
       id: '15',
@@ -247,7 +301,11 @@ export default function HomePage() {
       spend: 5.4,
       isNew: true,
       mediaUrl: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&h=300&fit=crop',
-      hasVideo: true
+      hasVideo: true,
+      platforms: [
+        { name: 'Instagram', icon: 'InstagramIcon' },
+        { name: 'Threads', icon: 'ThreadsIcon' }
+      ]
     },
     {
       id: '16',
@@ -259,7 +317,11 @@ export default function HomePage() {
       spend: 2.9,
       isNew: true,
       mediaUrl: 'https://images.unsplash.com/photo-1445205170230-053b83016050?w=400&h=300&fit=crop',
-      hasVideo: false
+      hasVideo: false,
+      platforms: [
+        { name: 'Facebook', icon: 'FacebookIcon' },
+        { name: 'Instagram', icon: 'InstagramIcon' }
+      ]
     },
     {
       id: '17',
@@ -271,7 +333,10 @@ export default function HomePage() {
       spend: 4.1,
       isNew: true,
       mediaUrl: 'https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=400&h=300&fit=crop',
-      hasVideo: true
+      hasVideo: true,
+      platforms: [
+        { name: 'Facebook', icon: 'FacebookIcon' }
+      ]
     },
     {
       id: '18',
@@ -283,7 +348,11 @@ export default function HomePage() {
       spend: 12.3,
       isNew: true,
       mediaUrl: 'https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=400&h=300&fit=crop',
-      hasVideo: true
+      hasVideo: true,
+      platforms: [
+        { name: 'Instagram', icon: 'InstagramIcon' },
+        { name: 'Threads', icon: 'ThreadsIcon' }
+      ]
     },
     {
       id: '19',
@@ -295,7 +364,11 @@ export default function HomePage() {
       spend: 8.7,
       isNew: true,
       mediaUrl: 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400&h=300&fit=crop',
-      hasVideo: false
+      hasVideo: false,
+      platforms: [
+        { name: 'Facebook', icon: 'FacebookIcon' },
+        { name: 'Instagram', icon: 'InstagramIcon' }
+      ]
     },
     {
       id: '20',
@@ -307,7 +380,12 @@ export default function HomePage() {
       spend: 9.8,
       isNew: true,
       mediaUrl: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=400&h=300&fit=crop',
-      hasVideo: true
+      hasVideo: true,
+      platforms: [
+        { name: 'Facebook', icon: 'FacebookIcon' },
+        { name: 'Instagram', icon: 'InstagramIcon' },
+        { name: 'Threads', icon: 'ThreadsIcon' }
+      ]
     }
   ];
   return (
