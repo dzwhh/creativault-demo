@@ -1,5 +1,8 @@
 'use client';
 
+import { useState } from 'react';
+import { AdDetail } from '@/components/ad-detail';
+
 // Home页面专用的广告卡片组件
 interface HomeAdCardProps {
   ad: {
@@ -22,8 +25,22 @@ interface HomeAdCardProps {
 }
 
 export const HomeAdCard = ({ ad, rank }: HomeAdCardProps) => {
+  const [isDetailOpen, setIsDetailOpen] = useState(false);
+
+  const handleCardClick = () => {
+    setIsDetailOpen(true);
+  };
+
+  const handleCloseDetail = () => {
+    setIsDetailOpen(false);
+  };
+
   return (
-    <div className="bg-white rounded-lg border border-slate-200 overflow-hidden hover:shadow-lg transition-shadow cursor-pointer group">
+    <>
+      <div 
+        className="bg-white rounded-lg border border-slate-200 overflow-hidden hover:shadow-lg transition-shadow cursor-pointer group"
+        onClick={handleCardClick}
+      >
       {/* Image/Video Container */}
       <div className="relative aspect-[4/3] overflow-hidden">
         <img
@@ -85,5 +102,14 @@ export const HomeAdCard = ({ ad, rank }: HomeAdCardProps) => {
         <p className="text-xs text-slate-500">Published on: {ad.publishedDate}</p>
       </div>
     </div>
+    
+    {/* Ad Detail Modal */}
+    {isDetailOpen && (
+      <AdDetail 
+        ad={ad} 
+        onClose={handleCloseDetail} 
+      />
+    )}
+  </>
   );
 };

@@ -43,6 +43,8 @@ export {
   BellIcon,
   LogOutIcon,
   MagicWandIcon,
+  SearchIcon,
+  FilterIcon,
 } from './system-icons';
 
 // 平台图标
@@ -51,6 +53,11 @@ export {
   TikTokIcon,
   GoogleIcon,
   SnapchatIcon,
+  FacebookIcon,
+  InstagramIcon,
+  ThreadsIcon,
+  YoutubeIcon,
+  PinterestIcon,
 } from './platform-icons';
 
 // 首页图标

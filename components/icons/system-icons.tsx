@@ -125,3 +125,16 @@ export const MagicWandIcon = ({ size = 16, className = '' }: IconProps) => (
     </g>
   </svg>
 );
+
+export const SearchIcon = ({ size = 16, className = '' }: IconProps) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className={className}>
+    <circle cx="11" cy="11" r="8"/>
+    <path d="m21 21-4.35-4.35"/>
+  </svg>
+);
+
+export const FilterIcon = ({ size = 16, className = '' }: IconProps) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className={className}>
+    <polygon points="22,3 2,3 10,12.46 10,19 14,21 14,12.46"/>
+  </svg>
+);

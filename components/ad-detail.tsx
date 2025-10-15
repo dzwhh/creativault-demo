@@ -70,7 +70,7 @@ export function AdDetail({ ad, onClose }: AdDetailProps) {
                   <div className="flex-shrink-0">
                     <img 
                       src="https://scontent-hkg4-2.xx.fbcdn.net/v/t39.30808-1/347597223_1204398296890416_6052718175499379768_n.jpg?stp=dst-jpg_s148x148_tt6&_nc_cat=1&ccb=1-7&_nc_sid=418b77&_nc_ohc=TE9bld0Z6NMQ7kNvwGBRdTg&_nc_oc=AdnO7pFpftapnb6XUIwgbFDntaQuCppVGkUeLVuZBmaV_k8XEJ_JKTy63eh1zrJWe_A&_nc_zt=24&_nc_ht=scontent-hkg4-2.xx&_nc_gid=UwS_OcoM-K2Z2XNx7rCs7w&oh=00_AfbXBqQ0zYdx27AuGm4svDcDR7btYHISPEvSx9XERkFi1g&oe=68DE772A"
-                      alt="Mixtiles"
+                      alt={ad.title}
                       className="w-12 h-12 rounded-full object-cover"
                     />
                   </div>
@@ -78,7 +78,7 @@ export function AdDetail({ ad, onClose }: AdDetailProps) {
                   {/* 广告主信息 */}
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-1 mb-1">
-                      <h5 className="text-sm font-semibold text-gray-900 truncate">Mixtiles</h5>
+                      <h5 className="text-sm font-semibold text-gray-900 truncate">{ad.title}</h5>
                       
                     </div>
                     
@@ -151,12 +151,12 @@ export function AdDetail({ ad, onClose }: AdDetailProps) {
               <div className="mb-2">
                 {/* 主标题 */}
                 <div className="mb-1">
-                  <h3 className="text-xl font-semibold text-gray-900">Les cadres photos repositionnables 💕</h3>
+                  <h3 className="text-xl font-semibold text-gray-900">{ad.headline || 'Amazing Product - Limited Time Offer!'}</h3>
                 </div>
                 
                 {/* 子标题 */}
                 <div className="mb-2">
-                  <p className="text-base text-gray-500">Commandez le votre des aujourdhui</p>
+                  <p className="text-base text-gray-500">{ad.primaryText || 'Discover the incredible benefits of our product. Don\'t miss out on this exclusive deal.'}</p>
                 </div>
               </div>
               
@@ -166,7 +166,7 @@ export function AdDetail({ ad, onClose }: AdDetailProps) {
                 <h4 className="text-lg font-medium text-gray-800 mb-3">Information</h4>
                 
                 {/* 信息卡片 - 带阴影 */}
-                <div className="bg-white rounded-lg shadow-sm border border-gray-200">
+                <div className="bg-white rounded-lg border border-gray-200" style={{ boxShadow: '0 1px 3px 0 rgba(0, 0, 0, 0.1)' }}>
                   <div className="p-4 space-y-2">
                   {/* Platform */}
                   {ad.platforms && ad.platforms.length > 0 && (
@@ -364,15 +364,7 @@ export function AdDetail({ ad, onClose }: AdDetailProps) {
                           isDescriptionExpanded ? 'max-h-none' : 'max-h-12'
                         }`}>
                           <p>
-                            Transformez votre intérieur en moins de 5 minutes✨ Facile à coller, à enlever et à recoller 💕
-                            🎁 Perdez du poids et réduisez le stress avec la bague intelligente qui associe acupression et thérapie magnétique ! 
-• Favorise l'aide à la perte de poids
-• Stimulez naturellement votre énergie
-• Réduisez stress et anxiété
-• Réduisez vos ronflements nocturnes
-• Améliorez circulation & équilibre
-✓ 100%  SATISFAIT ou REMBOURSÉ pendant 180 jours !
- Portez-la en toute confiance : design épuré au service de votre santé !
+                            {ad.primaryText || 'Discover the incredible benefits of our product. Transform your space in under 5 minutes✨ Easy to apply, remove, and reposition 💕 Don\'t miss out on this exclusive deal. Order now and save up to 50%! ✓ 100% SATISFACTION GUARANTEED for 180 days!'}
                           </p>
                         </div>
                         
@@ -405,7 +397,7 @@ export function AdDetail({ ad, onClose }: AdDetailProps) {
                 <h4 className="text-lg font-medium text-gray-800 mb-3">Performance</h4>
                 
                 {/* Performance 卡片 */}
-                <div className="bg-white rounded-lg shadow-sm border border-gray-200">
+                <div className="bg-white rounded-lg border border-gray-200" style={{ boxShadow: '0 1px 3px 0 rgba(0, 0, 0, 0.1)' }}>
                   {/* Tab 切换 */}
                   <div className="border-b border-gray-200">
                     <nav className="flex" aria-label="Tabs">
@@ -579,7 +571,7 @@ export function AdDetail({ ad, onClose }: AdDetailProps) {
                 <h4 className="text-lg font-medium text-gray-800 mb-3">Analysis</h4>
                 
                 {/* Analysis 卡片 */}
-                <div className="bg-white rounded-lg shadow-sm border border-gray-200">
+                <div className="bg-white rounded-lg border border-gray-200" style={{ boxShadow: '0 1px 3px 0 rgba(0, 0, 0, 0.1)' }}>
                   <div className="p-4 space-y-6">
                     {/* Base Info & Core Tags 部分 */}
                     <div>

@@ -78,8 +78,8 @@ export default function HomePage() {
       likes: 229,
       spend: 3.9,
       isNew: true,
-      mediaUrl: 'https://video-hkg4-1.xx.fbcdn.net/o1/v/t2/f2/m69/AQN8qJuYD5HGY9nPcW63_YbhrmFM6vo3Enqu5o_HgKbU2tF6qyHpNnblwU8uPdZWBsExKgVC8Rl5bF4q-zKcEgIN.mp4?strext=1&_nc_cat=106&_nc_sid=8bf8fe&_nc_ht=video-hkg4-1.xx.fbcdn.net&_nc_ohc=https://video-hkg4-1.xx.fbcdn.net/o1/v/t2/f2/m69/AQN8qJuYD5HGY9nPcW63_YbhrmFM6vo3Enqu5o_HgKbU2tF6qyHpNnblwU8uPdZWBsExKgVC8Rl5bF4q-zKcEgIN.mp4?strext=1&_nc_cat=106&_nc_sid=8bf8fe&_nc_ht=video-hkg4-1.xx.fbcdn.net&_nc_ohc=B24_tuzt3ysQ7kNvwGOgOVW&efg=eyJ2ZW5jb2RlX3RhZyI6Inhwdl9wcm9ncmVzc2l2ZS5WSV9VU0VDQVNFX1BST0RVQ1RfVFlQRS4uQzIuMzYwLnN2ZV9zZCIsInhwdl9hc3NldF9pZCI6NjE1MjQ0NTM3NjU3NTM1LCJ2aV91c2VjYXNlX2lkIjoxMDc5OSwiZHVyYXRpb25fcyI6MjUsInVybGdlbl9zb3VyY2UiOiJ3d3cifQ%3D%3D&ccb=17-1&_nc_gid=GhKkK14hcMwTSaq03N99Xg&_nc_zt=28&oh=00_AfZgo4YZtkNHJRReykH9lqanr5cG44YTVfcb1Kv5DzOuUg&oe=68DE63BC&efg=eyJ2ZW5jb2RlX3RhZyI6Inhwdl9wcm9ncmVzc2l2ZS5WSV9VU0VDQVNFX1BST0RVQ1RfVFlQRS4uQzIuMzYwLnN2ZV9zZCIsInhwdl9hc3NldF9pZCI6NjE1MjQ0NTM3NjU3NTM1LCJ2aV91c2VjYXNlX2lkIjoxMDc5OSwiZHVyYXRpb25fcyI6MjUsInVybGdlbl9zb3VyY2UiOiJ3d3cifQ%3D%3D&ccb=17-1&_nc_gid=GhKkK14hcMwTSaq03N99Xg&_nc_zt=28&oh=00_AfZgo4YZtkNHJRReykH9lqanr5cG44YTVfcb1Kv5DzOuUg&oe=68DE63BC',
-      hasVideo: true,
+      mediaUrl: 'https://optimization-cdn.minea.com/minea-ads-media/lib_1329204472105376_52535667644af517005f381ade2bc116167a070e.jpg?format=auto&quality=75&width=256ad',
+      hasVideo: false,
       platforms: [
         { name: 'Facebook', icon: 'FacebookIcon' },
         { name: 'Instagram', icon: 'InstagramIcon' },
