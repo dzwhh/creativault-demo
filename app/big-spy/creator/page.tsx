@@ -8,6 +8,7 @@ import { Badge } from '@/components/ui/badge';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Slider } from '@/components/ui/slider';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import CreatorDetail from './creator-detail';
 
 interface Creator {
   id: string;
@@ -715,6 +716,7 @@ export default function CreatorPage() {
   const [selectedCreator, setSelectedCreator] = useState<Creator | null>(null);
   const [loading, setLoading] = useState(true);
   const [selectedPlatforms, setSelectedPlatforms] = useState<string[]>(['instagram', 'youtube', 'tiktok']);
+  const [showDetail, setShowDetail] = useState(false);
 
   useEffect(() => {
     const fetchCreators = async () => {
@@ -722,9 +724,6 @@ export default function CreatorPage() {
         const response = await fetch('/mock/creators.json');
         const data = await response.json();
         setCreators(data.slice(0, 20)); // 只显示前20个
-        if (data.length > 0) {
-          setSelectedCreator(data[0]);
-        }
       } catch (error) {
         console.error('Failed to fetch creators:', error);
       } finally {
@@ -760,17 +759,10 @@ export default function CreatorPage() {
   return (
     <div className="flex-1 flex flex-col h-full">
       {/* Header */}
-      <div className="shrink-0 border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+      <div className="shrink-0 border-b bg-gray-50 backdrop-blur supports-[backdrop-filter]:bg-gray-50">
         <div className="flex flex-col gap-4 p-6">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <div className="flex items-center justify-center w-10 h-10 rounded-lg bg-sky-500/10">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-sky-600">
-                  <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/>
-                  <circle cx="9" cy="7" r="4"/>
-                  <path d="m22 21-3-3"/>
-                </svg>
-              </div>
               <div>
                 <h1 className="text-2xl font-bold">Find Creators</h1>
                 <p className="text-muted-foreground">Find the right creators in no time and get your content to the right crowd</p>
@@ -789,7 +781,7 @@ export default function CreatorPage() {
         <CreatorFilter />
         
         {/* Right Creator List */}
-        <div className="flex-1 overflow-hidden">
+        <div className={`${showDetail ? 'flex-1' : 'flex-1'} overflow-hidden`}>
           {/* Search Bar and Shortlist - 移到右侧列表最上方 */}
           <div className="border-b bg-white p-4">
             <div className="flex items-center gap-4">
@@ -818,13 +810,24 @@ export default function CreatorPage() {
                   key={creator.id}
                   creator={creator}
                   isSelected={selectedCreator?.id === creator.id}
-                  onClick={() => setSelectedCreator(creator)}
+                  onClick={() => {
+                    setSelectedCreator(creator);
+                    setShowDetail(true);
+                  }}
                 />
               ))}
             </div>
           </div>
         </div>
       </div>
+      
+      {/* Creator Detail Modal - 模态窗口模式 */}
+      {showDetail && selectedCreator && (
+        <CreatorDetail
+          creator={selectedCreator}
+          onClose={() => setShowDetail(false)}
+        />
+      )}
     </div>
   );
 }
