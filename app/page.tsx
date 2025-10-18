@@ -406,7 +406,7 @@ export default function HomePage() {
             </span>
           </h1>
           <Link
-            href="/profile/favorites"
+            href="/my/favorites"
             className="flex items-center gap-1.5 px-3 py-1.5 bg-white text-black border border-gray-300 rounded-md hover:bg-gray-50 transition-colors text-sm font-semibold"
           >
             <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
@@ -415,7 +415,7 @@ export default function HomePage() {
             My Favorites
           </Link>
         </div>
-        <p className="text-muted-foreground text-sm">
+        <p className="text-muted-foreground text-md">
           Explore advertising, product, creator, app and creative growth opportunities through multi-dimensional data and intelligent analysis.
         </p>
       </section>

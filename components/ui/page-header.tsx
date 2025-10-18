@@ -18,7 +18,7 @@ export function PageHeader({ title, description, className = "", tabs, actions }
           </h1>
           {actions}
         </div>
-        <p className="text-lg text-muted-foreground">
+        <p className="text-md text-muted-foreground">
           {description}
         </p>
       </div>

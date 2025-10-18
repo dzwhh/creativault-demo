@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { NormalDetail } from '@/components/normal-detail';
 import { FacebookIcon, InstagramIcon, ThreadsIcon } from '@/components/icons/platform-icons';
+import { SaveToBrandModal } from '@/components/save-to-brand-modal';
 
 interface AdDetailProps {
   ad: any;
@@ -10,9 +11,16 @@ interface AdDetailProps {
 }
 
 export function AdDetail({ ad, onClose }: AdDetailProps) {
+  const [isBrandModalOpen, setIsBrandModalOpen] = useState(false);
   const detailRef = useRef<HTMLDivElement>(null);
   const [isDescriptionExpanded, setIsDescriptionExpanded] = useState(false);
   const [activePerformanceTab, setActivePerformanceTab] = useState('CPM');
+
+  // Handle Brand Tracking Confirm
+  const handleSaveToBrand = (folderId: string, folderName?: string) => {
+    console.log('Adding brand to tracking:', { ad, folderId, folderName });
+    alert(`Successfully added "${ad.title}" to brand tracking folder: ${folderName || 'folder'}!`);
+  };
 
   // 获取平台图标组件
   const getPlatformIcon = (iconName: string) => {
@@ -58,7 +66,7 @@ export function AdDetail({ ad, onClose }: AdDetailProps) {
       >
         
         {/* NormalDetail 组件包装，保持顶部标题栏 */}
-        <NormalDetail title="Ad Details">
+        <NormalDetail title="Ad Details" detailType="ads">
           {/* 下方左右分栏布局 */}
           <div className="flex gap-6 h-full">
             {/* 左侧媒体区域 - 9:16 竖屏比例，置顶对齐 */}
@@ -139,6 +147,19 @@ export function AdDetail({ ad, onClose }: AdDetailProps) {
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                   </svg>
                   Download
+                </button>
+              </div>
+              
+              {/* Brand Tracking 按钮 - 与上方按钮两端对齐 */}
+              <div className="mt-3 w-full max-w-xs">
+                <button 
+                  onClick={() => setIsBrandModalOpen(true)}
+                  className="w-full flex items-center justify-center gap-2 px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-purple-50 hover:border-purple-500 hover:text-purple-600 transition-colors"
+                >
+                  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                  </svg>
+                  Brand Tracking
                 </button>
               </div>
               
@@ -850,6 +871,13 @@ export function AdDetail({ ad, onClose }: AdDetailProps) {
           </div>
         </NormalDetail>
       </div>
+
+      {/* Brand Tracking Modal */}
+      <SaveToBrandModal
+        isOpen={isBrandModalOpen}
+        onClose={() => setIsBrandModalOpen(false)}
+        onSave={handleSaveToBrand}
+      />
     </>
   );
 }

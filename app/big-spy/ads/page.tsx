@@ -5,6 +5,7 @@ import { AdsList } from './ads-list';
 import { AdsFilters } from './ads-filters';
 import { MetaIcon, TikTokIcon, GoogleIcon } from '@/components/icons';
 import { PageHeader } from '@/components/ui/page-header';
+import { WatchTutorialButton } from '@/components/ui/watch-tutorial-button';
 
 // 创建缺失的图标
 const PinterestIcon = ({ size = 16, className = '' }: { size?: number; className?: string }) => (
@@ -60,17 +61,7 @@ export default function AdsPage({ searchParams }: PageProps) {
         title="Ads Library"
         description="Explore over 100M high-performing ads from Meta, TikTok, and Google to discover winning products."
         className="relative"
-        actions={
-          <button 
-            onClick={handleWatchTutorial}
-            className="flex items-center gap-1.5 px-3 py-1.5 bg-white text-black border border-gray-300 rounded-md hover:bg-gray-50 transition-colors text-sm font-semibold"
-          >
-            <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
-              <path d="M8 6.82v10.36c0 .79.87 1.27 1.54.84l8.14-5.18c.62-.39.62-1.29 0-1.69L9.54 5.98C8.87 5.55 8 6.03 8 6.82z"/>
-            </svg>
-            Watch tutorial
-          </button>
-        }
+        actions={<WatchTutorialButton onClick={handleWatchTutorial} />}
         tabs={
           <div className="px-8 pb-0">
             <div className="flex gap-0">

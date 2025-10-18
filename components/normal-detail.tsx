@@ -2,14 +2,17 @@
 
 import { useState, useRef, useEffect } from 'react';
 import { cn } from '@/lib/utils';
+import { SaveToFavoritesModal } from '@/components/save-to-favorites-modal';
 
 interface NormalDetailProps {
   title?: string;
   children: React.ReactNode;
+  detailType?: 'ads' | 'creative' | 'products' | 'creator';
 }
 
-export function NormalDetail({ title = 'Detail', children }: NormalDetailProps) {
+export function NormalDetail({ title = 'Detail', children, detailType = 'ads' }: NormalDetailProps) {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [isSaveModalOpen, setIsSaveModalOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   // 点击外部关闭下拉菜单
@@ -63,8 +66,15 @@ export function NormalDetail({ title = 'Detail', children }: NormalDetailProps) 
 
   // 保存页面信息
   const handleSavePage = () => {
-    // 这里可以实现具体的保存逻辑
-    console.log('Save page clicked');
+    setIsSaveModalOpen(true);
+  };
+
+  // 处理保存到收藏
+  const handleSaveToFavorites = (category: string, folderId: string, folderName?: string) => {
+    console.log('Saving to favorites:', { category, folderId, folderName });
+    // TODO: 实现保存逻辑，调用 API 等
+    // 显示成功提示
+    alert(`Successfully saved to ${folderName || 'folder'} in ${category}!`);
   };
 
   return (
@@ -188,6 +198,14 @@ export function NormalDetail({ title = 'Detail', children }: NormalDetailProps) 
       <div className="flex-1 overflow-auto p-4">
         {children}
       </div>
+
+      {/* Save to Favorites Modal */}
+      <SaveToFavoritesModal
+        isOpen={isSaveModalOpen}
+        onClose={() => setIsSaveModalOpen(false)}
+        onSave={handleSaveToFavorites}
+        defaultCategory={detailType}
+      />
     </div>
   );
 }

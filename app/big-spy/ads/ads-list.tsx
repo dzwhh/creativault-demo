@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import { Ad } from '@/lib/types';
 import { AdDetail } from '@/components/ad-detail';
+import { SaveToFavoritesModal } from '@/components/save-to-favorites-modal';
 
 interface AdsListProps {
   searchParams: { [key: string]: string | string[] | undefined };
@@ -335,12 +336,12 @@ interface AdCardProps {
     platforms?: Array<{
       name: string;
       icon: string;
-    }>;
-  };
+    }>;  };
   onClick: (ad: any) => void;
+  onSave: (ad: any) => void;
 }
 
-const AdCard = ({ ad, onClick }: AdCardProps) => {
+const AdCard = ({ ad, onClick, onSave }: AdCardProps) => {
   return (
     <div 
       className="bg-white rounded-lg border border-slate-200 overflow-hidden hover:shadow-lg transition-shadow cursor-pointer group"
@@ -395,11 +396,33 @@ const AdCard = ({ ad, onClick }: AdCardProps) => {
       
       {/* Content */}
       <div className="p-4">
-        <h3 className="font-medium text-sm text-slate-900 mb-1 line-clamp-1">
-          {ad.title}
-        </h3>
-        <p className="text-xs text-slate-600 mb-2">{ad.domain}</p>
-        <p className="text-xs text-slate-500">Published on: {ad.publishedDate}</p>
+        <div className="flex items-start justify-between gap-2 mb-3">
+          <div className="flex-1 min-w-0">
+            <h3 className="font-medium text-sm text-slate-900 mb-1 line-clamp-1">
+              {ad.title}
+            </h3>
+            <p className="text-xs text-slate-600 mb-1">{ad.domain}</p>
+            <p className="text-xs text-slate-500">Published on: {ad.publishedDate}</p>
+          </div>
+          
+          {/* Action Buttons - Vertical Stack */}
+          <div className="flex flex-col gap-1.5 flex-shrink-0">
+            {/* Save Button */}
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                onSave(ad);
+              }}
+              className="flex items-center gap-1.5 px-2.5 py-1.5 text-xs font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-blue-50 hover:border-blue-500 hover:text-blue-600 transition-colors"
+              title="Save to Favorites"
+            >
+              <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z" />
+              </svg>
+              <span>Save</span>
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   );
@@ -410,6 +433,8 @@ export function AdsList({ searchParams }: AdsListProps) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [selectedAd, setSelectedAd] = useState<any | null>(null);
+  const [isSaveModalOpen, setIsSaveModalOpen] = useState(false);
+  const [currentAdForAction, setCurrentAdForAction] = useState<any | null>(null);
 
   useEffect(() => {
     // 模拟加载
@@ -420,6 +445,18 @@ export function AdsList({ searchParams }: AdsListProps) {
     
     return () => clearTimeout(timer);
   }, [searchParams]);
+
+  // Handle Save to Favorites
+  const handleSave = (ad: any) => {
+    setCurrentAdForAction(ad);
+    setIsSaveModalOpen(true);
+  };
+
+  // Handle Save to Favorites Confirm
+  const handleSaveToFavorites = (category: string, folderId: string, folderName?: string) => {
+    console.log('Saving ad to favorites:', { ad: currentAdForAction, category, folderId, folderName });
+    alert(`Successfully saved "${currentAdForAction?.title}" to ${folderName || 'folder'} in ${category}!`);
+  };
 
   if (loading) {
     return (
@@ -468,7 +505,12 @@ export function AdsList({ searchParams }: AdsListProps) {
     <div className="relative">
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
         {ads.map((ad) => (
-          <AdCard key={ad.id} ad={ad} onClick={() => setSelectedAd(ad)} />
+          <AdCard 
+            key={ad.id} 
+            ad={ad} 
+            onClick={() => setSelectedAd(ad)}
+            onSave={handleSave}
+          />
         ))}
       </div>
       
@@ -480,6 +522,13 @@ export function AdsList({ searchParams }: AdsListProps) {
         />
       )}
 
+      {/* Save to Favorites Modal */}
+      <SaveToFavoritesModal
+        isOpen={isSaveModalOpen}
+        onClose={() => setIsSaveModalOpen(false)}
+        onSave={handleSaveToFavorites}
+        defaultCategory="ads"
+      />
     </div>
   );
 }

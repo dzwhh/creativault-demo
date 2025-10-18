@@ -5,9 +5,8 @@ import { SearchIcon, FilterIcon, UsersIcon, TikTokIcon, InstagramIcon, YoutubeIc
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Checkbox } from '@/components/ui/checkbox';
-import { Slider } from '@/components/ui/slider';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { WatchTutorialButton } from '@/components/ui/watch-tutorial-button';
+import { CreatorFilters } from './creator-filters';
 import CreatorDetail from './creator-detail';
 
 interface Creator {
@@ -82,395 +81,9 @@ const getIndustryIcon = (industry: string): string => {
   return icons[industry] || '🏷️';
 };
 
-const CreatorFilter = () => {
-  const [expandedSections, setExpandedSections] = useState({
-    platform: false,
-    countries: false,
-    industry: false,
-    followers: false,
-    gender: false,
-    language: false,
-    ecommerce: false,
-    engagement: false,
-    audienceGender: false,
-    audienceLocation: false,
-    ageRange: false
-  });
+interface CreatorRowCardProps {
 
-  const toggleSection = (section: string) => {
-    setExpandedSections(prev => ({
-      ...prev,
-      [section]: !prev[section as keyof typeof prev]
-    }));
-  };
-
-  return (
-    <div className="w-64 bg-white border-r border-gray-200 h-full overflow-y-auto flex-shrink-0">
-      <div className="p-4">
-        <h2 className="text-lg font-medium text-gray-900 mb-6">Filters</h2>
-        
-        {/* Creator Filters */}
-        <div className="space-y-2">
-          {/* Platform */}
-          <div>
-            <button
-              onClick={() => toggleSection('platform')}
-              className="flex items-center justify-between w-full py-2 text-sm font-medium text-gray-700 hover:text-gray-900"
-            >
-              <div className="flex items-center gap-2">
-                <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/>
-                  <line x1="8" y1="21" x2="16" y2="21"/>
-                  <line x1="12" y1="17" x2="12" y2="21"/>
-                </svg>
-                Platform
-              </div>
-              <ChevronDownIcon 
-                className={`w-4 h-4 text-gray-500 transform transition-transform ${
-                  expandedSections.platform ? 'rotate-180' : ''
-                }`} 
-              />
-            </button>
-            {expandedSections.platform && (
-              <div className="ml-6 space-y-2 mt-2">
-                <div className="flex items-center space-x-2">
-                  <Checkbox id="youtube" />
-                  <YoutubeIcon className="w-4 h-4" />
-                  <label htmlFor="youtube" className="text-sm text-gray-600">YouTube</label>
-                </div>
-                <div className="flex items-center space-x-2">
-                  <Checkbox id="tiktok" />
-                  <TikTokIcon className="w-4 h-4" />
-                  <label htmlFor="tiktok" className="text-sm text-gray-600">TikTok</label>
-                </div>
-                <div className="flex items-center space-x-2">
-                  <Checkbox id="instagram" />
-                  <InstagramIcon className="w-4 h-4" />
-                  <label htmlFor="instagram" className="text-sm text-gray-600">Instagram</label>
-                </div>
-              </div>
-            )}
-          </div>
-
-          {/* Countries */}
-          <div>
-            <button
-              onClick={() => toggleSection('countries')}
-              className="flex items-center justify-between w-full py-2 text-sm font-medium text-gray-700 hover:text-gray-900"
-            >
-              <div className="flex items-center gap-2">
-                <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <circle cx="12" cy="12" r="10"/>
-                  <line x1="2" y1="12" x2="22" y2="12"/>
-                  <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
-                </svg>
-                Countries
-              </div>
-              <ChevronDownIcon 
-                className={`w-4 h-4 text-gray-500 transform transition-transform ${
-                  expandedSections.countries ? 'rotate-180' : ''
-                }`} 
-              />
-            </button>
-            {expandedSections.countries && (
-              <div className="ml-6 mt-2">
-                <Select>
-                  <SelectTrigger className="w-full h-8">
-                    <SelectValue placeholder="Select countries" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="us">🇺🇸 United States</SelectItem>
-                    <SelectItem value="ca">🇨🇦 Canada</SelectItem>
-                    <SelectItem value="gb">🇬🇧 United Kingdom</SelectItem>
-                    <SelectItem value="kr">🇰🇷 South Korea</SelectItem>
-                    <SelectItem value="jp">🇯🇵 Japan</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-            )}
-          </div>
-
-          {/* Industry */}
-          <div>
-            <button
-              onClick={() => toggleSection('industry')}
-              className="flex items-center justify-between w-full py-2 text-sm font-medium text-gray-700 hover:text-gray-900"
-            >
-              <div className="flex items-center gap-2">
-                <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <path d="M12 2L2 7l10 5 10-5-10-5z"/>
-                  <path d="M2 17l10 5 10-5"/>
-                  <path d="M2 12l10 5 10-5"/>
-                </svg>
-                Industry
-              </div>
-              <ChevronDownIcon 
-                className={`w-4 h-4 text-gray-500 transform transition-transform ${
-                  expandedSections.industry ? 'rotate-180' : ''
-                }`} 
-              />
-            </button>
-            {expandedSections.industry && (
-              <div className="ml-6 space-y-2 mt-2">
-                <div className="flex items-center space-x-2">
-                  <Checkbox id="fashion" />
-                  <label htmlFor="fashion" className="text-sm text-gray-600">Fashion</label>
-                </div>
-                <div className="flex items-center space-x-2">
-                  <Checkbox id="beauty" />
-                  <label htmlFor="beauty" className="text-sm text-gray-600">Beauty</label>
-                </div>
-                <div className="flex items-center space-x-2">
-                  <Checkbox id="tech" />
-                  <label htmlFor="tech" className="text-sm text-gray-600">Tech</label>
-                </div>
-                <div className="flex items-center space-x-2">
-                  <Checkbox id="gaming" />
-                  <label htmlFor="gaming" className="text-sm text-gray-600">Gaming</label>
-                </div>
-              </div>
-            )}
-          </div>
-
-          {/* Followers */}
-          <div>
-            <button
-              onClick={() => toggleSection('followers')}
-              className="flex items-center justify-between w-full py-2 text-sm font-medium text-gray-700 hover:text-gray-900"
-            >
-              <div className="flex items-center gap-2">
-                <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
-                  <circle cx="9" cy="7" r="4"/>
-                  <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
-                  <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
-                </svg>
-                Followers
-              </div>
-              <ChevronDownIcon 
-                className={`w-4 h-4 text-gray-500 transform transition-transform ${
-                  expandedSections.followers ? 'rotate-180' : ''
-                }`} 
-              />
-            </button>
-            {expandedSections.followers && (
-              <div className="ml-6 space-y-2 mt-2">
-                <Slider
-                  defaultValue={[1000, 1000000]}
-                  max={10000000}
-                  min={1000}
-                  step={1000}
-                  className="w-full"
-                />
-                <div className="flex justify-between text-xs text-gray-500">
-                  <span>1K</span>
-                  <span>10M</span>
-                </div>
-              </div>
-            )}
-          </div>
-
-          {/* Gender */}
-          <div>
-            <button
-              onClick={() => toggleSection('gender')}
-              className="flex items-center justify-between w-full py-2 text-sm font-medium text-gray-700 hover:text-gray-900"
-            >
-              <div className="flex items-center gap-2">
-                <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <circle cx="12" cy="12" r="3"/>
-                  <path d="M12 1v6m0 6v6"/>
-                  <path d="M9 9l6 6"/>
-                  <path d="M21 3l-6 6"/>
-                  <path d="M15 3h6v6"/>
-                  <path d="M9 21H3v-6"/>
-                </svg>
-                Gender
-              </div>
-              <ChevronDownIcon 
-                className={`w-4 h-4 text-gray-500 transform transition-transform ${
-                  expandedSections.gender ? 'rotate-180' : ''
-                }`} 
-              />
-            </button>
-            {expandedSections.gender && (
-              <div className="ml-6 space-y-2 mt-2">
-                <div className="flex items-center space-x-2">
-                  <Checkbox id="male" />
-                  <label htmlFor="male" className="text-sm text-gray-600">Male</label>
-                </div>
-                <div className="flex items-center space-x-2">
-                  <Checkbox id="female" />
-                  <label htmlFor="female" className="text-sm text-gray-600">Female</label>
-                </div>
-              </div>
-            )}
-          </div>
-
-          {/* Language */}
-          <div>
-            <div className="flex items-center gap-2 py-2 text-sm font-medium text-gray-700">
-              <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <path d="M5 8l6 6"/>
-                <path d="M4 14l6-6 2-3"/>
-                <path d="M2 5h12"/>
-                <path d="M7 2h1"/>
-                <path d="M22 22l-5-10-5 10"/>
-                <path d="M14 18h6"/>
-              </svg>
-              Language
-            </div>
-            <div className="ml-6">
-              <Select>
-                <SelectTrigger className="w-full h-8">
-                  <SelectValue placeholder="Select language" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="en">English</SelectItem>
-                  <SelectItem value="es">Spanish</SelectItem>
-                  <SelectItem value="fr">French</SelectItem>
-                  <SelectItem value="de">German</SelectItem>
-                  <SelectItem value="zh">Chinese</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-          </div>
-
-          {/* E-commerce */}
-          <div>
-            <div className="flex items-center gap-2 py-2 text-sm font-medium text-gray-700">
-              <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <circle cx="9" cy="21" r="1"/>
-                <circle cx="20" cy="21" r="1"/>
-                <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
-              </svg>
-              E-commerce
-            </div>
-            <div className="ml-6">
-              <div className="flex items-center space-x-2">
-                <Checkbox id="ecommerce" />
-                <label htmlFor="ecommerce" className="text-sm text-gray-600">Has E-commerce</label>
-              </div>
-            </div>
-          </div>
-
-          {/* Engagement Rate */}
-          <div>
-            <div className="flex items-center gap-2 py-2 text-sm font-medium text-gray-700">
-              <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <path d="M18 20V10"/>
-                <path d="M12 20V4"/>
-                <path d="M6 20v-6"/>
-              </svg>
-              Engagement Rate
-            </div>
-            <div className="ml-6 space-y-2">
-              <Slider
-                defaultValue={[1, 10]}
-                max={20}
-                min={0}
-                step={0.1}
-                className="w-full"
-              />
-              <div className="flex justify-between text-xs text-gray-500">
-                <span>0%</span>
-                <span>20%</span>
-              </div>
-            </div>
-          </div>
-
-          {/* Audience Filters */}
-          <div className="border-t border-gray-200 pt-4 mt-6">
-            <h3 className="text-sm font-medium text-gray-500 mb-4">Audience</h3>
-            
-            {/* Audience Gender Distribution */}
-            <div>
-              <div className="flex items-center gap-2 py-2 text-sm font-medium text-gray-700">
-                <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <circle cx="12" cy="12" r="3"/>
-                  <path d="M12 1v6m0 6v6"/>
-                </svg>
-                Gender Distribution
-              </div>
-              <div className="ml-6 space-y-2">
-                <Slider
-                  defaultValue={[70]}
-                  max={100}
-                  min={0}
-                  step={1}
-                  className="w-full"
-                />
-                <div className="flex justify-between text-xs text-gray-500">
-                  <span>0% Female</span>
-                  <span>100% Female</span>
-                </div>
-              </div>
-            </div>
-
-            {/* Audience Location */}
-            <div className="mt-4">
-              <div className="flex items-center gap-2 py-2 text-sm font-medium text-gray-700">
-                <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
-                  <circle cx="12" cy="10" r="3"/>
-                </svg>
-                Audience Location
-              </div>
-              <div className="ml-6">
-                <Select>
-                  <SelectTrigger className="w-full h-8">
-                    <SelectValue placeholder="Select location" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="us">🇺🇸 United States</SelectItem>
-                    <SelectItem value="ca">🇨🇦 Canada</SelectItem>
-                    <SelectItem value="gb">🇬🇧 United Kingdom</SelectItem>
-                    <SelectItem value="kr">🇰🇷 South Korea</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-            </div>
-
-            {/* Age Range */}
-            <div className="mt-4">
-              <div className="flex items-center gap-2 py-2 text-sm font-medium text-gray-700">
-                <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
-                  <circle cx="12" cy="7" r="4"/>
-                </svg>
-                Age Range
-              </div>
-              <div className="ml-6 space-y-2">
-                <div className="flex items-center space-x-2">
-                  <Checkbox id="age-18-24" />
-                  <label htmlFor="age-18-24" className="text-sm text-gray-600">18-24</label>
-                </div>
-                <div className="flex items-center space-x-2">
-                  <Checkbox id="age-25-34" />
-                  <label htmlFor="age-25-34" className="text-sm text-gray-600">25-34</label>
-                </div>
-                <div className="flex items-center space-x-2">
-                  <Checkbox id="age-35-44" />
-                  <label htmlFor="age-35-44" className="text-sm text-gray-600">35-44</label>
-                </div>
-                <div className="flex items-center space-x-2">
-                  <Checkbox id="age-45plus" />
-                  <label htmlFor="age-45plus" className="text-sm text-gray-600">45+</label>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Apply/Reset Buttons */}
-        <div className="flex gap-2 mt-6 pt-4 border-t border-gray-200">
-          <Button className="flex-1" size="sm">Apply</Button>
-          <Button variant="outline" size="sm">Reset</Button>
-        </div>
-      </div>
-    </div>
-  );
-};
+}
 
 const CreatorRowCard = ({ creator, isSelected = false, onClick }: { 
   creator: Creator; 
@@ -717,6 +330,15 @@ export default function CreatorPage() {
   const [loading, setLoading] = useState(true);
   const [selectedPlatforms, setSelectedPlatforms] = useState<string[]>(['instagram', 'youtube', 'tiktok']);
   const [showDetail, setShowDetail] = useState(false);
+  const [showVideoModal, setShowVideoModal] = useState(false);
+
+  const handleWatchTutorial = () => {
+    setShowVideoModal(true);
+  };
+
+  const closeVideoModal = () => {
+    setShowVideoModal(false);
+  };
 
   useEffect(() => {
     const fetchCreators = async () => {
@@ -761,29 +383,24 @@ export default function CreatorPage() {
       {/* Header */}
       <div className="shrink-0 border-b bg-gray-50 backdrop-blur supports-[backdrop-filter]:bg-gray-50">
         <div className="flex flex-col gap-4 p-6">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <div>
-                <h1 className="text-2xl font-bold">Find Creators</h1>
-                <p className="text-muted-foreground">Find the right creators in no time and get your content to the right crowd</p>
-              </div>
-            </div>
+          <div className="flex items-center gap-3">
+            <h1 className="text-2xl font-bold">Find Creators</h1>
+            <WatchTutorialButton onClick={handleWatchTutorial} />
           </div>
+          <p className="text-muted-foreground">Find the right creators in no time and get your content to the right crowd</p>
         </div>
       </div>
 
       {/* Main Content Area with Filter and List */}
-      <div className="flex flex-1 overflow-hidden">
-        {/* Left spacing */}
-        <div className="w-6"></div>
-        
-        {/* Filter Panel */}
-        <CreatorFilter />
+      <div className="bg-white h-full p-6">
+        <div className="flex flex-1 overflow-hidden">
+          {/* Filter Panel */}
+          <CreatorFilters />
         
         {/* Right Creator List */}
         <div className={`${showDetail ? 'flex-1' : 'flex-1'} overflow-hidden`}>
           {/* Search Bar and Shortlist - 移到右侧列表最上方 */}
-          <div className="border-b bg-white p-4">
+          <div className="bg-white p-4">
             <div className="flex items-center gap-4">
               <div className="relative flex-1">
                 <SearchIcon size={18} className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground" />
@@ -819,6 +436,7 @@ export default function CreatorPage() {
             </div>
           </div>
         </div>
+        </div>
       </div>
       
       {/* Creator Detail Modal - 模态窗口模式 */}
@@ -827,6 +445,37 @@ export default function CreatorPage() {
           creator={selectedCreator}
           onClose={() => setShowDetail(false)}
         />
+      )}
+
+      {/* YouTube Video Modal */}
+      {showVideoModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50" onClick={closeVideoModal}>
+          <div className="relative bg-white rounded-lg overflow-hidden max-w-4xl w-full mx-4" onClick={(e) => e.stopPropagation()}>
+            {/* Close Button */}
+            <button 
+              onClick={closeVideoModal}
+              className="absolute top-4 right-4 z-10 bg-black bg-opacity-50 text-white rounded-full p-2 hover:bg-opacity-75 transition-colors"
+            >
+              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+            
+            {/* Video Player */}
+            <div className="aspect-video">
+              <iframe
+                width="100%"
+                height="100%"
+                src="https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1"
+                title="Creators Tutorial Video"
+                frameBorder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowFullScreen
+                className="w-full h-full"
+              ></iframe>
+            </div>
+          </div>
+        </div>
       )}
     </div>
   );

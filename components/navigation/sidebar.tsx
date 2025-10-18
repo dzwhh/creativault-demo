@@ -85,11 +85,11 @@ const sections: NavSection[] = [
     label: 'Growth Opportunity',
     items: [
       { label: 'Ads', href: '/big-spy/ads', icon: AdsIcon },
-      { label: 'Product', href: '/big-spy/product', icon: ProductIcon },
-      { label: 'Creator', href: '/big-spy/creator', icon: UsersIcon },
+      { label: 'Products', href: '/big-spy/products', icon: ProductIcon },
+      { label: 'Creators', href: '/big-spy/creator', icon: UsersIcon },
       { label: 'App&Gaming', href: '/big-spy/app-gaming', icon: AppWindowIcon },
       { label: 'Drama', href: '/big-spy/short-drama', icon: FilmIcon },
-      { label: 'AI', href: '/big-spy/ai-app', icon: BrainCircuitIcon },
+      { label: 'AI Products', href: '/big-spy/ai-app', icon: BrainCircuitIcon },
     ],
   },
   {
@@ -119,7 +119,7 @@ const sections: NavSection[] = [
   {
     label: 'My Page',
     items: [
-      { label: 'Favorites', href: '/profile/favorites', icon: FavoritesIcon },
+      { label: 'Favorites', href: '/my/favorites', icon: FavoritesIcon },
       { label: 'Asset Studio', href: '/profile/asset-studio', icon: AssetStudioIcon },
     ],
   },
