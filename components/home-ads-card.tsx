@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { AdDetail } from '@/components/ad-detail';
+import { AdDetail } from '@/app/big-spy/ads/ad-detail';
 
 // Home页面专用的广告卡片组件
 interface HomeAdCardProps {

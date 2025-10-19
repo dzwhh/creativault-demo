@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { Ad } from '@/lib/types';
-import { AdDetail } from '@/components/ad-detail';
+import { AdDetail } from './ad-detail';
 import { SaveToFavoritesModal } from '@/components/save-to-favorites-modal';
 
 interface AdsListProps {

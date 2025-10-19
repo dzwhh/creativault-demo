@@ -6,6 +6,8 @@ import { ChevronDown, Search } from 'lucide-react';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { ProductsFilters } from './products-filters';
 import { WatchTutorialButton } from '@/components/ui/watch-tutorial-button';
+import { ProductDetail } from './products-detail';
+import { SaveToFavoritesModal } from '@/components/save-to-favorites-modal';
 
 // 平台图标组件
 const TikTokIcon = ({ size = 24, className = '' }: { size?: number; className?: string }) => (
@@ -347,6 +349,9 @@ export default function ProductsPage() {
   const [showVideoModal, setShowVideoModal] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [ranking, setRanking] = useState('best-seller');
+  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
+  const [isFavoritesModalOpen, setIsFavoritesModalOpen] = useState(false);
+  const [productToSave, setProductToSave] = useState<Product | null>(null);
 
   const handleWatchTutorial = () => {
     setShowVideoModal(true);
@@ -354,6 +359,31 @@ export default function ProductsPage() {
 
   const closeVideoModal = () => {
     setShowVideoModal(false);
+  };
+
+  const handleProductClick = (product: Product) => {
+    setSelectedProduct(product);
+  };
+
+  const closeProductDetail = () => {
+    setSelectedProduct(null);
+  };
+
+  const handleFavoriteClick = (e: React.MouseEvent, product: Product) => {
+    e.stopPropagation(); // 防止触发行点击事件
+    setProductToSave(product);
+    setIsFavoritesModalOpen(true);
+  };
+
+  const handleSaveToFavorites = (category: string, folderId: string, folderName?: string) => {
+    console.log('Saving product to favorites:', {
+      product: productToSave,
+      category,
+      folderId,
+      folderName,
+    });
+    // 这里可以调用 API 保存到收藏夹
+    // TODO: 实现实际的保存逻辑
   };
 
   const getConversionRateColor = (rate: string) => {
@@ -455,46 +485,34 @@ export default function ProductsPage() {
                     Product
                   </th>
                   <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Country
-                  </th>
-                  <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider min-w-[180px]">
-                    Store
-                  </th>
-                  <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                     Category
                   </th>
                   <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Commission
-                  </th>
-                  <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                     <div className="flex items-center gap-1">
-                      <span className="text-red-500">Sales</span>
-                      <ChevronDown className="w-4 h-4 text-red-500" />
+                      <span className="text-gray-500">Units Sold</span>
+                      <ChevronDown className="w-4 h-4 text-gray-500" />
                     </div>
                   </th>
                   <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                     <div className="flex items-center gap-1">
-                      <span>Conversion</span>
+                      <span>GMV</span>
                       <ChevronDown className="w-4 h-4 text-gray-400" />
                     </div>
                   </th>
                   <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                     <div className="flex items-center gap-1">
-                      <span>Revenue</span>
+                      <span>Total Units Sold</span>
                       <ChevronDown className="w-4 h-4 text-gray-400" />
                     </div>
                   </th>
                   <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                     <div className="flex items-center gap-1">
-                      <span>Total Orders</span>
+                      <span>Total GMV</span>
                       <ChevronDown className="w-4 h-4 text-gray-400" />
                     </div>
                   </th>
-                  <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    <div className="flex items-center gap-1">
-                      <span>Total Revenue</span>
-                      <ChevronDown className="w-4 h-4 text-gray-400" />
-                    </div>
+                  <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider min-w-[180px]">
+                    Affiliated Store
                   </th>
                   <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                     Action
@@ -507,7 +525,11 @@ export default function ProductsPage() {
                   product.category.toLowerCase().includes(searchQuery.toLowerCase()) ||
                   product.storeName.toLowerCase().includes(searchQuery.toLowerCase())
                 ).map((product) => (
-                  <tr key={product.id} className="hover:bg-gray-50">
+                  <tr 
+                    key={product.id} 
+                    className="hover:bg-gray-50 cursor-pointer"
+                    onClick={() => handleProductClick(product)}
+                  >
                     {/* Rank */}
                     <td className="px-4 py-4 text-center">
                       <span className="text-sm font-medium text-gray-900">
@@ -527,24 +549,55 @@ export default function ProductsPage() {
                           <div className="text-sm font-medium text-gray-900 mb-1">
                             {product.name}
                           </div>
-                          <div className="text-sm text-blue-600">
+                          <div className="text-sm text-blue-600 mb-1">
                             Price: {product.price}
+                          </div>
+                          <div className="flex items-center gap-1.5">
+                            <span className="text-base">{product.countryFlag}</span>
+                            <span className="text-xs text-gray-600">
+                              {product.country}
+                            </span>
                           </div>
                         </div>
                       </div>
                     </td>
 
-                    {/* Country */}
+                    {/* Category */}
                     <td className="px-4 py-4">
-                      <div className="flex items-center gap-2">
-                        <span className="text-lg">{product.countryFlag}</span>
-                        <span className="text-sm text-gray-900">
-                          {product.country}
-                        </span>
-                      </div>
+                      <span className="text-sm text-gray-900">
+                        {product.category}
+                      </span>
                     </td>
 
-                    {/* Store */}
+                    {/* Units Sold */}
+                    <td className="px-4 py-4">
+                      <span className="text-sm font-medium text-gray-900">
+                        {product.sales}
+                      </span>
+                    </td>
+
+                    {/* GMV */}
+                    <td className="px-4 py-4">
+                      <span className="text-sm text-gray-900">
+                        {product.revenue}
+                      </span>
+                    </td>
+
+                    {/* Total Units Sold */}
+                    <td className="px-4 py-4">
+                      <span className="text-sm text-gray-900">
+                        {product.orders}
+                      </span>
+                    </td>
+
+                    {/* Total GMV */}
+                    <td className="px-4 py-4">
+                      <span className="text-sm text-gray-900">
+                        {product.totalRevenue}
+                      </span>
+                    </td>
+
+                    {/* Affiliated Store */}
                     <td className="px-4 py-4">
                       <div className="flex items-center gap-2">
                         <img
@@ -563,63 +616,12 @@ export default function ProductsPage() {
                       </div>
                     </td>
 
-                    {/* Category */}
-                    <td className="px-4 py-4">
-                      <span className="text-sm text-gray-900">
-                        {product.category}
-                      </span>
-                    </td>
-
-                    {/* Commission */}
-                    <td className="px-4 py-4">
-                      <span className="text-sm text-gray-900">
-                        {product.commission}
-                      </span>
-                    </td>
-
-                    {/* Sales */}
-                    <td className="px-4 py-4">
-                      <span className="text-sm font-medium text-gray-900">
-                        {product.sales}
-                      </span>
-                    </td>
-
-                    {/* Conversion Rate */}
-                    <td className="px-4 py-4">
-                      <span
-                        className={cn(
-                          'text-sm font-medium',
-                          getConversionRateColor(product.conversionRate)
-                        )}
-                      >
-                        {product.conversionRate}
-                      </span>
-                    </td>
-
-                    {/* Revenue */}
-                    <td className="px-4 py-4">
-                      <span className="text-sm text-gray-900">
-                        {product.revenue}
-                      </span>
-                    </td>
-
-                    {/* Total Orders */}
-                    <td className="px-4 py-4">
-                      <span className="text-sm text-gray-900">
-                        {product.orders}
-                      </span>
-                    </td>
-
-                    {/* Total Revenue */}
-                    <td className="px-4 py-4">
-                      <span className="text-sm text-gray-900">
-                        {product.totalRevenue}
-                      </span>
-                    </td>
-
                     {/* Actions */}
                     <td className="px-4 py-4">
-                      <button className="text-gray-400 hover:text-yellow-500 transition-colors">
+                      <button 
+                        className="text-gray-400 hover:text-yellow-500 transition-colors"
+                        onClick={(e) => handleFavoriteClick(e, product)}
+                      >
                         <svg
                           className="w-5 h-5"
                           fill="none"
@@ -644,6 +646,22 @@ export default function ProductsPage() {
           </div>
         </div>
       </div>
+
+      {/* Product Detail Modal */}
+      {selectedProduct && (
+        <ProductDetail
+          product={selectedProduct}
+          onClose={closeProductDetail}
+        />
+      )}
+
+      {/* Save to Favorites Modal */}
+      <SaveToFavoritesModal
+        isOpen={isFavoritesModalOpen}
+        onClose={() => setIsFavoritesModalOpen(false)}
+        onSave={handleSaveToFavorites}
+        defaultCategory="products"
+      />
 
       {/* YouTube Video Modal */}
       {showVideoModal && (
