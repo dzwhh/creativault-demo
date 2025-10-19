@@ -58,6 +58,7 @@ export function SaveToFavoritesModal({
   const [isCreatingNew, setIsCreatingNew] = useState(false);
   const [newFolderName, setNewFolderName] = useState('');
   const [error, setError] = useState('');
+  const [onlyCreative, setOnlyCreative] = useState(false);
 
   const currentFolders = mockFolders[selectedCategory] || [];
 
@@ -69,6 +70,7 @@ export function SaveToFavoritesModal({
       setIsCreatingNew(false);
       setNewFolderName('');
       setError('');
+      setOnlyCreative(false);
     }
   }, [isOpen, defaultCategory]);
 
@@ -122,6 +124,16 @@ export function SaveToFavoritesModal({
     setError('');
   };
 
+  const handleOnlyCreativeChange = (checked: boolean) => {
+    setOnlyCreative(checked);
+    if (checked) {
+      setSelectedCategory('creative');
+      setSelectedFolderId(null);
+      setIsCreatingNew(false);
+      setError('');
+    }
+  };
+
   if (!isOpen) return null;
 
   return (
@@ -144,9 +156,21 @@ export function SaveToFavoritesModal({
         <div className="flex-1 overflow-y-auto px-6 py-4">
           {/* Category Selection */}
           <div className="mb-6">
-            <label className="block text-sm font-medium text-gray-700 mb-3">
-              Select Category
-            </label>
+            <div className="flex items-center gap-3 mb-3">
+              <label className="block text-sm font-medium text-gray-700">
+                Select Category
+              </label>
+              {/* Only Creative Checkbox */}
+              <label className="flex items-center gap-2 cursor-pointer hover:bg-blue-50 px-3 py-1 rounded-md transition-colors">
+                <input
+                  type="checkbox"
+                  checked={onlyCreative}
+                  onChange={(e) => handleOnlyCreativeChange(e.target.checked)}
+                  className="w-4 h-4 text-blue-600 bg-white border-gray-300 rounded focus:ring-blue-500 focus:ring-2 cursor-pointer"
+                />
+                <span className="text-sm font-medium text-gray-700">Only Creative</span>
+              </label>
+            </div>
             <div className="grid grid-cols-2 gap-2">
               {categories.map((category) => (
                 <button
@@ -156,11 +180,15 @@ export function SaveToFavoritesModal({
                     setSelectedFolderId(null);
                     setIsCreatingNew(false);
                     setError('');
+                    setOnlyCreative(false); // 手动选择分类时取消勾选
                   }}
+                  disabled={onlyCreative && category.id !== 'creative'}
                   className={cn(
                     'px-4 py-2.5 rounded-lg text-sm font-medium transition-colors',
                     selectedCategory === category.id
                       ? 'bg-blue-50 text-blue-600 border-2 border-blue-600'
+                      : onlyCreative && category.id !== 'creative'
+                      ? 'bg-gray-100 text-gray-400 border-2 border-gray-200 cursor-not-allowed'
                       : 'bg-gray-50 text-gray-700 border-2 border-gray-200 hover:border-gray-300'
                   )}
                 >
