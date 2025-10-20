@@ -178,10 +178,12 @@ export function ProductDetail({ product, onClose }: ProductDetailProps) {
       >
         {/* NormalDetail wrapper */}
         <NormalDetail title="Product Details" detailType="products">
-          {/* Left-Right Layout */}
-          <div className="flex gap-6 h-full">
-            {/* Left Side - Media Area */}
-            <div className="flex-shrink-0 w-80 flex flex-col items-center justify-start">
+          {/* Top-Bottom Layout */}
+          <div className="flex flex-col gap-6">
+            {/* Top Section - Media and Information Side by Side */}
+            <div className="flex gap-6">
+              {/* Left Side - Media Area */}
+              <div className="flex-shrink-0 w-80 flex flex-col items-center justify-start">
               {/* Product Image Carousel */}
               <ProductImageCarousel images={productImages} />
               
@@ -205,120 +207,124 @@ export function ProductDetail({ product, onClose }: ProductDetailProps) {
                   Download
                 </button>
               </div>
-            </div>
-            
-            {/* Right Side - Details Area */}
-            <div className="flex-1 flex flex-col overflow-y-auto">
-              {/* Product Title and Rating */}
-              <div className="mb-4">
-                <h3 className="text-xl font-semibold text-gray-900 mb-2">{product.name}</h3>
-                <StarRating rating={4.6} size="md" showValue={true} />
               </div>
               
-              {/* Section 1: Information */}
-              <div className="mb-6">
-                <h4 className="text-lg font-medium text-gray-800 mb-3">Information</h4>
+              {/* Right Side - Product Title and Information */}
+              <div className="flex-1 flex flex-col">
+                {/* Product Title and Rating */}
+                <div className="mb-4">
+                  <h3 className="text-xl font-semibold text-gray-900 mb-2">{product.name}</h3>
+                  <StarRating rating={4.6} size="md" showValue={true} />
+                </div>
                 
-                <div className="bg-white rounded-lg border border-gray-200" style={{ boxShadow: '0 1px 3px 0 rgba(0, 0, 0, 0.1)' }}>
-                  <div className="p-4 space-y-2">
-                    {/* Country/Region */}
-                    <div className="flex items-center justify-between py-1">
-                      <div className="flex items-center gap-3">
-                        <svg className="w-4 h-4 text-gray-500" fill="currentColor" viewBox="0 0 24 24">
-                          <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
-                        </svg>
-                        <span className="text-gray-500 font-normal">Country/Region</span>
+                {/* Section 1: Information */}
+                <div className="mb-6">
+                  <h4 className="text-lg font-medium text-gray-800 mb-3">Information</h4>
+                  
+                  <div className="bg-white rounded-lg border border-gray-200" style={{ boxShadow: '0 1px 3px 0 rgba(0, 0, 0, 0.1)' }}>
+                    <div className="p-4 space-y-2">
+                      {/* Country/Region */}
+                      <div className="flex items-center justify-between py-1">
+                        <div className="flex items-center gap-3">
+                          <svg className="w-4 h-4 text-gray-500" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+                          </svg>
+                          <span className="text-gray-500 font-normal">Country/Region</span>
+                        </div>
+                        <span className="text-gray-900 text-sm">{product.countryFlag} {product.country}</span>
                       </div>
-                      <span className="text-gray-900 text-sm">{product.countryFlag} {product.country}</span>
-                    </div>
-                    <div className="divider" style={{ height: '1px', background: '#f3f4f6', margin: '8px 0 4px', border: 'none' }} />
-                    
-                    {/* Category */}
-                    <div className="flex items-center justify-between py-1">
-                      <div className="flex items-center gap-3">
-                        <svg className="w-4 h-4 text-gray-500" fill="currentColor" viewBox="0 0 24 24">
-                          <path d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8v-10h-8v10zm0-18v6h8V3h-8z"/>
-                        </svg>
-                        <span className="text-gray-500 font-normal">Category</span>
+                      <div className="divider" style={{ height: '1px', background: '#f3f4f6', margin: '8px 0 4px', border: 'none' }} />
+                      
+                      {/* Category */}
+                      <div className="flex items-center justify-between py-1">
+                        <div className="flex items-center gap-3">
+                          <svg className="w-4 h-4 text-gray-500" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8v-10h-8v10zm0-18v6h8V3h-8z"/>
+                          </svg>
+                          <span className="text-gray-500 font-normal">Category</span>
+                        </div>
+                        <span className="text-gray-900 text-sm">{product.category}</span>
                       </div>
-                      <span className="text-gray-900 text-sm">{product.category}</span>
-                    </div>
-                    <div className="divider" style={{ height: '1px', background: '#f3f4f6', margin: '8px 0 4px', border: 'none' }} />
-                    
-                    {/* Publication Date */}
-                    <div className="flex items-center justify-between py-1">
-                      <div className="flex items-center gap-3">
-                        <svg className="w-4 h-4 text-gray-500" fill="currentColor" viewBox="0 0 24 24">
-                          <path d="M9 11H7v6h2v-6zm4 0h-2v6h2v-6zm4 0h-2v6h2v-6zm2-7h-2V2h-2v2H9V2H7v2H5c-1.1 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V9h14v11z"/>
-                        </svg>
-                        <span className="text-gray-500 font-normal">Publication Date</span>
+                      <div className="divider" style={{ height: '1px', background: '#f3f4f6', margin: '8px 0 4px', border: 'none' }} />
+                      
+                      {/* Publication Date */}
+                      <div className="flex items-center justify-between py-1">
+                        <div className="flex items-center gap-3">
+                          <svg className="w-4 h-4 text-gray-500" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M9 11H7v6h2v-6zm4 0h-2v6h2v-6zm4 0h-2v6h2v-6zm2-7h-2V2h-2v2H9V2H7v2H5c-1.1 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V9h14v11z"/>
+                          </svg>
+                          <span className="text-gray-500 font-normal">Publication Date</span>
+                        </div>
+                        <span className="text-gray-900 text-sm">Aug 15, 2025</span>
                       </div>
-                      <span className="text-gray-900 text-sm">Aug 15, 2025</span>
-                    </div>
-                    <div className="divider" style={{ height: '1px', background: '#f3f4f6', margin: '8px 0 4px', border: 'none' }} />
-                    
-                    {/* Price */}
-                    <div className="flex items-center justify-between py-1">
-                      <div className="flex items-center gap-3">
-                        <svg className="w-4 h-4 text-gray-500" fill="currentColor" viewBox="0 0 24 24">
-                          <path d="M11.8 10.9c-2.27-.59-3-1.2-3-2.15 0-1.09 1.01-1.85 2.7-1.85 1.78 0 2.44.85 2.5 2.1h2.21c-.07-1.72-1.12-3.3-3.21-3.81V3h-3v2.16c-1.94.42-3.5 1.68-3.5 3.61 0 2.31 1.91 3.46 4.7 4.13 2.5.6 3 1.48 3 2.41 0 .69-.49 1.79-2.7 1.79-2.06 0-2.87-.92-2.98-2.1h-2.2c.12 2.19 1.76 3.42 3.68 3.83V21h3v-2.15c1.95-.37 3.5-1.5 3.5-3.55 0-2.84-2.43-3.81-4.7-4.4z"/>
-                        </svg>
-                        <span className="text-gray-500 font-normal">Price</span>
+                      <div className="divider" style={{ height: '1px', background: '#f3f4f6', margin: '8px 0 4px', border: 'none' }} />
+                      
+                      {/* Price */}
+                      <div className="flex items-center justify-between py-1">
+                        <div className="flex items-center gap-3">
+                          <svg className="w-4 h-4 text-gray-500" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M11.8 10.9c-2.27-.59-3-1.2-3-2.15 0-1.09 1.01-1.85 2.7-1.85 1.78 0 2.44.85 2.5 2.1h2.21c-.07-1.72-1.12-3.3-3.21-3.81V3h-3v2.16c-1.94.42-3.5 1.68-3.5 3.61 0 2.31 1.91 3.46 4.7 4.13 2.5.6 3 1.48 3 2.41 0 .69-.49 1.79-2.7 1.79-2.06 0-2.87-.92-2.98-2.1h-2.2c.12 2.19 1.76 3.42 3.68 3.83V21h3v-2.15c1.95-.37 3.5-1.5 3.5-3.55 0-2.84-2.43-3.81-4.7-4.4z"/>
+                          </svg>
+                          <span className="text-gray-500 font-normal">Price</span>
+                        </div>
+                        <span className="text-gray-900 text-sm font-semibold">{product.price}</span>
                       </div>
-                      <span className="text-gray-900 text-sm font-semibold">{product.price}</span>
-                    </div>
-                    <div className="divider" style={{ height: '1px', background: '#f3f4f6', margin: '8px 0 4px', border: 'none' }} />
-                    
-                    {/* Brand */}
-                    <div className="flex items-center justify-between py-1">
-                      <div className="flex items-center gap-3">
-                        <svg className="w-4 h-4 text-gray-500" fill="currentColor" viewBox="0 0 24 24">
-                          <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
-                        </svg>
-                        <span className="text-gray-500 font-normal">Brand</span>
+                      <div className="divider" style={{ height: '1px', background: '#f3f4f6', margin: '8px 0 4px', border: 'none' }} />
+                      
+                      {/* Brand - Hidden */}
+                      {/* <div className="flex items-center justify-between py-1">
+                        <div className="flex items-center gap-3">
+                          <svg className="w-4 h-4 text-gray-500" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                          </svg>
+                          <span className="text-gray-500 font-normal">Brand</span>
+                        </div>
+                        <span className="text-gray-900 text-sm">{product.storeName}</span>
                       </div>
-                      <span className="text-gray-900 text-sm">{product.storeName}</span>
-                    </div>
-                    <div className="divider" style={{ height: '1px', background: '#f3f4f6', margin: '8px 0 4px', border: 'none' }} />
-                    
-                    {/* Shop */}
-                    <div className="flex items-center justify-between py-1">
-                      <div className="flex items-center gap-3">
-                        <svg className="w-4 h-4 text-gray-500" fill="currentColor" viewBox="0 0 24 24">
-                          <path d="M7 18c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12L8.1 13h7.45c.75 0 1.41-.41 1.75-1.03L21.7 4H5.21l-.94-2H1zm16 16c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/>
-                        </svg>
-                        <span className="text-gray-500 font-normal">Shop</span>
+                      <div className="divider" style={{ height: '1px', background: '#f3f4f6', margin: '8px 0 4px', border: 'none' }} */}
+                      
+                      {/* Shop */}
+                      <div className="flex items-center justify-between py-1">
+                        <div className="flex items-center gap-3">
+                          <svg className="w-4 h-4 text-gray-500" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M7 18c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12L8.1 13h7.45c.75 0 1.41-.41 1.75-1.03L21.7 4H5.21l-.94-2H1zm16 16c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/>
+                          </svg>
+                          <span className="text-gray-500 font-normal">Shop</span>
+                        </div>
+                        <span className="text-gray-900 text-sm">{product.storeName}</span>
                       </div>
-                      <span className="text-gray-900 text-sm">{product.storeName}</span>
-                    </div>
-                    <div className="divider" style={{ height: '1px', background: '#f3f4f6', margin: '8px 0 4px', border: 'none' }} />
-                    
-                    {/* Fulfillment */}
-                    <div className="flex items-center justify-between py-1">
-                      <div className="flex items-center gap-3">
-                        <svg className="w-4 h-4 text-gray-500" fill="currentColor" viewBox="0 0 24 24">
-                          <path d="M18 18.5c.83 0 1.5-.67 1.5-1.5s-.67-1.5-1.5-1.5-1.5.67-1.5 1.5.67 1.5 1.5 1.5zm1.5-9H17V12h4.46L19.5 9.5zM6 18.5c.83 0 1.5-.67 1.5-1.5s-.67-1.5-1.5-1.5-1.5.67-1.5 1.5.67 1.5 1.5 1.5zM20 8l3 4v5h-2c0 1.66-1.34 3-3 3s-3-1.34-3-3H9c0 1.66-1.34 3-3 3s-3-1.34-3-3H1V6c0-1.1.9-2 2-2h14v4h3z"/>
-                        </svg>
-                        <span className="text-gray-500 font-normal">Fulfillment</span>
+                      <div className="divider" style={{ height: '1px', background: '#f3f4f6', margin: '8px 0 4px', border: 'none' }} />
+                      
+                      {/* Fulfillment */}
+                      <div className="flex items-center justify-between py-1">
+                        <div className="flex items-center gap-3">
+                          <svg className="w-4 h-4 text-gray-500" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M18 18.5c.83 0 1.5-.67 1.5-1.5s-.67-1.5-1.5-1.5-1.5.67-1.5 1.5.67 1.5 1.5 1.5zm1.5-9H17V12h4.46L19.5 9.5zM6 18.5c.83 0 1.5-.67 1.5-1.5s-.67-1.5-1.5-1.5-1.5.67-1.5 1.5.67 1.5 1.5 1.5zM20 8l3 4v5h-2c0 1.66-1.34 3-3 3s-3-1.34-3-3H9c0 1.66-1.34 3-3 3s-3-1.34-3-3H1V6c0-1.1.9-2 2-2h14v4h3z"/>
+                          </svg>
+                          <span className="text-gray-500 font-normal">Fulfillment</span>
+                        </div>
+                        <span className="text-gray-900 text-sm">Local Fulfillment</span>
                       </div>
-                      <span className="text-gray-900 text-sm">Local Fulfillment</span>
-                    </div>
-                    <div className="divider" style={{ height: '1px', background: '#f3f4f6', margin: '8px 0 4px', border: 'none' }} />
-                    
-                    {/* Commission Rate */}
-                    <div className="flex items-center justify-between py-1">
-                      <div className="flex items-center gap-3">
-                        <svg className="w-4 h-4 text-gray-500" fill="currentColor" viewBox="0 0 24 24">
-                          <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1.41 16.09V20h-2.67v-1.93c-1.71-.36-3.16-1.46-3.27-3.4h1.96c.1 1.05.82 1.87 2.65 1.87 1.96 0 2.4-.98 2.4-1.59 0-.83-.44-1.61-2.67-2.14-2.48-.6-4.18-1.62-4.18-3.67 0-1.72 1.39-2.84 3.11-3.21V4h2.67v1.95c1.86.45 2.79 1.86 2.85 3.39H14.3c-.05-1.11-.64-1.87-2.22-1.87-1.5 0-2.4.68-2.4 1.64 0 .84.65 1.39 2.67 1.91s4.18 1.39 4.18 3.91c-.01 1.83-1.38 2.83-3.12 3.16z"/>
-                        </svg>
-                        <span className="text-gray-500 font-normal">Commission Rate</span>
+                      <div className="divider" style={{ height: '1px', background: '#f3f4f6', margin: '8px 0 4px', border: 'none' }} />
+                      
+                      {/* Commission Rate */}
+                      <div className="flex items-center justify-between py-1">
+                        <div className="flex items-center gap-3">
+                          <svg className="w-4 h-4 text-gray-500" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1.41 16.09V20h-2.67v-1.93c-1.71-.36-3.16-1.46-3.27-3.4h1.96c.1 1.05.82 1.87 2.65 1.87 1.96 0 2.4-.98 2.4-1.59 0-.83-.44-1.61-2.67-2.14-2.48-.6-4.18-1.62-4.18-3.67 0-1.72 1.39-2.84 3.11-3.21V4h2.67v1.95c1.86.45 2.79 1.86 2.85 3.39H14.3c-.05-1.11-.64-1.87-2.22-1.87-1.5 0-2.4.68-2.4 1.64 0 .84.65 1.39 2.67 1.91s4.18 1.39 4.18 3.91c-.01 1.83-1.38 2.83-3.12 3.16z"/>
+                          </svg>
+                          <span className="text-gray-500 font-normal">Commission Rate</span>
+                        </div>
+                        <span className="text-blue-600 text-sm font-semibold">{product.commission}</span>
                       </div>
-                      <span className="text-blue-600 text-sm font-semibold">{product.commission}</span>
                     </div>
                   </div>
                 </div>
               </div>
-              
+            </div>
+            
+            {/* Bottom Section - Performance and Below (Full Width) */}
+            <div className="flex flex-col">
               {/* Section 2: Performance */}
               <div className="mb-6">
                 <h4 className="text-lg font-medium text-gray-800 mb-3">Performance</h4>
