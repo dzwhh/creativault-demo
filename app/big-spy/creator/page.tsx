@@ -8,6 +8,7 @@ import { Badge } from '@/components/ui/badge';
 import { WatchTutorialButton } from '@/components/ui/watch-tutorial-button';
 import { CreatorFilters } from './creator-filters';
 import CreatorDetail from './creator-detail';
+import { SaveToFavoritesModal } from '@/components/save-to-favorites-modal';
 
 interface Creator {
   id: string;
@@ -85,10 +86,11 @@ interface CreatorRowCardProps {
 
 }
 
-const CreatorRowCard = ({ creator, isSelected = false, onClick }: { 
+const CreatorRowCard = ({ creator, isSelected = false, onClick, onShortlist }: { 
   creator: Creator; 
   isSelected?: boolean;
   onClick: () => void;
+  onShortlist: (creator: Creator) => void;
 }) => {
   const primaryNiche = creator.niches[0] || 'Fashion';
   const [showContactDropdown, setShowContactDropdown] = useState(false);
@@ -311,10 +313,13 @@ const CreatorRowCard = ({ creator, isSelected = false, onClick }: {
           <button
             onClick={(e) => {
               e.stopPropagation();
-              // 处理 shortlist 逻辑
+              onShortlist(creator);
             }}
-            className="px-3 py-1 text-xs bg-gray-100 text-gray-700 rounded hover:bg-gray-200 transition-colors"
+            className="flex items-center gap-1.5 px-3 py-1 text-xs bg-gray-100 text-gray-700 rounded hover:bg-gray-200 transition-colors"
           >
+            <svg className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.29 1.51 4.04 3 5.5l7 7Z"/>
+            </svg>
             Shortlist
           </button>
         </div>
@@ -331,6 +336,9 @@ export default function CreatorPage() {
   const [selectedPlatforms, setSelectedPlatforms] = useState<string[]>(['instagram', 'youtube', 'tiktok']);
   const [showDetail, setShowDetail] = useState(false);
   const [showVideoModal, setShowVideoModal] = useState(false);
+  const [showSaveModal, setShowSaveModal] = useState(false);
+  const [isBatchSave, setIsBatchSave] = useState(false);
+  const [creatorsToSave, setCreatorsToSave] = useState<Creator[]>([]);
 
   const handleWatchTutorial = () => {
     setShowVideoModal(true);
@@ -338,6 +346,46 @@ export default function CreatorPage() {
 
   const closeVideoModal = () => {
     setShowVideoModal(false);
+  };
+
+  // 处理单个收藏
+  const handleShortlistSingle = (creator: Creator) => {
+    setCreatorsToSave([creator]);
+    setIsBatchSave(false);
+    setShowSaveModal(true);
+  };
+
+  // 处理批量收藏
+  const handleShortlistAll = () => {
+    if (filteredCreators.length === 0) {
+      alert('No creators to shortlist');
+      return;
+    }
+    setCreatorsToSave(filteredCreators);
+    setIsBatchSave(true);
+    setShowSaveModal(true);
+  };
+
+  // 处理保存到收藏夹
+  const handleSaveToFavorites = (category: string, folderId: string, folderName?: string) => {
+    console.log('Saving to favorites:', {
+      category,
+      folderId,
+      folderName,
+      isBatch: isBatchSave,
+      creatorsCount: creatorsToSave.length,
+      creators: creatorsToSave.map(c => ({ id: c.id, name: c.name }))
+    });
+    
+    // 这里可以添加实际的API调用来保存数据
+    // 例如: await fetch('/api/favorites', { method: 'POST', body: JSON.stringify({ ... }) })
+    
+    // 显示成功提示
+    const message = isBatchSave 
+      ? `Successfully added ${creatorsToSave.length} creators to ${folderName || 'favorites'}`
+      : `Successfully added ${creatorsToSave[0].name} to ${folderName || 'favorites'}`;
+    
+    alert(message);
   };
 
   useEffect(() => {
@@ -411,7 +459,12 @@ export default function CreatorPage() {
                   className="pl-10"
                 />
               </div>
-              <Button variant="outline" size="sm" className="flex items-center gap-2">
+              <Button 
+                variant="outline" 
+                size="sm" 
+                className="flex items-center gap-2"
+                onClick={handleShortlistAll}
+              >
                 <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                   <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.29 1.51 4.04 3 5.5l7 7Z"/>
                 </svg>
@@ -431,6 +484,7 @@ export default function CreatorPage() {
                     setSelectedCreator(creator);
                     setShowDetail(true);
                   }}
+                  onShortlist={handleShortlistSingle}
                 />
               ))}
             </div>
@@ -446,6 +500,17 @@ export default function CreatorPage() {
           onClose={() => setShowDetail(false)}
         />
       )}
+
+      {/* Save to Favorites Modal */}
+      <SaveToFavoritesModal
+        isOpen={showSaveModal}
+        onClose={() => {
+          setShowSaveModal(false);
+          setCreatorsToSave([]);
+        }}
+        onSave={handleSaveToFavorites}
+        defaultCategory="creator"
+      />
 
       {/* YouTube Video Modal */}
       {showVideoModal && (

@@ -45,6 +45,7 @@ export {
   MagicWandIcon,
   SearchIcon,
   FilterIcon,
+  SettingsIcon,
 } from './system-icons';
 
 // 平台图标

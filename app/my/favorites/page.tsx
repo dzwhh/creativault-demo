@@ -103,9 +103,13 @@ export default function FavoritesPage() {
   const handleFolderClick = (folder: Folder) => {
     setSelectedFolder(folder);
     // Navigate to folder detail page
-    // Brand folders go to brand list page, others go to standard folder page
+    // Brand folders go to brand list page
+    // Creator folders go to creator shortlist page
+    // Other folders go to standard folder page
     if (folder.type === 'brand') {
       router.push(`/my/favorites/brand/${folder.id}`);
+    } else if (folder.type === 'creator') {
+      router.push(`/my/favorites/creator/${folder.id}`);
     } else {
       router.push(`/my/favorites/${folder.id}`);
     }
