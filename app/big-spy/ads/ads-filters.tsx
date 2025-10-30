@@ -2,11 +2,13 @@
 
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useState } from 'react';
+import { DateRange } from 'react-day-picker';
 import { 
   VideoIcon,
   UsersIcon,
   ChevronDownIcon
 } from '@/components/icons';
+import { DatePicker } from '@/components/ui/date-picker';
 
 // 创建所需的图标组件
 const ShoppingCartIcon = ({ size = 16, className = '' }: { size?: number; className?: string }) => (
@@ -202,12 +204,38 @@ const filterSections: FilterSection[] = [
   }
 ];
 
-const FilterItem = ({ section, isActive, onClick }: { 
+const FilterItem = ({ 
+  section, 
+  isActive, 
+  onClick, 
+  isDatePicker,
+  dateRange,
+  onDateRangeChange
+}: { 
   section: FilterSection; 
   isActive: boolean; 
-  onClick: () => void; 
+  onClick: () => void;
+  isDatePicker?: boolean;
+  dateRange?: DateRange;
+  onDateRangeChange?: (range: DateRange | undefined) => void;
 }) => {
   const Icon = section.icon;
+  
+  // 如果是日期选择器，包裹在 DatePicker 中并使用 filter 样式
+  if (isDatePicker) {
+    return (
+      <DatePicker
+        mode="range"
+        dateRange={dateRange}
+        onDateRangeChange={onDateRangeChange}
+        placeholder="Select date range"
+        className="w-full"
+        showAsFilter={true}
+        filterIcon={Icon}
+        filterTitle={section.title}
+      />
+    );
+  }
   
   return (
     <button
@@ -244,6 +272,7 @@ export function AdsFilters() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [expandedSection, setExpandedSection] = useState<string | null>(null);
+  const [dateRange, setDateRange] = useState<DateRange | undefined>();
 
   const updateFilter = (key: string, value: string | string[]) => {
     const params = new URLSearchParams(searchParams.toString());
@@ -290,9 +319,17 @@ export function AdsFilters() {
               section={section}
               isActive={isFilterActive(section.id)}
               onClick={() => handleFilterItemClick(section.id)}
+              isDatePicker={section.type === 'date'}
+              dateRange={dateRange}
+              onDateRangeChange={(range) => {
+                setDateRange(range);
+                if (range?.from && range?.to) {
+                  updateFilter(section.id, `${range.from.toISOString()},${range.to.toISOString()}`);
+                }
+              }}
             />
             
-            {/* Expanded content */}
+            {/* Expanded content for non-date filter types */}
             {expandedSection === section.id && section.options && (
               <div className="px-6 pb-4 space-y-2">
                 {section.options.map((option) => (

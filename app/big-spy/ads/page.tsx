@@ -6,7 +6,6 @@ import { AdsFilters } from './ads-filters';
 import { MetaIcon, TikTokIcon, GoogleIcon } from '@/components/icons';
 import { PageHeader } from '@/components/ui/page-header';
 import { WatchTutorialButton } from '@/components/ui/watch-tutorial-button';
-import { DatePicker } from '@/components/ui/date-picker';
 
 // 创建缺失的图标
 const PinterestIcon = ({ size = 16, className = '' }: { size?: number; className?: string }) => (
@@ -32,7 +31,6 @@ export default function AdsPage({ searchParams }: PageProps) {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedFilters, setSelectedFilters] = useState<string[]>(['Shopify', 'Is EU']);
   const [showVideoModal, setShowVideoModal] = useState(false);
-  const [publicationDate, setPublicationDate] = useState<Date>();
 
   const handleWatchTutorial = () => {
     setShowVideoModal(true);
@@ -147,16 +145,9 @@ export default function AdsPage({ searchParams }: PageProps) {
                       ))}
                     </div>
                     
-                    {/* Publication Date Picker */}
-                    <DatePicker 
-                      date={publicationDate}
-                      onDateChange={setPublicationDate}
-                      placeholder="Publication date"
-                      className="w-auto"
-                    />
                     
                     {/* Clear All + Save Filters */}
-                    <div className="flex items-center gap-3 text-sm">
+                    <div className="flex items-center gap-3 text-sm ml-auto">
                       <button className="text-gray-600 hover:text-gray-900">Clear all</button>
                       <span className="text-gray-300">•</span>
                       <button className="text-blue-600 hover:text-blue-800">Save filters</button>
