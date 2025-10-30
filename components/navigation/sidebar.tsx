@@ -107,7 +107,7 @@ const sections: NavSection[] = [
   {
     label: 'Tools',
     items: [
-      { id: 'magic-search', label: 'Magic Search', href: '/tools/magic-search', icon: MagicWandIcon },
+      { id: 'magic-search', label: 'Magic Search', href: '/big-spy/magic-search', icon: MagicWandIcon },
       { id: 'creative-clips', label: 'Creative Clips', href: '/tools/creative-clips', icon: VideoIcon },
       { id: 'one-collect', label: 'One Collect', href: '/tools/one-collect', icon: CollectIcon },
       { id: 'ai-toolkit', label: 'AI Toolkit', href: '/tools/ai-toolkit', icon: AIToolkitIcon },
