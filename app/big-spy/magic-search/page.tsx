@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { PageHeader } from '@/components/ui/page-header';
+import { WatchTutorialButton } from '@/components/ui/watch-tutorial-button';
 import { SearchIcon } from '@/components/icons';
 
 // Camera Icon Component
@@ -68,6 +69,15 @@ export default function MagicSearchPage() {
   const [searchQuery, setSearchQuery] = useState('');
   const [activeTab, setActiveTab] = useState('all');
   const [uploadedImage, setUploadedImage] = useState<string | null>(null);
+  const [showVideoModal, setShowVideoModal] = useState(false);
+
+  const handleWatchTutorial = () => {
+    setShowVideoModal(true);
+  };
+
+  const closeVideoModal = () => {
+    setShowVideoModal(false);
+  };
 
   // Handle image upload
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -91,6 +101,7 @@ export default function MagicSearchPage() {
       <PageHeader 
         title="Magic search"
         description="Type anything or upload an image, our AI will find top performing products and ads for you. Sorting is based on similarity scores and cannot be changed, but you can use filters to narrow down the results and get more relevant data."
+        actions={<WatchTutorialButton onClick={handleWatchTutorial} />}
       />
 
       <div className="p-8">
@@ -219,6 +230,35 @@ export default function MagicSearchPage() {
           )}
         </div>
       </div>
+
+      {/* YouTube Video Modal */}
+      {showVideoModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50" onClick={closeVideoModal}>
+          <div className="relative bg-white rounded-lg overflow-hidden max-w-4xl w-full mx-4" onClick={(e) => e.stopPropagation()}>
+            {/* Close Button */}
+            <button 
+              onClick={closeVideoModal}
+              className="absolute top-4 right-4 z-10 bg-black bg-opacity-50 text-white rounded-full p-2 hover:bg-opacity-75 transition-colors"
+            >
+              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+            
+            {/* Video Container */}
+            <div className="relative pb-[56.25%]">
+              <iframe
+                className="absolute top-0 left-0 w-full h-full"
+                src="https://www.youtube.com/embed/dQw4w9WgXcQ"
+                title="Tutorial Video"
+                frameBorder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+              ></iframe>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
