@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { useParams, useRouter } from 'next/navigation';
+import { useParams } from 'next/navigation';
 import { SearchIcon, FilterIcon, ChevronDownIcon, TikTokIcon, InstagramIcon, YoutubeIcon } from '@/components/icons';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
@@ -25,11 +25,11 @@ interface Creator {
   followers: number;
   gender: 'Male' | 'Female' | 'Other';
   contact: string;
-  approvalStatus: CreatorApprovalStatus; // 客户审核状态
-  avgPlayRate: number; // 近10条视频的均播率
-  engagementRate: number; // 粉丝互动率
-  viewToFollowerRatio: number; // 观看量/粉丝量
-  estimatedReach: number; // 预计曝光量
+  approvalStatus: CreatorApprovalStatus;
+  avgPlayRate: number;
+  engagementRate: number;
+  viewToFollowerRatio: number;
+  estimatedReach: number;
   videoCount: number;
   gmv: number;
   audienceDistribution: {
@@ -46,11 +46,11 @@ interface Submission {
   submitter: string;
   submissionDate: string;
   status: SubmissionStatus;
-  clientName: string; // 提报的客户名称
+  clientName: string;
   creators: Creator[];
 }
 
-// Mock data
+// Mock data - In production, fetch based on shareId
 const mockSubmissions: Submission[] = [
   {
     id: '1',
@@ -70,7 +70,7 @@ const mockSubmissions: Submission[] = [
         followers: 2500000,
         gender: 'Female',
         contact: 'emma.w@example.com',
-        approvalStatus: 'approved',
+        approvalStatus: 'pending',
         avgPlayRate: 75.5,
         engagementRate: 8.2,
         viewToFollowerRatio: 0.65,
@@ -152,7 +152,7 @@ const mockSubmissions: Submission[] = [
         followers: 3200000,
         gender: 'Female',
         contact: 'lisa.park@example.com',
-        approvalStatus: 'approved',
+        approvalStatus: 'pending',
         avgPlayRate: 78.9,
         engagementRate: 9.5,
         viewToFollowerRatio: 0.68,
@@ -174,52 +174,6 @@ const mockSubmissions: Submission[] = [
             { country: 'KR', percentage: 40 },
             { country: 'US', percentage: 30 },
             { country: 'JP', percentage: 20 },
-            { country: 'Others', percentage: 10 },
-          ],
-        },
-      },
-    ],
-  },
-  {
-    id: '3',
-    submissionNumber: 'SUB-2024-003',
-    submitter: 'Michael Brown',
-    submissionDate: '2024-03-05',
-    status: 'approved',
-    clientName: 'Puma Corporation',
-    creators: [
-      {
-        id: 'c4',
-        name: 'Alex Rodriguez',
-        avatar: 'https://placehold.co/100x100/fff3e0/f57c00?text=AR',
-        tags: ['Fitness', 'Health'],
-        country: 'US',
-        platform: 'TikTok',
-        followers: 1500000,
-        gender: 'Male',
-        contact: 'alex.r@example.com',
-        approvalStatus: 'rejected',
-        avgPlayRate: 85.2,
-        engagementRate: 7.3,
-        viewToFollowerRatio: 0.78,
-        estimatedReach: 1170000,
-        videoCount: 189,
-        gmv: 350000,
-        audienceDistribution: {
-          age: [
-            { range: '18-24', percentage: 40 },
-            { range: '25-34', percentage: 35 },
-            { range: '35-44', percentage: 20 },
-            { range: '45+', percentage: 5 },
-          ],
-          gender: [
-            { type: 'Male', percentage: 60 },
-            { type: 'Female', percentage: 40 },
-          ],
-          location: [
-            { country: 'US', percentage: 65 },
-            { country: 'CA', percentage: 15 },
-            { country: 'GB', percentage: 10 },
             { country: 'Others', percentage: 10 },
           ],
         },
@@ -296,14 +250,13 @@ const getPlatformIcon = (platform: string) => {
   }
 };
 
-export default function CreatorFolderPage() {
+export default function CreatorSharePage() {
   const params = useParams();
-  const router = useRouter();
-  const folderId = params.folderId as string;
+  const shareId = params.shareId as string;
   
   const [searchQuery, setSearchQuery] = useState('');
   const [expandedSubmissions, setExpandedSubmissions] = useState<Set<string>>(new Set());
-  const [selectedSubmissions, setSelectedSubmissions] = useState<Set<string>>(new Set());
+  const [submissions, setSubmissions] = useState<Submission[]>(mockSubmissions);
 
   const toggleSubmission = (submissionId: string) => {
     setExpandedSubmissions((prev) => {
@@ -317,55 +270,38 @@ export default function CreatorFolderPage() {
     });
   };
 
-  const toggleSelectSubmission = (submissionId: string) => {
-    setSelectedSubmissions((prev) => {
-      const newSet = new Set(prev);
-      if (newSet.has(submissionId)) {
-        newSet.delete(submissionId);
-      } else {
-        newSet.add(submissionId);
-      }
-      return newSet;
-    });
+  const handleApproveCreator = (submissionId: string, creatorId: string) => {
+    setSubmissions((prev) =>
+      prev.map((submission) =>
+        submission.id === submissionId
+          ? {
+              ...submission,
+              creators: submission.creators.map((creator) =>
+                creator.id === creatorId
+                  ? { ...creator, approvalStatus: 'approved' as CreatorApprovalStatus }
+                  : creator
+              ),
+            }
+          : submission
+      )
+    );
   };
 
-  const toggleSelectAll = () => {
-    if (selectedSubmissions.size === filteredSubmissions.length) {
-      setSelectedSubmissions(new Set());
-    } else {
-      setSelectedSubmissions(new Set(filteredSubmissions.map(s => s.id)));
-    }
-  };
-
-  const handleBatchShare = () => {
-    if (selectedSubmissions.size === 0) {
-      alert('Please select at least one submission');
-      return;
-    }
-
-    // Generate share link and navigate to share page
-    const shareId = `share_${Date.now()}_${Math.random().toString(36).substring(7)}`;
-    const shareUrl = `/my/favorites/creator/share/${shareId}`;
-    
-    // In production, should call API to save share data
-    console.log('Batch sharing submissions:', Array.from(selectedSubmissions));
-    
-    // Navigate to share page
-    router.push(shareUrl);
-  };
-
-  const handlePendingCreator = (creatorId: string, creatorName: string) => {
-    console.log('Marking creator as pending:', creatorId);
-    alert(`Marking ${creatorName} as pending`);
-    // In production, call API to update creator status
-  };
-
-  const handleDeleteCreator = (creatorId: string, creatorName: string) => {
-    if (confirm(`Are you sure you want to delete ${creatorName} from this submission?`)) {
-      console.log('Deleting creator:', creatorId);
-      alert(`Deleted ${creatorName}`);
-      // In production, call API to delete creator
-    }
+  const handleRejectCreator = (submissionId: string, creatorId: string) => {
+    setSubmissions((prev) =>
+      prev.map((submission) =>
+        submission.id === submissionId
+          ? {
+              ...submission,
+              creators: submission.creators.map((creator) =>
+                creator.id === creatorId
+                  ? { ...creator, approvalStatus: 'rejected' as CreatorApprovalStatus }
+                  : creator
+              ),
+            }
+          : submission
+      )
+    );
   };
 
   const handleExport = (submissionId: string) => {
@@ -373,21 +309,8 @@ export default function CreatorFolderPage() {
     alert(`Exporting submission ${submissionId}`);
   };
 
-  const handleShare = (submissionId: string) => {
-    console.log('Sharing submission:', submissionId);
-    // Generate share link and navigate to share page
-    const shareId = `share_${Date.now()}_${Math.random().toString(36).substring(7)}`;
-    const shareUrl = `/my/favorites/creator/share/${shareId}`;
-    
-    // In production, should call API to save share data with submissionId
-    console.log('Sharing single submission:', submissionId);
-    
-    // Navigate to share page
-    router.push(shareUrl);
-  };
-
   // Filter submissions based on search
-  const filteredSubmissions = mockSubmissions.filter((submission) =>
+  const filteredSubmissions = submissions.filter((submission) =>
     submission.submissionNumber.toLowerCase().includes(searchQuery.toLowerCase()) ||
     submission.submitter.toLowerCase().includes(searchQuery.toLowerCase()) ||
     submission.creators.some(c => c.name.toLowerCase().includes(searchQuery.toLowerCase()))
@@ -398,18 +321,10 @@ export default function CreatorFolderPage() {
       {/* Header */}
       <div className="border-b border-gray-200 bg-white px-8 py-6">
         <div className="flex items-center gap-4 mb-4">
-          <button
-            onClick={() => router.back()}
-            className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
-          >
-            <svg className="w-5 h-5 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-              <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
-            </svg>
-          </button>
           <div>
             <h1 className="text-2xl font-bold text-gray-900">Creator Shortlist</h1>
             <p className="text-sm text-gray-500 mt-1">
-              {filteredSubmissions.length} submissions • Last updated {new Date().toLocaleDateString()}
+              {filteredSubmissions.length} submissions • Shared for review
             </p>
           </div>
         </div>
@@ -435,24 +350,6 @@ export default function CreatorFolderPage() {
             <FilterIcon size={16} />
             More Filter
           </Button>
-
-          {/* Batch Share Button */}
-          <Button 
-            variant="default" 
-            className="flex items-center gap-2"
-            onClick={handleBatchShare}
-            disabled={selectedSubmissions.size === 0}
-          >
-            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-              <path strokeLinecap="round" strokeLinejoin="round" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z" />
-            </svg>
-            Batch Share
-            {selectedSubmissions.size > 0 && (
-              <span className="ml-1 px-2 py-0.5 bg-white/20 rounded-full text-xs">
-                {selectedSubmissions.size}
-              </span>
-            )}
-          </Button>
         </div>
       </div>
 
@@ -461,15 +358,6 @@ export default function CreatorFolderPage() {
         {/* Table Header - Sticky */}
         <div className="sticky top-0 z-10 bg-gray-50 px-8 py-3">
           <div className="flex items-center gap-4">
-            {/* Checkbox for select all */}
-            <div className="flex-shrink-0 w-5">
-              <input
-                type="checkbox"
-                checked={filteredSubmissions.length > 0 && selectedSubmissions.size === filteredSubmissions.length}
-                onChange={toggleSelectAll}
-                className="w-4 h-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500 cursor-pointer"
-              />
-            </div>
             {/* Empty space for expand icon */}
             <div className="flex-shrink-0 w-5"></div>
 
@@ -509,7 +397,7 @@ export default function CreatorFolderPage() {
             </div>
 
             {/* Actions */}
-            <div className="flex-shrink-0 w-40">
+            <div className="flex-shrink-0 w-24">
               <span className="text-xs font-semibold text-gray-700 uppercase">Actions</span>
             </div>
           </div>
@@ -542,18 +430,6 @@ export default function CreatorFolderPage() {
                     className="p-4 hover:bg-gray-50 transition-colors relative"
                   >
                     <div className="flex items-center gap-4">
-                      {/* Checkbox */}
-                      <div className="flex-shrink-0">
-                        <input
-                          type="checkbox"
-                          checked={selectedSubmissions.has(submission.id)}
-                          onChange={(e) => {
-                            e.stopPropagation();
-                            toggleSelectSubmission(submission.id);
-                          }}
-                          className="w-4 h-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500 cursor-pointer"
-                        />
-                      </div>
                       {/* Expand/Collapse Icon */}
                       <div 
                         className="flex-shrink-0 cursor-pointer"
@@ -629,8 +505,8 @@ export default function CreatorFolderPage() {
                         <span className="text-sm text-gray-900 font-medium">{submission.clientName}</span>
                       </div>
 
-                      {/* Actions */}
-                      <div className="flex-shrink-0 w-40 flex items-center gap-2 relative z-30">
+                      {/* Actions - Only Export */}
+                      <div className="flex-shrink-0 w-24 flex items-center gap-2 relative z-30">
                         <button
                           onClick={(e) => {
                             e.stopPropagation();
@@ -644,21 +520,6 @@ export default function CreatorFolderPage() {
                           </svg>
                           <span className="absolute right-full mr-1 top-1/2 -translate-y-1/2 px-2 py-1 bg-gray-900 text-white text-xs rounded whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-[100]">
                             Export
-                          </span>
-                        </button>
-                        <button
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            handleShare(submission.id);
-                          }}
-                          className="group relative p-2 hover:bg-gray-200 rounded-lg transition-colors z-30"
-                          title="Share"
-                        >
-                          <svg className="w-4 h-4 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-                            <path strokeLinecap="round" strokeLinejoin="round" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z" />
-                          </svg>
-                          <span className="absolute left-full ml-1 top-1/2 -translate-y-1/2 px-2 py-1 bg-gray-900 text-white text-xs rounded whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-[100]">
-                            Share
                           </span>
                         </button>
                       </div>
@@ -684,25 +545,25 @@ export default function CreatorFolderPage() {
                                 {getCreatorApprovalBadge(creator.approvalStatus)}
                               </div>
                               
-                              {/* Action Buttons */}
+                              {/* Action Buttons - Approve/Reject */}
                               <div className="flex items-center gap-2">
                                 <button
                                   onClick={(e) => {
                                     e.stopPropagation();
-                                    handlePendingCreator(creator.id, creator.name);
+                                    handleApproveCreator(submission.id, creator.id);
                                   }}
-                                  className="px-3 py-1.5 text-xs font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 transition-colors"
+                                  className="px-3 py-1.5 text-xs font-medium text-green-700 bg-white border border-green-300 rounded-md hover:bg-green-50 transition-colors"
                                 >
-                                  Pending
+                                  Approve
                                 </button>
                                 <button
                                   onClick={(e) => {
                                     e.stopPropagation();
-                                    handleDeleteCreator(creator.id, creator.name);
+                                    handleRejectCreator(submission.id, creator.id);
                                   }}
                                   className="px-3 py-1.5 text-xs font-medium text-red-600 bg-white border border-red-300 rounded-md hover:bg-red-50 transition-colors"
                                 >
-                                  Delete
+                                  Reject
                                 </button>
                               </div>
                             </div>
