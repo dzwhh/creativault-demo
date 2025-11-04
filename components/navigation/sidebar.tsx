@@ -124,7 +124,7 @@ const sections: NavSection[] = [
     label: 'My Page',
     items: [
       { id: 'favorites', label: 'Favorites', href: '/my/favorites', icon: FavoritesIcon },
-      { id: 'asset-studio', label: 'Asset Studio', href: '/profile/asset-studio', icon: AssetStudioIcon },
+      { id: 'asset-studio', label: 'Asset Studio', href: '/asset-studio', icon: AssetStudioIcon },
     ],
   },
 ];
