@@ -28,7 +28,7 @@ interface QuickLink {
 const quickLinks: QuickLink[] = [
   { title: 'Find Ads', desc: 'Cross-platform trending and fresh advertising creatives', href: '/big-spy/ads', icon: AdsIcon, gradient: 'from-pink-500/20 to-purple-500/20' },
   { title: 'Find Products', desc: 'High-potential winning products and category trends', href: '/big-spy/product', icon: ProductIcon, gradient: 'from-amber-500/20 to-red-500/20' },
-  { title: 'Find Creators', desc: 'Creator & KOL creative performance and data profiles', href: '/big-spy/creator', icon: UsersIcon, gradient: 'from-sky-500/20 to-cyan-500/20' },
+  { title: 'Find Influencers', desc: 'Influencer & KOL creative performance and data profiles', href: '/big-spy/creator', icon: UsersIcon, gradient: 'from-sky-500/20 to-cyan-500/20' },
   { title: 'Find App&Gaming', desc: 'App and gaming advertising trends and rankings', href: '/big-spy/app-gaming', icon: AppWindowIcon, gradient: 'from-green-500/20 to-emerald-500/20', comingSoon: true },
   { title: 'Find Short Drama', desc: 'Short drama themes, plot hooks and traffic performance', href: '/big-spy/short-drama', icon: FilmIcon, gradient: 'from-fuchsia-500/20 to-rose-500/20', comingSoon: true },
   { title: 'Find AI', desc: 'AI application advertising and growth highlights', href: '/big-spy/ai-app', icon: BrainCircuitIcon, gradient: 'from-teal-500/20 to-emerald-500/20', comingSoon: true },
@@ -444,7 +444,7 @@ export default function HomePage() {
           </Link>
         </div>
         <p className="text-muted-foreground text-md">
-          Explore advertising, product, creator, app and creative growth opportunities through multi-dimensional data and intelligent analysis.
+          Explore advertising, product, influencer, app and creative growth opportunities through multi-dimensional data and intelligent analysis.
         </p>
       </section>
       

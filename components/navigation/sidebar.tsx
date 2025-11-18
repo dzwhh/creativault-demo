@@ -90,7 +90,7 @@ const sections: NavSection[] = [
     items: [
       { id: 'ads', label: 'Ads', href: '/big-spy/ads', icon: AdsIcon },
       { id: 'products', label: 'Products', href: '/big-spy/products', icon: ProductIcon },
-      { id: 'creators', label: 'Creators', href: '/big-spy/creator', icon: UsersIcon },
+      { id: 'creators', label: 'Influencers', href: '/big-spy/creator', icon: UsersIcon },
       { id: 'app-gaming', label: 'App&Gaming', href: '/big-spy/app-gaming', icon: AppWindowIcon },
       { id: 'drama', label: 'Drama', href: '/big-spy/short-drama', icon: FilmIcon },
       { id: 'ai-products', label: 'AI Products', href: '/big-spy/ai-app', icon: BrainCircuitIcon },
