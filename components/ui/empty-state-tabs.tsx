@@ -23,9 +23,37 @@ export function EmptyStateTabs({
   const [activeTab, setActiveTab] = useState<TabType>(defaultTab);
 
   const tabs = [
-    { id: 'upload' as TabType, label: 'Upload CSV', icon: '📄' },
-    { id: 'link' as TabType, label: 'From URL', icon: '🔗' },
-    { id: 'words' as TabType, label: 'By Keywords', icon: '🔍' },
+    { 
+      id: 'upload' as TabType, 
+      label: 'Upload CSV', 
+      icon: (
+        <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+          <polyline points="17 8 12 3 7 8"/>
+          <line x1="12" y1="3" x2="12" y2="15"/>
+        </svg>
+      )
+    },
+    { 
+      id: 'link' as TabType, 
+      label: 'From URL', 
+      icon: (
+        <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+          <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/>
+          <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>
+        </svg>
+      )
+    },
+    { 
+      id: 'words' as TabType, 
+      label: 'By Keywords', 
+      icon: (
+        <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+          <circle cx="11" cy="11" r="8"/>
+          <path d="m21 21-4.35-4.35"/>
+        </svg>
+      )
+    },
   ];
 
   return (
@@ -42,7 +70,7 @@ export function EmptyStateTabs({
                 : 'text-gray-600 hover:text-gray-900'
             }`}
           >
-            <span className="text-base">{tab.icon}</span>
+            {tab.icon}
             {tab.label}
           </button>
         ))}
