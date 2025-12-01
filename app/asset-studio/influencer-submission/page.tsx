@@ -7,6 +7,7 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { cn } from '@/lib/utils';
+import ContactEmail from '@/app/asset-studio/influencer-contact/contact-email';
 
 // View mode types
 type ViewMode = 'submitter' | 'reviewer';
@@ -328,6 +329,8 @@ export default function InfluencerSubmissionPage() {
   const [newClientName, setNewClientName] = useState('');
   const [reviewerSubmissions, setReviewerSubmissions] = useState<ReviewerSubmission[]>([]);
   const [creatorApprovalStates, setCreatorApprovalStates] = useState<Record<string, CreatorApprovalStatus>>({});
+  const [showContactEmail, setShowContactEmail] = useState(false);
+  const [contactCreators, setContactCreators] = useState<Creator[]>([]);
 
   // Available clients list (mock data)
   const availableClients = ['Nike Inc.', 'Adidas Group', 'Puma Corporation', 'Under Armour', 'New Balance'];
@@ -864,6 +867,22 @@ export default function InfluencerSubmissionPage() {
                             Share
                           </span>
                         </button>
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setContactCreators(submission.creators);
+                            setShowContactEmail(true);
+                          }}
+                          className="group relative p-2 hover:bg-gray-200 rounded-lg transition-colors z-30"
+                          title="Contact all"
+                        >
+                          <svg className="w-4 h-4 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                          </svg>
+                          <span className="absolute bottom-full mb-1 left-1/2 -translate-x-1/2 px-2 py-1 bg-gray-900 text-white text-xs rounded whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-[100]">
+                            Contact all
+                          </span>
+                        </button>
                       </div>
                     </div>
                   </div>
@@ -1235,6 +1254,13 @@ export default function InfluencerSubmissionPage() {
           </div>
         </div>
       )}
+
+      {/* Contact Email Drawer */}
+      <ContactEmail
+        isOpen={showContactEmail}
+        onClose={() => setShowContactEmail(false)}
+        creators={contactCreators}
+      />
     </div>
   );
 }
