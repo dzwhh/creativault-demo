@@ -232,12 +232,88 @@ const mockData = {
       shares: 8300,
     },
   ],
+  amazonProducts: [
+    {
+      id: '1',
+      title: 'BFCM: Top Deals',
+      itemCount: 132,
+      likes: 5449,
+      thumbnail: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=300&h=300&fit=crop',
+      category: 'Electronics',
+    },
+    {
+      id: '2',
+      title: 'Swiftie Gift Ideas',
+      itemCount: 229,
+      likes: 1630,
+      thumbnail: 'https://images.unsplash.com/photo-1513104890138-7c749659a591?w=300&h=300&fit=crop',
+      category: 'Gifts',
+    },
+    {
+      id: '3',
+      title: 'Travel Minis',
+      itemCount: 92,
+      likes: 4500,
+      thumbnail: 'https://images.unsplash.com/photo-1484788984921-03950022c9ef?w=300&h=300&fit=crop',
+      category: 'Travel',
+    },
+    {
+      id: '4',
+      title: 'KOREAN BEAUTY',
+      itemCount: 166,
+      likes: 2500,
+      thumbnail: 'https://images.unsplash.com/photo-1556228720-195a672e8a03?w=300&h=300&fit=crop',
+      category: 'Beauty',
+    },
+    {
+      id: '5',
+      title: 'Teen Tween Boy Gift Ideas',
+      itemCount: 223,
+      likes: 290,
+      thumbnail: 'https://images.unsplash.com/photo-1486401899868-0e435ed85128?w=300&h=300&fit=crop',
+      category: 'Gifts',
+    },
+    {
+      id: '6',
+      title: 'BEAUTY BFCM',
+      itemCount: 187,
+      likes: 1260,
+      thumbnail: 'https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=300&h=300&fit=crop',
+      category: 'Beauty',
+    },
+    {
+      id: '7',
+      title: 'Teen Tween Girl Gift Ideas',
+      itemCount: 247,
+      likes: 1670,
+      thumbnail: 'https://images.unsplash.com/photo-1515377905703-c4788e51af15?w=300&h=300&fit=crop',
+      category: 'Gifts',
+    },
+    {
+      id: '8',
+      title: 'Burr Baskets for Everyone',
+      itemCount: 97,
+      likes: 3970,
+      thumbnail: 'https://images.unsplash.com/photo-1543508282-6319a3e2621f?w=300&h=300&fit=crop',
+      category: 'Home',
+    },
+    {
+      id: '9',
+      title: 'BFCM Travel Essentials',
+      itemCount: 222,
+      likes: 1200,
+      thumbnail: 'https://images.unsplash.com/photo-1488085061387-422e29b40080?w=300&h=300&fit=crop',
+      category: 'Travel',
+    },
+  ],
 };
 
 export default function CreatorDetail({ creator, onClose }: CreatorDetailProps) {
   const [activeTab, setActiveTab] = useState<'tiktok' | 'youtube' | 'instagram' | 'amazon'>('tiktok');
   const [showContactDropdown, setShowContactDropdown] = useState(false);
   const [activePerformanceTab, setActivePerformanceTab] = useState('Avg View Rate');
+  const [amazonSearchQuery, setAmazonSearchQuery] = useState('');
+  const [amazonCategory, setAmazonCategory] = useState('all');
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   // 点击外部关闭下拉菜单
@@ -1218,17 +1294,118 @@ export default function CreatorDetail({ creator, onClose }: CreatorDetailProps) 
                 {/* Amazon Tab */}
                 {activeTab === 'amazon' && (
                   <div className="space-y-6">
-                    <div className="flex items-center justify-center h-64 bg-gray-50 rounded-lg">
-                      <div className="text-center">
-                        <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-gray-200 flex items-center justify-center">
-                          <svg className="w-8 h-8 text-gray-400" viewBox="0 0 24 24" fill="currentColor">
-                            <path d="M.045 18.02c.072-.116.187-.124.348-.022 3.636 2.11 7.594 3.166 11.87 3.166 2.852 0 5.668-.533 8.447-1.595l.315-.14c.138-.06.234-.1.293-.13.226-.088.39-.046.525.13.12.174.09.336-.12.48-.256.19-.6.41-1.006.654-1.244.743-2.64 1.316-4.185 1.726-1.544.406-3.045.61-4.502.61-1.877 0-3.708-.296-5.49-.89-1.777-.59-3.386-1.39-4.82-2.4-.376-.297-.57-.57-.57-.825 0-.088.02-.162.063-.22zm23.688-1.87c-.196-.25-.592-.25-1.188 0-.195.056-.57.186-1.12.39-.556.205-1.032.338-1.432.4l-.234.03c-.39.046-.687.077-.892.096-.296.02-.495-.06-.598-.235-.106-.177-.053-.36.16-.553.628-.58 1.557-1.054 2.787-1.422 1.23-.37 2.35-.555 3.36-.555.876 0 1.575.196 2.094.586.515.39.773.942.773 1.655 0 .39-.052.812-.16 1.264-.104.45-.37 1.35-.796 2.697l-.33 1.05c-.265.86-.39 1.433-.38 1.717 0 .443.183.665.55.665.26 0 .506-.104.736-.312.23-.204.472-.5.733-.882.062-.088.137-.132.224-.132.088 0 .148.06.184.178.028.118-.023.226-.152.327-.48.598-1.003 1.044-1.567 1.336-.566.293-1.117.44-1.655.44-.77 0-1.305-.34-1.603-1.02-.15-.35-.223-.798-.223-1.344 0-.575.112-1.474.337-2.695l.554-2.874c.05-.26.075-.47.075-.63 0-.297-.1-.446-.302-.446-.13 0-.28.035-.447.106zm-7.065 2.78c.088 0 .132.062.132.186 0 .124-.052.227-.156.308-.316.25-.673.47-1.07.66-.396.19-.817.284-1.263.284-.534 0-.95-.144-1.248-.43-.297-.287-.446-.688-.446-1.205 0-.622.202-1.19.607-1.705.406-.514.918-.77 1.538-.77.47 0 .844.15 1.12.446.28.297.42.688.42 1.174 0 .124-.03.235-.087.334-.06.098-.154.148-.285.148h-2.606c-.088 0-.132.062-.132.186 0 .422.118.765.355 1.03.236.266.553.4.95.4.533 0 1.053-.204 1.56-.614.084-.062.158-.093.222-.093zm-2.37-1.718c.062 0 .093-.03.093-.093 0-.223-.074-.413-.223-.57-.148-.156-.337-.234-.565-.234-.296 0-.553.11-.77.327-.22.216-.342.484-.37.803-.006.062.024.093.092.093h1.743zm-6.214 3.244c-.18 0-.27-.062-.27-.186 0-.062.026-.124.08-.186.05-.062.13-.093.234-.093.18 0 .386-.05.617-.15.23-.098.45-.235.66-.41.21-.172.388-.38.535-.617.146-.235.22-.486.22-.75 0-.186-.05-.334-.15-.446-.1-.11-.247-.166-.446-.166-.172 0-.342.056-.512.166-.168.112-.318.26-.45.447l-.354.555c-.208.324-.46.588-.753.794-.294.204-.627.308-1 .308-.476 0-.86-.15-1.15-.446-.29-.298-.438-.688-.438-1.174 0-.623.187-1.19.56-1.705.374-.516.862-.773 1.467-.773.26 0 .488.062.684.186.195.124.36.293.494.506.088-.186.227-.334.417-.446.188-.112.397-.168.627-.168.18 0 .323.062.43.186.104.125.156.283.156.476 0 .124-.044.242-.132.354-.09.112-.202.168-.336.168-.124 0-.186-.062-.186-.186v-.093c0-.088-.026-.162-.08-.224-.05-.062-.122-.093-.214-.093-.2 0-.39.15-.57.446-.178.298-.268.653-.268 1.067 0 .26.056.475.17.648.11.174.26.26.446.26.212 0 .416-.088.61-.26.197-.174.39-.424.58-.75l.3-.52c.196-.297.424-.536.684-.716.26-.18.545-.27.855-.27.488 0 .882.15 1.18.446.3.297.447.688.447 1.174 0 .31-.074.606-.223.886-.15.28-.35.528-.603.745-.25.216-.533.39-.848.52-.315.132-.634.197-.955.197-.26 0-.476-.062-.648-.186-.172-.124-.258-.293-.258-.506 0-.124.044-.235.132-.334.09-.098.202-.148.336-.148.124 0 .186.062.186.186v.093c0 .088.026.162.08.224.05.062.12.093.21.093.2 0 .39-.15.57-.446.178-.298.268-.653.268-1.067 0-.26-.056-.475-.17-.648-.11-.174-.26-.26-.446-.26-.212 0-.416.088-.61.26-.197.174-.39.424-.58.75l-.3.52c-.196.297-.424.536-.684.716-.26.18-.545.27-.855.27z"/>
-                          </svg>
-                        </div>
-                        <p className="text-gray-600 font-medium">Amazon Tab</p>
-                        <p className="text-sm text-gray-400 mt-2">Content coming soon...</p>
+                    {/* Search, Filter and Link - All in one row */}
+                    <div className="flex items-center gap-3">
+                      {/* Search Box */}
+                      <div className="relative flex-1">
+                        <svg className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                          <circle cx="11" cy="11" r="8"/>
+                          <path d="m21 21-4.35-4.35"/>
+                        </svg>
+                        <input
+                          type="text"
+                          placeholder="Search all 5,449 posts"
+                          value={amazonSearchQuery}
+                          onChange={(e) => setAmazonSearchQuery(e.target.value)}
+                          className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                        />
                       </div>
+
+                      {/* Category Filter */}
+                      <select
+                        value={amazonCategory}
+                        onChange={(e) => setAmazonCategory(e.target.value)}
+                        className="px-4 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white"
+                      >
+                        <option value="all">All Categories</option>
+                        <option value="Electronics">Electronics</option>
+                        <option value="Gifts">Gifts</option>
+                        <option value="Travel">Travel</option>
+                        <option value="Beauty">Beauty</option>
+                        <option value="Home">Home</option>
+                      </select>
+
+                      {/* Visit Original Page Link */}
+                      <a
+                        href="https://www.amazon.com/shop/creator"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-blue-600 hover:text-blue-700 whitespace-nowrap"
+                      >
+                        <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                          <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+                          <polyline points="15 3 21 3 21 9"/>
+                          <line x1="10" y1="14" x2="21" y2="3"/>
+                        </svg>
+                        Visit Original Page
+                      </a>
                     </div>
+
+                    {/* Product Grid */}
+                    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                      {mockData.amazonProducts
+                        .filter(product => {
+                          const matchesSearch = product.title.toLowerCase().includes(amazonSearchQuery.toLowerCase());
+                          const matchesCategory = amazonCategory === 'all' || product.category === amazonCategory;
+                          return matchesSearch && matchesCategory;
+                        })
+                        .sort((a, b) => b.likes - a.likes) // Sort by likes descending
+                        .map((product) => (
+                          <div key={product.id} className="group relative bg-white rounded-lg border border-gray-200 overflow-hidden hover:shadow-lg transition-all">
+                            {/* Pin Icon */}
+                            <button className="absolute top-2 right-2 z-10 w-8 h-8 bg-white rounded-full shadow-md flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                              <svg className="w-4 h-4 text-gray-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                                <path d="M12 2v8M12 10l-4 4v6h8v-6l-4-4"/>
+                              </svg>
+                            </button>
+
+                            {/* Product Image */}
+                            <div className="aspect-square overflow-hidden bg-gray-100">
+                              <img
+                                src={product.thumbnail}
+                                alt={product.title}
+                                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                              />
+                            </div>
+
+                            {/* Product Info */}
+                            <div className="p-3">
+                              <h3 className="font-semibold text-sm text-gray-900 mb-1 line-clamp-2">
+                                {product.title}
+                              </h3>
+                              <div className="flex items-center justify-between text-xs text-gray-600">
+                                <span>See all {product.itemCount} items</span>
+                                <div className="flex items-center gap-1">
+                                  <svg className="w-4 h-4 text-red-500" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+                                  </svg>
+                                  <span className="font-semibold">{product.likes.toLocaleString()}</span>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        ))}
+                    </div>
+
+                    {/* No Results */}
+                    {mockData.amazonProducts.filter(product => {
+                      const matchesSearch = product.title.toLowerCase().includes(amazonSearchQuery.toLowerCase());
+                      const matchesCategory = amazonCategory === 'all' || product.category === amazonCategory;
+                      return matchesSearch && matchesCategory;
+                    }).length === 0 && (
+                      <div className="flex items-center justify-center h-64 bg-gray-50 rounded-lg">
+                        <div className="text-center">
+                          <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-gray-200 flex items-center justify-center">
+                            <svg className="w-8 h-8 text-gray-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                              <circle cx="11" cy="11" r="8"/>
+                              <path d="m21 21-4.35-4.35"/>
+                            </svg>
+                          </div>
+                          <p className="text-gray-600 font-medium">No products found</p>
+                          <p className="text-sm text-gray-400 mt-2">Try adjusting your search or filter</p>
+                        </div>
+                      </div>
+                    )}
                   </div>
                 )}
               </div>

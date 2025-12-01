@@ -92,6 +92,14 @@ const AgeIcon = ({ size = 16, className = '' }: { size?: number; className?: str
   </svg>
 );
 
+const AmazonIcon = ({ size = 16, className = '' }: { size?: number; className?: string }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className={className}>
+    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+    <polyline points="9 22 9 12 15 12 15 22"/>
+    <path d="M2 12h20"/>
+  </svg>
+);
+
 // 过滤选项数据
 const platforms = [
   { value: 'youtube', label: 'YouTube' },
@@ -120,6 +128,11 @@ const industries = [
 const genders = [
   { value: 'male', label: 'Male' },
   { value: 'female', label: 'Female' },
+];
+
+const amazonTopCreatorOptions = [
+  { value: 'yes', label: 'Yes' },
+  { value: 'no', label: 'No' },
 ];
 
 const languages = [
@@ -193,6 +206,13 @@ const filterSections: FilterSection[] = [
     title: 'E-commerce',
     icon: EcommerceIcon,
     type: 'toggle',
+  },
+  {
+    id: 'amazon_top_creator',
+    title: 'Amazon Top Creator',
+    icon: AmazonIcon,
+    type: 'select',
+    options: amazonTopCreatorOptions,
   },
   {
     id: 'engagement',
