@@ -69,7 +69,7 @@ const mockSubmissions: Submission[] = [
     id: '1',
     submissionNumber: 'SUB-2024-001',
     submitter: 'John Doe',
-    submissionDate: '2024-03-15',
+    submissionDate: new Date().toISOString().split('T')[0], // Today's date
     status: 'pending',
     clientNames: ['Nike Inc.', 'Nike Asia'],
     creators: [
@@ -151,7 +151,7 @@ const mockSubmissions: Submission[] = [
     id: '2',
     submissionNumber: 'SUB-2024-002',
     submitter: 'Sarah Johnson',
-    submissionDate: '2024-03-10',
+    submissionDate: new Date().toISOString().split('T')[0], // Today's date
     status: 'submitted',
     clientNames: ['Adidas Group'],
     creators: [
@@ -248,6 +248,12 @@ const formatNumber = (num: number): string => {
     return (num / 1000).toFixed(1) + 'K';
   }
   return num.toString();
+};
+
+// Check if date is today
+const isToday = (dateString: string): boolean => {
+  const today = new Date().toISOString().split('T')[0];
+  return dateString === today;
 };
 
 const getCountryFlag = (code: string): string => {
@@ -545,30 +551,45 @@ export default function InfluencerSubmissionPage() {
             </div>
           </div>
 
-          {/* View Mode Toggle */}
-          <div className="flex items-center gap-2 bg-gray-100 rounded-lg p-1">
-            <button
-              onClick={() => setViewMode('submitter')}
-              className={cn(
-                'px-4 py-2 rounded-md text-sm font-medium transition-colors',
-                viewMode === 'submitter'
-                  ? 'bg-white text-gray-900 shadow-sm'
-                  : 'text-gray-600 hover:text-gray-900'
-              )}
+          <div className="flex items-center gap-4">
+            {/* Find Influencers Button */}
+            <Button
+              onClick={() => router.push('/big-spy/creator')}
+              variant="outline"
+              className="flex items-center gap-2"
             >
-              Submitter View
-            </button>
-            <button
-              onClick={() => setViewMode('reviewer')}
-              className={cn(
-                'px-4 py-2 rounded-md text-sm font-medium transition-colors',
-                viewMode === 'reviewer'
-                  ? 'bg-white text-gray-900 shadow-sm'
-                  : 'text-gray-600 hover:text-gray-900'
-              )}
-            >
-              Reviewer View
-            </button>
+              <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <circle cx="11" cy="11" r="8"/>
+                <path d="m21 21-4.35-4.35"/>
+              </svg>
+              Find Influencers
+            </Button>
+
+            {/* View Mode Toggle */}
+            <div className="flex items-center gap-2 bg-gray-100 rounded-lg p-1">
+              <button
+                onClick={() => setViewMode('submitter')}
+                className={cn(
+                  'px-4 py-2 rounded-md text-sm font-medium transition-colors',
+                  viewMode === 'submitter'
+                    ? 'bg-white text-gray-900 shadow-sm'
+                    : 'text-gray-600 hover:text-gray-900'
+                )}
+              >
+                Submitter View
+              </button>
+              <button
+                onClick={() => setViewMode('reviewer')}
+                className={cn(
+                  'px-4 py-2 rounded-md text-sm font-medium transition-colors',
+                  viewMode === 'reviewer'
+                    ? 'bg-white text-gray-900 shadow-sm'
+                    : 'text-gray-600 hover:text-gray-900'
+                )}
+              >
+                Reviewer View
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -733,7 +754,14 @@ export default function InfluencerSubmissionPage() {
                         className="flex-1 cursor-pointer"
                         onClick={() => toggleSubmission(submission.id)}
                       >
-                        <span className="font-medium text-gray-900 text-sm">{submission.submissionNumber}</span>
+                        <div className="flex items-center gap-2">
+                          <span className="font-medium text-gray-900 text-sm">{submission.submissionNumber}</span>
+                          {isToday(submission.submissionDate) && (
+                            <span className="px-1.5 py-0.5 text-[10px] font-semibold text-white bg-red-500 rounded-full">
+                              Today
+                            </span>
+                          )}
+                        </div>
                       </div>
 
                       {/* Submitter */}
@@ -1068,7 +1096,14 @@ export default function InfluencerSubmissionPage() {
                             <ChevronDownIcon className={cn('w-5 h-5 text-gray-400 transition-transform', isExpanded && 'rotate-180')} />
                           </div>
                           <div className="flex-1 cursor-pointer" onClick={() => toggleSubmission(submission.id)}>
-                            <span className="font-medium text-gray-900 text-sm">{submission.submissionNumber}</span>
+                            <div className="flex items-center gap-2">
+                              <span className="font-medium text-gray-900 text-sm">{submission.submissionNumber}</span>
+                              {isToday(submission.submissionDate) && (
+                                <span className="px-1.5 py-0.5 text-[10px] font-semibold text-white bg-red-500 rounded-full">
+                                  Today
+                                </span>
+                              )}
+                            </div>
                           </div>
                           <div className="flex-1 cursor-pointer" onClick={() => toggleSubmission(submission.id)}>
                             <span className="text-sm text-gray-600">{submission.partner}</span>

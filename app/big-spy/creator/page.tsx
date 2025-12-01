@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import { SearchIcon, FilterIcon, UsersIcon, TikTokIcon, InstagramIcon, YoutubeIcon, ChevronDownIcon } from '@/components/icons';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
@@ -330,6 +331,7 @@ const CreatorRowCard = ({ creator, isSelected = false, onClick, onShortlist }: {
 };
 
 export default function CreatorPage() {
+  const router = useRouter();
   const [searchQuery, setSearchQuery] = useState('');
   const [creators, setCreators] = useState<Creator[]>([]);
   const [selectedCreator, setSelectedCreator] = useState<Creator | null>(null);
@@ -340,6 +342,8 @@ export default function CreatorPage() {
   const [showSaveModal, setShowSaveModal] = useState(false);
   const [isBatchSave, setIsBatchSave] = useState(false);
   const [creatorsToSave, setCreatorsToSave] = useState<Creator[]>([]);
+  const [submissionCount, setSubmissionCount] = useState(0);
+  const [showBadgeAnimation, setShowBadgeAnimation] = useState(false);
 
   const handleWatchTutorial = () => {
     setShowVideoModal(true);
@@ -362,9 +366,18 @@ export default function CreatorPage() {
       alert('No influencers to shortlist');
       return;
     }
-    setCreatorsToSave(filteredCreators);
-    setIsBatchSave(true);
-    setShowSaveModal(true);
+    
+    // 直接增加计数并触发动画
+    setSubmissionCount(prev => prev + 1);
+    setShowBadgeAnimation(true);
+    
+    // 显示成功提示
+    alert(`Successfully added ${filteredCreators.length} influencers to submission list`);
+    
+    // 动画结束后重置
+    setTimeout(() => {
+      setShowBadgeAnimation(false);
+    }, 600);
   };
 
   // 处理保存到收藏夹
@@ -432,9 +445,30 @@ export default function CreatorPage() {
       {/* Header */}
       <div className="shrink-0 border-b bg-gray-50 backdrop-blur supports-[backdrop-filter]:bg-gray-50">
         <div className="flex flex-col gap-4 p-6">
-          <div className="flex items-center gap-3">
-            <h1 className="text-2xl font-bold">Find Influencers</h1>
-            <WatchTutorialButton onClick={handleWatchTutorial} />
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <h1 className="text-2xl font-bold">Find Influencers</h1>
+              <WatchTutorialButton onClick={handleWatchTutorial} />
+            </div>
+            <div className="relative">
+              <Button
+                onClick={() => router.push('/asset-studio/influencer-submission')}
+                className="flex items-center gap-2 bg-gradient-to-r from-blue-400 via-blue-600 to-blue-800 text-white hover:opacity-90"
+              >
+                <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2"/>
+                  <path d="M9 5a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2a2 2 0 0 0-2-2h-2a2 2 0 0 0-2 2"/>
+                </svg>
+                Influencer Submission
+              </Button>
+              {submissionCount > 0 && (
+                <span className={`absolute -top-2 -right-2 bg-red-500 text-white text-xs font-bold rounded-full min-w-[20px] h-5 flex items-center justify-center px-1.5 ${
+                  showBadgeAnimation ? 'animate-bounce' : ''
+                }`}>
+                  {submissionCount}
+                </span>
+              )}
+            </div>
           </div>
           <p className="text-muted-foreground">Find the right influencers in no time and get your content to the right crowd</p>
         </div>
