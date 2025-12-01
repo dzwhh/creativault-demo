@@ -281,7 +281,7 @@ export default function CreatorDetail({ creator, onClose }: CreatorDetailProps) 
         className="fixed top-4 right-4 bottom-4 w-[calc(50vw+200px)] bg-white rounded-xl shadow-xl z-50 overflow-hidden"
         style={{ maxWidth: 'calc(100vw - 32px)', maxHeight: 'calc(100vh - 32px)' }}
       >
-        <NormalDetail title="Creator Details" detailType="creator">
+        <NormalDetail title="Influencer Details" detailType="creator">
           <div className="h-full overflow-y-auto">
             <div className="p-6">
               {/* Creator Avatar and Basic Info */}
