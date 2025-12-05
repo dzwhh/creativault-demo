@@ -94,6 +94,7 @@ interface FilterSection {
   type: 'select' | 'multiselect' | 'date' | 'range' | 'toggle';
   hasActiveIndicator?: boolean;
   isPopular?: boolean;
+  isEstimate?: boolean;
   hasArrow?: boolean;
 }
 
@@ -193,7 +194,8 @@ const filterSections: FilterSection[] = [
     title: 'Spend',
     icon: DollarSignIcon,
     type: 'range',
-    isPopular: true
+    isPopular: false,
+    isEstimate: true
   },
   {
     id: 'targeting_audience',
@@ -251,6 +253,12 @@ const FilterItem = ({
         {section.isPopular && (
           <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-orange-100 text-orange-800">
             POPULAR
+          </span>
+        )}
+        
+        {section.isEstimate && (
+          <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-orange-100 text-orange-800">
+            ESTIMATE
           </span>
         )}
       </div>
@@ -381,13 +389,7 @@ export function AdsFilters() {
         />
       </div>
 
-      {/* Spend Settings */}
-      <div className="mt-6 mx-4 mb-4">
-        <button className="w-full flex items-center justify-center gap-2 p-3 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors">
-          <SettingsIcon size={16} className="text-gray-500" />
-          <span className="text-sm font-medium text-gray-700">Spend settings</span>
-        </button>
-      </div>
+
     </div>
   );
 }
