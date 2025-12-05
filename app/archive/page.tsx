@@ -24,6 +24,8 @@ import { EmptyStateTabs } from '@/components/ui/empty-state-tabs';
 import { Calendar } from '@/components/ui/calendar';
 import { DatePicker } from '@/components/ui/date-picker';
 import { Table, TableHeader, TableBody, TableRow, TableHead, TableCell } from '@/components/ui/table';
+import { CreatorFilterNew } from '@/app/big-spy/creator/creator-filter-new';
+import { CreatorList } from '@/app/big-spy/creator/creator-list';
 
 export default function ArchivePage() {
   const [selectedDate, setSelectedDate] = useState<Date>();
@@ -468,6 +470,37 @@ export default function ArchivePage() {
               <Button variant="outline">Cancel</Button>
               <Button>Save Changes</Button>
             </CardFooter>
+          </Card>
+        </section>
+
+        {/* Creator Components Section */}
+        <section>
+          <h2 className="text-2xl font-bold mb-6 text-gray-900">Creator Components</h2>
+          
+          {/* Creator Filter
+          <Card className="mb-6">
+            <CardHeader>
+              <CardTitle>Creator Filter</CardTitle>
+              <CardDescription>Filter component with collapsible sections</CardDescription>
+            </CardHeader>
+            <CardContent className="p-0">
+              <div className="h-[600px] overflow-auto">
+                <CreatorFilterNew />
+              </div>
+            </CardContent>
+          </Card> */}
+
+          {/* Creator List */}
+          <Card>
+            <CardHeader>
+              <CardTitle>Creator List</CardTitle>
+              <CardDescription>Table view of creators with search and filtering</CardDescription>
+            </CardHeader>
+            <CardContent className="p-0">
+              <div className="h-[800px] overflow-hidden">
+                <CreatorList />
+              </div>
+            </CardContent>
           </Card>
         </section>
       </div>
