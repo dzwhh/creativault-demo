@@ -227,7 +227,7 @@ const mockProducts: Product[] = [
   {
     id: '10',
     rank: 10,
-    image: 'https://images.unsplash.com/photo-1620799140188-3b2a7c2e0e12?w=200&h=200&fit=crop',
+    image: 'https://images.unsplash.com/photo-1556228578-0d85b1a4d571?w=200&h=200&fit=crop',
     name: 'Collagen Peptides Powder - Unflavored 20oz',
     price: '$39.99',
     country: 'United States',
@@ -284,7 +284,7 @@ const mockProducts: Product[] = [
   {
     id: '13',
     rank: 13,
-    image: 'https://images.unsplash.com/photo-1587049352846-4a222e784210?w=200&h=200&fit=crop',
+    image: 'https://images.unsplash.com/photo-1570222094114-d054a817e56b?w=200&h=200&fit=crop',
     name: 'Portable Blender - USB Rechargeable Smoothie Maker',
     price: '$34.99',
     country: 'Germany',

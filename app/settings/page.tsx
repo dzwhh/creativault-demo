@@ -58,14 +58,14 @@ export default function SettingsPage() {
   const [activeTab, setActiveTab] = useState<'sidebar' | 'permissions'>('sidebar');
   const [visibleMenuItems, setVisibleMenuItems] = useState<Set<string>>(new Set());
 
-  // 初始化：从localStorage加载或默认全部显示
+  // 初始化：从localStorage加载或默认只显示指定菜单
   useEffect(() => {
     const saved = localStorage.getItem('visibleMenuItems');
     if (saved) {
       setVisibleMenuItems(new Set(JSON.parse(saved)));
     } else {
-      // 默认全部显示
-      setVisibleMenuItems(new Set(menuItems.map(item => item.id)));
+      // 默认只显示 market-insight、ads、products、creators
+      setVisibleMenuItems(new Set(['market-insight', 'ads', 'products', 'creators']));
     }
   }, []);
 

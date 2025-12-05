@@ -16,10 +16,9 @@ const PinterestIcon = ({ size = 16, className = '' }: { size?: number; className
 
 const platforms = [
   { id: 'meta', name: 'Meta Ads Library', icon: MetaIcon, activeColor: 'text-blue-600 border-blue-600 bg-blue-50' },
-  { id: 'tiktok', name: 'TikTok', icon: TikTokIcon, activeColor: 'text-black border-black bg-gray-200' },
-  { id: 'google', name: 'Google', icon: GoogleIcon, activeColor: 'text-yellow-600 border-yellow-600 bg-yellow-50' },
-  { id: 'pinterest', name: 'Pinterest', icon: PinterestIcon, activeColor: 'text-red-600 border-red-600 bg-red-50' },
- 
+  // { id: 'tiktok', name: 'TikTok', icon: TikTokIcon, activeColor: 'text-black border-black bg-gray-200' },
+  // { id: 'google', name: 'Google', icon: GoogleIcon, activeColor: 'text-yellow-600 border-yellow-600 bg-yellow-50' },
+  // { id: 'pinterest', name: 'Pinterest', icon: PinterestIcon, activeColor: 'text-red-600 border-red-600 bg-red-50' },
 ];
 
 interface PageProps {
@@ -78,7 +77,7 @@ export default function AdsPage({ searchParams }: PageProps) {
                         : 'text-gray-600 border-transparent hover:text-gray-900 hover:border-gray-300'
                     }`}
                   >
-                    <Icon size={20} className="flex-shrink-0" />
+                    <Icon className="flex-shrink-0 w-5 h-5" />
                     <span>{platform.name}</span>
                   </button>
                 );
