@@ -216,7 +216,7 @@ const CreatorRowCard = ({ creator, isSelected = false, onClick, onShortlist, act
 
         {/* 6个数据指标 - 弹性容器 */}
         <div className="flex-1 min-w-0">
-          <div className="grid grid-cols-3 xl:grid-cols-6 gap-x-4 gap-y-2 text-xs">
+          <div className="grid grid-cols-3 2xl:grid-cols-6 gap-x-4 gap-y-2 text-xs">
             <div>
               <div className="text-gray-400 uppercase mb-1">Followers</div>
               <div className="font-semibold text-sm">{formatNumber(creator.followerCount.tiktok)}</div>
