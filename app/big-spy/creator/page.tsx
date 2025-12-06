@@ -11,6 +11,14 @@ import { CreatorFilters } from './creator-filters';
 import CreatorDetail from './creator-detail';
 import { SaveToFavoritesModal } from '@/components/save-to-favorites-modal';
 import { EmptyStateTabs } from '@/components/ui/empty-state-tabs';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/ui/dialog';
 
 interface Creator {
   id: string;
@@ -279,6 +287,7 @@ export default function CreatorPage() {
   const [creatorsToSave, setCreatorsToSave] = useState<Creator[]>([]);
   const [submissionCount, setSubmissionCount] = useState(0);
   const [showBadgeAnimation, setShowBadgeAnimation] = useState(false);
+  const [showShortlistConfirm, setShowShortlistConfirm] = useState(false);
 
   const handleWatchTutorial = () => {
     setShowVideoModal(true);
@@ -295,16 +304,23 @@ export default function CreatorPage() {
     setShowSaveModal(true);
   };
 
-  // 处理批量收藏
+  // 处理批量收藏 - 显示确认弹窗
   const handleShortlistAll = () => {
     if (filteredCreators.length === 0) {
       alert('No influencers to shortlist');
       return;
     }
-    
+    setShowShortlistConfirm(true);
+  };
+
+  // 确认批量收藏
+  const confirmShortlistAll = () => {
     // 直接增加计数并触发动画
     setSubmissionCount(prev => prev + 1);
     setShowBadgeAnimation(true);
+    
+    // 关闭确认弹窗
+    setShowShortlistConfirm(false);
     
     // 显示成功提示
     alert(`Successfully added ${filteredCreators.length} influencers to submission list`);
@@ -545,6 +561,32 @@ export default function CreatorPage() {
         onSave={handleSaveToFavorites}
         defaultCategory="creator"
       />
+
+      {/* Shortlist All Confirmation Dialog */}
+      <Dialog open={showShortlistConfirm} onOpenChange={setShowShortlistConfirm}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle>Confirm Shortlist All</DialogTitle>
+            <DialogDescription>
+              Are you sure you want to add all {filteredCreators.length} influencers to the submission list?
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter className="flex gap-3 sm:justify-end">
+            <Button
+              variant="outline"
+              onClick={() => setShowShortlistConfirm(false)}
+            >
+              Cancel
+            </Button>
+            <Button
+              onClick={confirmShortlistAll}
+              className="bg-blue-600 hover:bg-blue-700 text-white"
+            >
+              Confirm
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
 
       {/* YouTube Video Modal */}
       {showVideoModal && (

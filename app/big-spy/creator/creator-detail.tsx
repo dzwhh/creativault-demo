@@ -20,6 +20,7 @@ interface Creator {
   niches: string[];
   location: string;
   contactObfuscated: string;
+  description?: string;
 }
 
 interface CreatorDetailProps {
@@ -314,7 +315,28 @@ export default function CreatorDetail({ creator, onClose }: CreatorDetailProps) 
   const [activePerformanceTab, setActivePerformanceTab] = useState('Avg View Rate');
   const [amazonSearchQuery, setAmazonSearchQuery] = useState('');
   const [amazonCategory, setAmazonCategory] = useState('all');
+  const [emailUnlocked, setEmailUnlocked] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
+
+  // 根据当前激活的平台获取粉丝数
+  const getCurrentPlatformFollowers = () => {
+    switch(activeTab) {
+      case 'tiktok':
+        return creator.followerCount.tiktok;
+      case 'instagram':
+        return creator.followerCount.instagram;
+      case 'youtube':
+        return creator.followerCount.youtube;
+      default:
+        return creator.followerCount.tiktok;
+    }
+  };
+
+  // 处理邮箱解锁
+  const handleUnlockEmail = () => {
+    setEmailUnlocked(true);
+    // TODO: 这里可以添加实际的API调用来获取真实邮箱
+  };
 
   // 点击外部关闭下拉菜单
   useEffect(() => {
@@ -421,6 +443,10 @@ export default function CreatorDetail({ creator, onClose }: CreatorDetailProps) 
                       )}
                     </div>
                   </div>
+                  {/* Creator Description */}
+                  <p className="text-sm text-gray-600 mb-3">
+                    {creator.description || 'Fashion & Lifestyle creator sharing daily outfit inspiration and style tips'}
+                  </p>
                   <div className="text-sm text-gray-500 mb-4 flex items-center gap-2">
                     Last Update: {mockData.lastUpdate}
                     <button 
@@ -441,6 +467,10 @@ export default function CreatorDetail({ creator, onClose }: CreatorDetailProps) 
               <div className="grid grid-cols-2 gap-4 mb-6">
                 {/* Country */}
                 <div className="flex items-center gap-2 text-sm">
+                  <svg className="w-4 h-4 text-gray-500 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+                    <circle cx="12" cy="10" r="3"/>
+                  </svg>
                   <span className="text-gray-500">Country:</span>
                   <div className="flex items-center gap-1.5">
                     <span className="text-lg">{getCountryFlag(creator.location)}</span>
@@ -448,14 +478,25 @@ export default function CreatorDetail({ creator, onClose }: CreatorDetailProps) 
                   </div>
                 </div>
 
-                {/* Language */}
+                {/* Followers - 只显示当前平台的粉丝数 */}
                 <div className="flex items-center gap-2 text-sm">
-                  <span className="text-gray-500">Language:</span>
-                  <span className="text-gray-900">{mockData.language}</span>
+                  <svg className="w-4 h-4 text-gray-500 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                    <circle cx="9" cy="7" r="4"/>
+                    <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+                    <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                  </svg>
+                  <span className="text-gray-500">Followers:</span>
+                  <span className="font-semibold text-gray-900">{formatNumber(getCurrentPlatformFollowers())}</span>
                 </div>
 
                 {/* Industry */}
                 <div className="flex items-start gap-2 text-sm">
+                  <svg className="w-4 h-4 text-gray-500 flex-shrink-0 mt-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                    <line x1="3" y1="9" x2="21" y2="9"/>
+                    <line x1="9" y1="21" x2="9" y2="9"/>
+                  </svg>
                   <span className="text-gray-500 whitespace-nowrap">Industry:</span>
                   <div className="flex flex-wrap gap-1.5">
                     {creator.niches.map((niche, index) => (
@@ -467,23 +508,27 @@ export default function CreatorDetail({ creator, onClose }: CreatorDetailProps) 
                   </div>
                 </div>
 
-                {/* Followers */}
-                <div className="flex items-start gap-2 text-sm">
-                  <span className="text-gray-500 whitespace-nowrap">Followers:</span>
-                  <div className="flex flex-wrap items-center gap-3">
-                    <div className="flex items-center gap-1">
-                      <TikTokIcon className="w-4 h-4" />
-                      <span className="font-semibold text-gray-900">{formatNumber(creator.followerCount.tiktok)}</span>
-                    </div>
-                    <div className="flex items-center gap-1">
-                      <InstagramIcon className="w-4 h-4" />
-                      <span className="font-semibold text-gray-900">{formatNumber(creator.followerCount.instagram)}</span>
-                    </div>
-                    <div className="flex items-center gap-1">
-                      <YoutubeIcon className="w-4 h-4" />
-                      <span className="font-semibold text-gray-900">{formatNumber(creator.followerCount.youtube)}</span>
-                    </div>
-                  </div>
+                {/* Email */}
+                <div className="flex items-center gap-2 text-sm">
+                  <svg className="w-4 h-4 text-gray-500 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <rect x="2" y="4" width="20" height="16" rx="2"/>
+                    <path d="M22 7l-10 7L2 7"/>
+                  </svg>
+                  <span className="text-gray-500">Email:</span>
+                  <span className="font-medium text-gray-900">
+                    {emailUnlocked ? 'creator@example.com' : '***@***.com'}
+                  </span>
+                  {!emailUnlocked && (
+                    <button
+                      onClick={handleUnlockEmail}
+                      className="flex items-center gap-1 text-blue-600 hover:text-blue-700 transition-colors"
+                    >
+                      <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                        <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+                        <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+                      </svg>
+                    </button>
+                  )}
                 </div>
               </div>
 
@@ -570,6 +615,76 @@ export default function CreatorDetail({ creator, onClose }: CreatorDetailProps) 
                     <div>
                       <h3 className="text-lg font-semibold text-gray-900 mb-4">Performance</h3>
                       
+                      {/* Metrics Cards */}
+                      <div className="grid grid-cols-3 gap-4 mb-6">
+                        <div className="bg-white rounded-lg border border-gray-200 p-4">
+                          <div className="flex items-center gap-1 mb-2">
+                            <span className="text-sm text-gray-500">Avg Views</span>
+                            <div className="group relative">
+                              <svg className="w-3.5 h-3.5 text-gray-400 cursor-help" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
+                              <div className="absolute left-0 bottom-full mb-2 hidden group-hover:block w-48 p-2 bg-gray-800 text-white text-xs rounded shadow-lg z-10">Average views of recent videos</div>
+                            </div>
+                          </div>
+                          <div className="text-2xl font-bold text-gray-900">2.1M</div>
+                          <div className="flex items-center gap-1 mt-1"><svg className="w-3 h-3 text-green-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/></svg><span className="text-xs text-green-500">+3.1%</span></div>
+                        </div>
+                        <div className="bg-white rounded-lg border border-gray-200 p-4">
+                          <div className="flex items-center gap-1 mb-2">
+                            <span className="text-sm text-gray-500">Avg Likes</span>
+                            <div className="group relative">
+                              <svg className="w-3.5 h-3.5 text-gray-400 cursor-help" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
+                              <div className="absolute left-0 bottom-full mb-2 hidden group-hover:block w-48 p-2 bg-gray-800 text-white text-xs rounded shadow-lg z-10">Average likes of recent videos</div>
+                            </div>
+                          </div>
+                          <div className="text-2xl font-bold text-gray-900">156K</div>
+                          <div className="flex items-center gap-1 mt-1"><svg className="w-3 h-3 text-green-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/></svg><span className="text-xs text-green-500">+2.7%</span></div>
+                        </div>
+                        <div className="bg-white rounded-lg border border-gray-200 p-4">
+                          <div className="flex items-center gap-1 mb-2">
+                            <span className="text-sm text-gray-500">Engagement Rate</span>
+                            <div className="group relative">
+                              <svg className="w-3.5 h-3.5 text-gray-400 cursor-help" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
+                              <div className="absolute left-0 bottom-full mb-2 hidden group-hover:block w-48 p-2 bg-gray-800 text-white text-xs rounded shadow-lg z-10">Average engagement rate of recent videos</div>
+                            </div>
+                          </div>
+                          <div className="text-2xl font-bold text-gray-900">4.2%</div>
+                          <div className="flex items-center gap-1 mt-1"><svg className="w-3 h-3 text-green-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/></svg><span className="text-xs text-green-500">+1.5%</span></div>
+                        </div>
+                        <div className="bg-white rounded-lg border border-gray-200 p-4">
+                          <div className="flex items-center gap-1 mb-2">
+                            <span className="text-sm text-gray-500">Last Video Views</span>
+                            <div className="group relative">
+                              <svg className="w-3.5 h-3.5 text-gray-400 cursor-help" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
+                              <div className="absolute left-0 bottom-full mb-2 hidden group-hover:block w-48 p-2 bg-gray-800 text-white text-xs rounded shadow-lg z-10">Views count of the most recent video</div>
+                            </div>
+                          </div>
+                          <div className="text-2xl font-bold text-gray-900">2.8M</div>
+                          <div className="flex items-center gap-1 mt-1"><svg className="w-3 h-3 text-green-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/></svg><span className="text-xs text-green-500">+5.2%</span></div>
+                        </div>
+                        <div className="bg-white rounded-lg border border-gray-200 p-4">
+                          <div className="flex items-center gap-1 mb-2">
+                            <span className="text-sm text-gray-500">GMV</span>
+                            <div className="group relative">
+                              <svg className="w-3.5 h-3.5 text-gray-400 cursor-help" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
+                              <div className="absolute left-0 bottom-full mb-2 hidden group-hover:block w-48 p-2 bg-gray-800 text-white text-xs rounded shadow-lg z-10">Gross Merchandise Value in the last 30 days</div>
+                            </div>
+                          </div>
+                          <div className="text-2xl font-bold text-gray-900">$1.85M</div>
+                          <div className="flex items-center gap-1 mt-1"><svg className="w-3 h-3 text-green-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/></svg><span className="text-xs text-green-500">+12.3%</span></div>
+                        </div>
+                        <div className="bg-white rounded-lg border border-gray-200 p-4">
+                          <div className="flex items-center gap-1 mb-2">
+                            <span className="text-sm text-gray-500">GPM</span>
+                            <div className="group relative">
+                              <svg className="w-3.5 h-3.5 text-gray-400 cursor-help" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
+                              <div className="absolute left-0 bottom-full mb-2 hidden group-hover:block w-48 p-2 bg-gray-800 text-white text-xs rounded shadow-lg z-10">Gross Profit Margin in the last 30 days</div>
+                            </div>
+                          </div>
+                          <div className="text-2xl font-bold text-gray-900">28.5%</div>
+                          <div className="flex items-center gap-1 mt-1"><svg className="w-3 h-3 text-green-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/></svg><span className="text-xs text-green-500">+3.8%</span></div>
+                        </div>
+                      </div>
+
                       {/* Performance Card with Tabs */}
                       <div className="bg-white rounded-lg border border-gray-200" style={{ boxShadow: '0 1px 3px 0 rgba(0, 0, 0, 0.1)' }}>
                         {/* Tab Navigation */}
@@ -883,6 +998,76 @@ export default function CreatorDetail({ creator, onClose }: CreatorDetailProps) 
                     <div>
                       <h3 className="text-lg font-semibold text-gray-900 mb-4">Performance</h3>
                       
+                      {/* Metrics Cards - YouTube */}
+                      <div className="grid grid-cols-3 gap-4 mb-6">
+                        <div className="bg-white rounded-lg border border-gray-200 p-4">
+                          <div className="flex items-center gap-1 mb-2">
+                            <span className="text-sm text-gray-500">Avg Views</span>
+                            <div className="group relative">
+                              <svg className="w-3.5 h-3.5 text-gray-400 cursor-help" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
+                              <div className="absolute left-0 bottom-full mb-2 hidden group-hover:block w-48 p-2 bg-gray-800 text-white text-xs rounded shadow-lg z-10">Average views of recent videos</div>
+                            </div>
+                          </div>
+                          <div className="text-2xl font-bold text-gray-900">1.8M</div>
+                          <div className="flex items-center gap-1 mt-1"><svg className="w-3 h-3 text-green-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/></svg><span className="text-xs text-green-500">+2.5%</span></div>
+                        </div>
+                        <div className="bg-white rounded-lg border border-gray-200 p-4">
+                          <div className="flex items-center gap-1 mb-2">
+                            <span className="text-sm text-gray-500">Avg Likes</span>
+                            <div className="group relative">
+                              <svg className="w-3.5 h-3.5 text-gray-400 cursor-help" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
+                              <div className="absolute left-0 bottom-full mb-2 hidden group-hover:block w-48 p-2 bg-gray-800 text-white text-xs rounded shadow-lg z-10">Average likes of recent videos</div>
+                            </div>
+                          </div>
+                          <div className="text-2xl font-bold text-gray-900">128K</div>
+                          <div className="flex items-center gap-1 mt-1"><svg className="w-3 h-3 text-green-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/></svg><span className="text-xs text-green-500">+1.9%</span></div>
+                        </div>
+                        <div className="bg-white rounded-lg border border-gray-200 p-4">
+                          <div className="flex items-center gap-1 mb-2">
+                            <span className="text-sm text-gray-500">Engagement Rate</span>
+                            <div className="group relative">
+                              <svg className="w-3.5 h-3.5 text-gray-400 cursor-help" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
+                              <div className="absolute left-0 bottom-full mb-2 hidden group-hover:block w-48 p-2 bg-gray-800 text-white text-xs rounded shadow-lg z-10">Average engagement rate of recent videos</div>
+                            </div>
+                          </div>
+                          <div className="text-2xl font-bold text-gray-900">3.8%</div>
+                          <div className="flex items-center gap-1 mt-1"><svg className="w-3 h-3 text-green-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/></svg><span className="text-xs text-green-500">+1.2%</span></div>
+                        </div>
+                        <div className="bg-white rounded-lg border border-gray-200 p-4">
+                          <div className="flex items-center gap-1 mb-2">
+                            <span className="text-sm text-gray-500">Last Video Views</span>
+                            <div className="group relative">
+                              <svg className="w-3.5 h-3.5 text-gray-400 cursor-help" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
+                              <div className="absolute left-0 bottom-full mb-2 hidden group-hover:block w-48 p-2 bg-gray-800 text-white text-xs rounded shadow-lg z-10">Views count of the most recent video</div>
+                            </div>
+                          </div>
+                          <div className="text-2xl font-bold text-gray-900">2.3M</div>
+                          <div className="flex items-center gap-1 mt-1"><svg className="w-3 h-3 text-green-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/></svg><span className="text-xs text-green-500">+4.5%</span></div>
+                        </div>
+                        <div className="bg-white rounded-lg border border-gray-200 p-4">
+                          <div className="flex items-center gap-1 mb-2">
+                            <span className="text-sm text-gray-500">GMV</span>
+                            <div className="group relative">
+                              <svg className="w-3.5 h-3.5 text-gray-400 cursor-help" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
+                              <div className="absolute left-0 bottom-full mb-2 hidden group-hover:block w-48 p-2 bg-gray-800 text-white text-xs rounded shadow-lg z-10">Gross Merchandise Value in the last 30 days</div>
+                            </div>
+                          </div>
+                          <div className="text-2xl font-bold text-gray-900">$1.62M</div>
+                          <div className="flex items-center gap-1 mt-1"><svg className="w-3 h-3 text-green-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/></svg><span className="text-xs text-green-500">+9.8%</span></div>
+                        </div>
+                        <div className="bg-white rounded-lg border border-gray-200 p-4">
+                          <div className="flex items-center gap-1 mb-2">
+                            <span className="text-sm text-gray-500">GPM</span>
+                            <div className="group relative">
+                              <svg className="w-3.5 h-3.5 text-gray-400 cursor-help" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
+                              <div className="absolute left-0 bottom-full mb-2 hidden group-hover:block w-48 p-2 bg-gray-800 text-white text-xs rounded shadow-lg z-10">Gross Profit Margin in the last 30 days</div>
+                            </div>
+                          </div>
+                          <div className="text-2xl font-bold text-gray-900">26.2%</div>
+                          <div className="flex items-center gap-1 mt-1"><svg className="w-3 h-3 text-green-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/></svg><span className="text-xs text-green-500">+2.5%</span></div>
+                        </div>
+                      </div>
+
                       {/* Performance Card with Tabs */}
                       <div className="bg-white rounded-lg border border-gray-200" style={{ boxShadow: '0 1px 3px 0 rgba(0, 0, 0, 0.1)' }}>
                         {/* Tab Navigation */}
@@ -1143,6 +1328,76 @@ export default function CreatorDetail({ creator, onClose }: CreatorDetailProps) 
                     <div>
                       <h3 className="text-lg font-semibold text-gray-900 mb-4">Performance</h3>
                       
+                      {/* Metrics Cards - Instagram */}
+                      <div className="grid grid-cols-3 gap-4 mb-6">
+                        <div className="bg-white rounded-lg border border-gray-200 p-4">
+                          <div className="flex items-center gap-1 mb-2">
+                            <span className="text-sm text-gray-500">Avg Views</span>
+                            <div className="group relative">
+                              <svg className="w-3.5 h-3.5 text-gray-400 cursor-help" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
+                              <div className="absolute left-0 bottom-full mb-2 hidden group-hover:block w-48 p-2 bg-gray-800 text-white text-xs rounded shadow-lg z-10">Average views of recent videos</div>
+                            </div>
+                          </div>
+                          <div className="text-2xl font-bold text-gray-900">1.5M</div>
+                          <div className="flex items-center gap-1 mt-1"><svg className="w-3 h-3 text-green-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/></svg><span className="text-xs text-green-500">+2.1%</span></div>
+                        </div>
+                        <div className="bg-white rounded-lg border border-gray-200 p-4">
+                          <div className="flex items-center gap-1 mb-2">
+                            <span className="text-sm text-gray-500">Avg Likes</span>
+                            <div className="group relative">
+                              <svg className="w-3.5 h-3.5 text-gray-400 cursor-help" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
+                              <div className="absolute left-0 bottom-full mb-2 hidden group-hover:block w-48 p-2 bg-gray-800 text-white text-xs rounded shadow-lg z-10">Average likes of recent videos</div>
+                            </div>
+                          </div>
+                          <div className="text-2xl font-bold text-gray-900">112K</div>
+                          <div className="flex items-center gap-1 mt-1"><svg className="w-3 h-3 text-green-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/></svg><span className="text-xs text-green-500">+3.2%</span></div>
+                        </div>
+                        <div className="bg-white rounded-lg border border-gray-200 p-4">
+                          <div className="flex items-center gap-1 mb-2">
+                            <span className="text-sm text-gray-500">Engagement Rate</span>
+                            <div className="group relative">
+                              <svg className="w-3.5 h-3.5 text-gray-400 cursor-help" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
+                              <div className="absolute left-0 bottom-full mb-2 hidden group-hover:block w-48 p-2 bg-gray-800 text-white text-xs rounded shadow-lg z-10">Average engagement rate of recent videos</div>
+                            </div>
+                          </div>
+                          <div className="text-2xl font-bold text-gray-900">5.1%</div>
+                          <div className="flex items-center gap-1 mt-1"><svg className="w-3 h-3 text-green-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/></svg><span className="text-xs text-green-500">+1.8%</span></div>
+                        </div>
+                        <div className="bg-white rounded-lg border border-gray-200 p-4">
+                          <div className="flex items-center gap-1 mb-2">
+                            <span className="text-sm text-gray-500">Last Video Views</span>
+                            <div className="group relative">
+                              <svg className="w-3.5 h-3.5 text-gray-400 cursor-help" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
+                              <div className="absolute left-0 bottom-full mb-2 hidden group-hover:block w-48 p-2 bg-gray-800 text-white text-xs rounded shadow-lg z-10">Views count of the most recent video</div>
+                            </div>
+                          </div>
+                          <div className="text-2xl font-bold text-gray-900">1.9M</div>
+                          <div className="flex items-center gap-1 mt-1"><svg className="w-3 h-3 text-green-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/></svg><span className="text-xs text-green-500">+3.9%</span></div>
+                        </div>
+                        <div className="bg-white rounded-lg border border-gray-200 p-4">
+                          <div className="flex items-center gap-1 mb-2">
+                            <span className="text-sm text-gray-500">GMV</span>
+                            <div className="group relative">
+                              <svg className="w-3.5 h-3.5 text-gray-400 cursor-help" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
+                              <div className="absolute left-0 bottom-full mb-2 hidden group-hover:block w-48 p-2 bg-gray-800 text-white text-xs rounded shadow-lg z-10">Gross Merchandise Value in the last 30 days</div>
+                            </div>
+                          </div>
+                          <div className="text-2xl font-bold text-gray-900">$1.45M</div>
+                          <div className="flex items-center gap-1 mt-1"><svg className="w-3 h-3 text-green-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/></svg><span className="text-xs text-green-500">+8.5%</span></div>
+                        </div>
+                        <div className="bg-white rounded-lg border border-gray-200 p-4">
+                          <div className="flex items-center gap-1 mb-2">
+                            <span className="text-sm text-gray-500">GPM</span>
+                            <div className="group relative">
+                              <svg className="w-3.5 h-3.5 text-gray-400 cursor-help" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
+                              <div className="absolute left-0 bottom-full mb-2 hidden group-hover:block w-48 p-2 bg-gray-800 text-white text-xs rounded shadow-lg z-10">Gross Profit Margin in the last 30 days</div>
+                            </div>
+                          </div>
+                          <div className="text-2xl font-bold text-gray-900">24.8%</div>
+                          <div className="flex items-center gap-1 mt-1"><svg className="w-3 h-3 text-green-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/></svg><span className="text-xs text-green-500">+2.1%</span></div>
+                        </div>
+                      </div>
+
                       {/* Performance Card with Tabs */}
                       <div className="bg-white rounded-lg border border-gray-200" style={{ boxShadow: '0 1px 3px 0 rgba(0, 0, 0, 0.1)' }}>
                         {/* Tab Navigation */}
