@@ -22,7 +22,7 @@ const navItems = [
   { id: 'creative', label: 'Creatives' },
   { id: 'products', label: 'Products' },
   { id: 'creator', label: 'Creators' },
-  { id: 'brand', label: 'Brands' },
+  { id: 'brand', label: 'Advertisers' },
 ];
 
 // Mock data for folders
@@ -71,14 +71,14 @@ const mockFolders: Folder[] = [
   },
   {
     id: '7',
-    name: 'Tracked Brands',
+    name: 'Tracked Advertisers',
     itemCount: 15,
     type: 'brand',
     createdAt: '2024-03-05',
   },
   {
     id: '8',
-    name: 'Top Brands',
+    name: 'Top Advertisers',
     itemCount: 20,
     type: 'brand',
     createdAt: '2024-03-10',

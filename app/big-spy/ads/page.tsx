@@ -41,8 +41,8 @@ export default function AdsPage({ searchParams }: PageProps) {
     setShowVideoModal(false);
   };
 
-  // 模拟的标签数据
-  const filterTags = [
+  // Meta 标签数据
+  const metaFilterTags = [
     { label: '😎 Summer Time', color: 'bg-orange-100 text-orange-800' },
     { label: '🔥 Weekly Winners', color: 'bg-red-100 text-red-800' },
     { label: '✅ Ready to scale', color: 'bg-green-100 text-green-800' },
@@ -51,6 +51,22 @@ export default function AdsPage({ searchParams }: PageProps) {
     { label: '📉 Recent dropshipping', color: 'bg-yellow-100 text-yellow-800' },
     { label: '🏆 Top spender', color: 'bg-amber-100 text-amber-800' },
   ];
+
+  // TikTok hashtag 标签数据
+  const tiktokHashtags = [
+    { label: '#fyp', color: 'bg-pink-100 text-pink-800' },
+    { label: '#trending', color: 'bg-red-100 text-red-800' },
+    { label: '#viral', color: 'bg-purple-100 text-purple-800' },
+    { label: '#tiktokmademebuyit', color: 'bg-blue-100 text-blue-800' },
+    { label: '#beauty', color: 'bg-rose-100 text-rose-800' },
+    { label: '#fashion', color: 'bg-amber-100 text-amber-800' },
+    { label: '#skincare', color: 'bg-green-100 text-green-800' },
+    { label: '#fitness', color: 'bg-orange-100 text-orange-800' },
+    { label: '#tech', color: 'bg-cyan-100 text-cyan-800' },
+  ];
+
+  // 根据当前 tab 获取对应的标签
+  const filterTags = activeTab === 'tiktok' ? tiktokHashtags : metaFilterTags;
 
   const removeFilter = (filter: string) => {
     setSelectedFilters(prev => prev.filter(f => f !== filter));

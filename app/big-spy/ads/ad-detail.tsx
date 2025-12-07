@@ -16,7 +16,7 @@ export function AdDetail({ ad, onClose }: AdDetailProps) {
   const [isDescriptionExpanded, setIsDescriptionExpanded] = useState(false);
   const [activePerformanceTab, setActivePerformanceTab] = useState('CPM');
 
-  // Handle Brand Tracking Confirm
+  // Handle Advertiser Tracking Confirm
   const handleSaveToBrand = (folderId: string, folderName?: string) => {
     console.log('Adding brand to tracking:', { ad, folderId, folderName });
     alert(`Successfully added "${ad.title}" to brand tracking folder: ${folderName || 'folder'}!`);
@@ -150,7 +150,7 @@ export function AdDetail({ ad, onClose }: AdDetailProps) {
                 </button>
               </div>
               
-              {/* Brand Tracking 按钮 - 与上方按钮两端对齐 */}
+              {/* Advertiser Tracking 按钮 - 与上方按钮两端对齐 */}
               <div className="mt-3 w-full max-w-xs">
                 <button 
                   onClick={() => setIsBrandModalOpen(true)}
@@ -159,7 +159,7 @@ export function AdDetail({ ad, onClose }: AdDetailProps) {
                   <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
                   </svg>
-                  Brand Tracking
+                  Advertiser Tracking
                 </button>
               </div>
               
@@ -872,7 +872,7 @@ export function AdDetail({ ad, onClose }: AdDetailProps) {
         </NormalDetail>
       </div>
 
-      {/* Brand Tracking Modal */}
+      {/* Advertiser Tracking Modal */}
       <SaveToBrandModal
         isOpen={isBrandModalOpen}
         onClose={() => setIsBrandModalOpen(false)}

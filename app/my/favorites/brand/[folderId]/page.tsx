@@ -129,9 +129,9 @@ export default function BrandFolderPage() {
             </svg>
           </button>
           <div>
-            <h1 className="text-2xl font-bold text-gray-900">Tracked Brands</h1>
+            <h1 className="text-2xl font-bold text-gray-900">Tracked Advertisers</h1>
             <p className="text-sm text-gray-500 mt-1">
-              {filteredBrands.length} brands • Last updated {new Date().toLocaleDateString()}
+              {filteredBrands.length} advertisers • Last updated {new Date().toLocaleDateString()}
             </p>
           </div>
         </div>
@@ -145,7 +145,7 @@ export default function BrandFolderPage() {
             <SearchIcon size={18} className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
             <Input
               type="text"
-              placeholder="Search brands..."
+              placeholder="Search advertisers..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className="pl-10"
@@ -194,7 +194,7 @@ export default function BrandFolderPage() {
                 <path strokeLinecap="round" strokeLinejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
               </svg>
             </div>
-            <h3 className="text-lg font-medium text-gray-900 mb-2">No brands found</h3>
+            <h3 className="text-lg font-medium text-gray-900 mb-2">No advertisers found</h3>
             <p className="text-sm text-gray-500">
               {searchQuery ? 'Try adjusting your search query' : 'This folder is empty'}
             </p>

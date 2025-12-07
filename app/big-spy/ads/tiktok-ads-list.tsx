@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { SaveToFavoritesModal } from '@/components/save-to-favorites-modal';
+import { TikTokAdsDetail } from './tiktok-ads-detail';
 
 interface TikTokAd {
   id: string;
@@ -107,9 +108,12 @@ const mockTikTokAds: TikTokAd[] = [
   },
 ];
 
-const TikTokAdCard = ({ ad, onSave }: { ad: TikTokAd; onSave: (ad: TikTokAd) => void }) => {
+const TikTokAdCard = ({ ad, onSave, onClick }: { ad: TikTokAd; onSave: (ad: TikTokAd) => void; onClick: (ad: TikTokAd) => void }) => {
   return (
-    <div className="bg-white rounded-lg border border-gray-200 overflow-hidden hover:shadow-lg transition-shadow">
+    <div 
+      className="bg-white rounded-lg border border-gray-200 overflow-hidden hover:shadow-lg transition-shadow cursor-pointer"
+      onClick={() => onClick(ad)}
+    >
       {/* Video Section */}
       <div className="relative aspect-[9/16] bg-gray-100 group">
         <img
@@ -127,7 +131,10 @@ const TikTokAdCard = ({ ad, onSave }: { ad: TikTokAd; onSave: (ad: TikTokAd) => 
         </div>
         {/* Save Button */}
         <button
-          onClick={() => onSave(ad)}
+          onClick={(e) => {
+            e.stopPropagation();
+            onSave(ad);
+          }}
           className="absolute top-3 right-3 p-2 bg-white rounded-full shadow-md hover:bg-blue-50 transition-colors z-10"
           title="Save to Favorites"
         >
@@ -213,10 +220,17 @@ interface TikTokAdsListProps {
 export function TikTokAdsList({ searchParams }: TikTokAdsListProps) {
   const [showSaveModal, setShowSaveModal] = useState(false);
   const [selectedAd, setSelectedAd] = useState<TikTokAd | null>(null);
+  const [showDetail, setShowDetail] = useState(false);
+  const [detailAd, setDetailAd] = useState<TikTokAd | null>(null);
 
   const handleSave = (ad: TikTokAd) => {
     setSelectedAd(ad);
     setShowSaveModal(true);
+  };
+
+  const handleAdClick = (ad: TikTokAd) => {
+    setDetailAd(ad);
+    setShowDetail(true);
   };
 
   const handleSaveToFavorites = async (folderId: string) => {
@@ -229,7 +243,7 @@ export function TikTokAdsList({ searchParams }: TikTokAdsListProps) {
     <>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
         {mockTikTokAds.map((ad) => (
-          <TikTokAdCard key={ad.id} ad={ad} onSave={handleSave} />
+          <TikTokAdCard key={ad.id} ad={ad} onSave={handleSave} onClick={handleAdClick} />
         ))}
       </div>
 
@@ -243,6 +257,17 @@ export function TikTokAdsList({ searchParams }: TikTokAdsListProps) {
         onSave={handleSaveToFavorites}
         defaultCategory="ads"
       />
+
+      {/* TikTok Ad Detail Modal */}
+      {showDetail && detailAd && (
+        <TikTokAdsDetail
+          ad={detailAd}
+          onClose={() => {
+            setShowDetail(false);
+            setDetailAd(null);
+          }}
+        />
+      )}
     </>
   );
 }

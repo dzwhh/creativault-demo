@@ -19,11 +19,11 @@ interface SaveToBrandModalProps {
 
 // Mock folders data - 品牌追踪文件夹
 const mockBrandFolders: Folder[] = [
-  { id: '1', name: 'Nike Brand Tracking', itemCount: 45 },
+  { id: '1', name: 'Nike Advertiser Tracking', itemCount: 45 },
   { id: '2', name: 'Adidas Campaigns', itemCount: 32 },
-  { id: '3', name: 'Fashion Brands', itemCount: 78 },
+  { id: '3', name: 'Fashion Advertisers', itemCount: 78 },
   { id: '4', name: 'Tech Companies', itemCount: 56 },
-  { id: '5', name: 'Beauty Brands', itemCount: 23 },
+  { id: '5', name: 'Beauty Advertisers', itemCount: 23 },
 ];
 
 export function SaveToBrandModal({
@@ -110,8 +110,8 @@ export function SaveToBrandModal({
       <div className="relative bg-white rounded-lg shadow-xl w-full max-w-md mx-4 max-h-[80vh] flex flex-col">
         {/* Header */}
         <div className="px-6 py-4 border-b border-gray-200">
-          <h2 className="text-xl font-semibold text-gray-900">Brand Tracking</h2>
-          <p className="text-sm text-gray-500 mt-1">Track this brand's advertising campaigns</p>
+          <h2 className="text-xl font-semibold text-gray-900">Advertiser Tracking</h2>
+          <p className="text-sm text-gray-500 mt-1">Track this advertiser's advertising campaigns</p>
         </div>
 
         {/* Body */}
@@ -146,7 +146,7 @@ export function SaveToBrandModal({
                       </svg>
                       <div>
                         <div className="font-medium text-gray-900 text-sm">{folder.name}</div>
-                        <div className="text-xs text-gray-500">{folder.itemCount} brands</div>
+                        <div className="text-xs text-gray-500">{folder.itemCount} advertisers</div>
                       </div>
                     </div>
                     {selectedFolderId === folder.id && (
