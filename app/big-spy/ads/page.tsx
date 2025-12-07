@@ -3,6 +3,8 @@
 import { Suspense, useState } from 'react';
 import { AdsList } from './ads-list';
 import { AdsFilters } from './ads-filters';
+import { TikTokAdsList } from './tiktok-ads-list';
+import { TikTokAdsFilter } from './tiktok-ads-filter';
 import { MetaIcon, TikTokIcon, GoogleIcon } from '@/components/icons';
 import { PageHeader } from '@/components/ui/page-header';
 import { WatchTutorialButton } from '@/components/ui/watch-tutorial-button';
@@ -16,7 +18,7 @@ const PinterestIcon = ({ size = 16, className = '' }: { size?: number; className
 
 const platforms = [
   { id: 'meta', name: 'Meta Ads Library', icon: MetaIcon, activeColor: 'text-blue-600 border-blue-600 bg-blue-50' },
-  // { id: 'tiktok', name: 'TikTok', icon: TikTokIcon, activeColor: 'text-black border-black bg-gray-200' },
+  { id: 'tiktok', name: 'TikTok', icon: TikTokIcon, activeColor: 'text-black border-black bg-gray-50' },
   // { id: 'google', name: 'Google', icon: GoogleIcon, activeColor: 'text-yellow-600 border-yellow-600 bg-yellow-50' },
   // { id: 'pinterest', name: 'Pinterest', icon: PinterestIcon, activeColor: 'text-red-600 border-red-600 bg-red-50' },
 ];
@@ -104,7 +106,8 @@ export default function AdsPage({ searchParams }: PageProps) {
             <div className="flex gap-6">
               {/* Sidebar Filters */}
               <div className="flex-shrink-0">
-                <AdsFilters />
+                {activeTab === 'meta' && <AdsFilters />}
+                {activeTab === 'tiktok' && <TikTokAdsFilter />}
               </div>
               
               {/* Content Area */}
@@ -169,21 +172,43 @@ export default function AdsPage({ searchParams }: PageProps) {
                 </div>
                 
                 {/* Ads Grid */}
-                <Suspense 
-                  fallback={
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-                      {Array.from({ length: 20 }).map((_, i) => (
-                        <div key={i} className="bg-white rounded-lg border border-gray-200 p-4 animate-pulse">
-                          <div className="w-full h-48 bg-gray-200 rounded-lg mb-4"></div>
-                          <div className="h-4 bg-gray-200 rounded mb-2"></div>
-                          <div className="h-3 bg-gray-200 rounded w-2/3"></div>
-                        </div>
-                      ))}
-                    </div>
-                  }
-                >
-                  <AdsList searchParams={searchParams} />
-                </Suspense>
+                {activeTab === 'meta' && (
+                  <Suspense 
+                    fallback={
+                      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+                        {Array.from({ length: 20 }).map((_, i) => (
+                          <div key={i} className="bg-white rounded-lg border border-gray-200 p-4 animate-pulse">
+                            <div className="w-full h-48 bg-gray-200 rounded-lg mb-4"></div>
+                            <div className="h-4 bg-gray-200 rounded mb-2"></div>
+                            <div className="h-3 bg-gray-200 rounded w-2/3"></div>
+                          </div>
+                        ))}
+                      </div>
+                    }
+                  >
+                    <AdsList searchParams={searchParams} />
+                  </Suspense>
+                )}
+
+                {activeTab === 'tiktok' && (
+                  <Suspense 
+                    fallback={
+                      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+                        {Array.from({ length: 8 }).map((_, i) => (
+                          <div key={i} className="bg-white rounded-lg border border-gray-200 overflow-hidden animate-pulse">
+                            <div className="w-full aspect-[9/16] bg-gray-200"></div>
+                            <div className="p-4">
+                              <div className="h-4 bg-gray-200 rounded mb-2"></div>
+                              <div className="h-3 bg-gray-200 rounded w-2/3"></div>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    }
+                  >
+                    <TikTokAdsList searchParams={searchParams} />
+                  </Suspense>
+                )}
               </div>
             </div>
           </div>

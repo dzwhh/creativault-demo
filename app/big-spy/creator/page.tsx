@@ -548,6 +548,7 @@ export default function CreatorPage() {
         <CreatorDetail
           creator={selectedCreator}
           onClose={() => setShowDetail(false)}
+          initialPlatform={activePlatform as 'tiktok' | 'youtube' | 'instagram'}
         />
       )}
 
