@@ -63,7 +63,7 @@ const mockSubmissions: Submission[] = [
       {
         id: 'c1',
         name: 'Emma Wilson',
-        avatar: 'https://placehold.co/100x100/e3f2fd/1976d2?text=EW',
+        avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&h=100&fit=crop&crop=face',
         tags: ['Fashion', 'Lifestyle'],
         country: 'US',
         platform: 'TikTok',
@@ -99,7 +99,7 @@ const mockSubmissions: Submission[] = [
       {
         id: 'c2',
         name: 'David Chen',
-        avatar: 'https://placehold.co/100x100/f3e5f5/7b1fa2?text=DC',
+        avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop&crop=face',
         tags: ['Tech', 'Gaming'],
         country: 'CN',
         platform: 'YouTube',
@@ -145,7 +145,7 @@ const mockSubmissions: Submission[] = [
       {
         id: 'c3',
         name: 'Lisa Park',
-        avatar: 'https://placehold.co/100x100/fce4ec/c2185b?text=LP',
+        avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&h=100&fit=crop&crop=face',
         tags: ['Beauty', 'Skincare'],
         country: 'KR',
         platform: 'Instagram',
