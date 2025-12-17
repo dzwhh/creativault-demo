@@ -338,13 +338,6 @@ export function Sidebar() {
                 role="menu"
                 aria-orientation="vertical"
               >
-                <button 
-                  className="w-full flex items-center gap-3 px-3 py-2 text-sm hover:bg-accent hover:text-accent-foreground transition-colors text-left focus:bg-accent focus:text-accent-foreground focus:outline-none"
-                  role="menuitem"
-                >
-                  <UserIcon size={16} className="text-muted-foreground" />
-                  <span>My Account</span>
-                </button>
                 <Link
                   href="/settings"
                   className="w-full flex items-center gap-3 px-3 py-2 text-sm hover:bg-accent hover:text-accent-foreground transition-colors text-left focus:bg-accent focus:text-accent-foreground focus:outline-none"
@@ -352,22 +345,8 @@ export function Sidebar() {
                   onClick={() => setIsAccountMenuOpen(false)}
                 >
                   <SettingsIcon size={16} className="text-muted-foreground" />
-                  <span>Settings</span>
+                  <span>Account Setting</span>
                 </Link>
-                <button 
-                  className="w-full flex items-center gap-3 px-3 py-2 text-sm hover:bg-accent hover:text-accent-foreground transition-colors text-left focus:bg-accent focus:text-accent-foreground focus:outline-none"
-                  role="menuitem"
-                >
-                  <BillingIcon size={16} className="text-muted-foreground" />
-                  <span>Billing</span>
-                </button>
-                <button 
-                  className="w-full flex items-center gap-3 px-3 py-2 text-sm hover:bg-accent hover:text-accent-foreground transition-colors text-left focus:bg-accent focus:text-accent-foreground focus:outline-none"
-                  role="menuitem"
-                >
-                  <BellIcon size={16} className="text-muted-foreground" />
-                  <span>Notifications</span>
-                </button>
                 <div className="border-t my-1" role="separator"></div>
                 <button 
                   className="w-full flex items-center gap-3 px-3 py-2 text-sm hover:bg-accent hover:text-accent-foreground text-destructive transition-colors text-left focus:bg-accent focus:text-accent-foreground focus:outline-none"
