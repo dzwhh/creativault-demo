@@ -32,13 +32,33 @@ const BarChartIcon = ({ size = 18, className = '' }: { size?: number; className?
   </svg>
 );
 
+// Plan 图标
+const PlanIcon = ({ size = 18, className = '' }: { size?: number; className?: string }) => (
+  <svg
+    width={size}
+    height={size}
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    className={className}
+  >
+    <path d="M12 2L2 7l10 5 10-5-10-5z" />
+    <path d="M2 17l10 5 10-5" />
+    <path d="M2 12l10 5 10-5" />
+  </svg>
+);
+
 // 设置页面的 Tab 配置
-type SettingsTab = 'profile' | 'usage' | 'billing' | 'permissions' | 'notifications';
+type SettingsTab = 'profile' | 'usage' | 'billing' | 'plan' | 'permissions' | 'notifications';
 
 const settingsTabs: { id: SettingsTab; label: string; icon: React.ComponentType<any> }[] = [
   { id: 'profile', label: 'Profile', icon: UserIcon },
   { id: 'usage', label: 'Usage', icon: BarChartIcon },
   { id: 'billing', label: 'Billing', icon: BillingIcon },
+  { id: 'plan', label: 'Plan', icon: PlanIcon },
   { id: 'permissions', label: 'Permissions', icon: SettingsIcon },
   { id: 'notifications', label: 'Notifications', icon: BellIcon },
 ];
@@ -203,6 +223,7 @@ export default function SettingsPage() {
     end: '2025-12-17',
   });
   const [showCreditPacks, setShowCreditPacks] = useState(false);
+    const [planBillingTab, setPlanBillingTab] = useState<'monthly' | 'yearly'>('monthly');
 
   // 初始化：从localStorage加载或默认只显示指定菜单
   useEffect(() => {
@@ -578,7 +599,7 @@ export default function SettingsPage() {
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
                 </svg>
-                <span>Plan & Billing</span>
+                <span>Billing</span>
               </button>
 
               {/* Order Details Header */}
@@ -688,7 +709,7 @@ export default function SettingsPage() {
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
                 </svg>
-                <span>Plan & Billing</span>
+                <span>Billing</span>
               </button>
 
               {/* Title */}
@@ -868,7 +889,7 @@ export default function SettingsPage() {
         // Billing List View
         return (
           <div className="space-y-6">
-            <h2 className="text-xl font-semibold text-foreground">Plan & Billing</h2>
+            <h2 className="text-xl font-semibold text-foreground">Billing</h2>
             
             {/* Part 1: Current Plan */}
             <div className="bg-white rounded-lg border p-6">
@@ -1070,6 +1091,156 @@ export default function SettingsPage() {
           </div>
         );
       
+      case 'plan':
+        return (
+          <div className="space-y-6">
+            <div>
+              <h2 className="text-xl font-semibold text-foreground">Plans</h2>
+              <p className="text-sm text-muted-foreground mt-1">No subscriptions yet? Pick a plan to start your growth!</p>
+            </div>
+            <Separator />
+            
+            {/* Monthly / Yearly Tabs */}
+            <div className="flex justify-center">
+              <div className="inline-flex bg-gray-100 rounded-full p-1">
+                <button
+                  onClick={() => setPlanBillingTab('monthly')}
+                  className={cn(
+                    'px-6 py-2 text-sm font-medium rounded-full transition-colors',
+                    planBillingTab === 'monthly'
+                      ? 'bg-white text-foreground shadow-sm'
+                      : 'text-muted-foreground hover:text-foreground'
+                  )}
+                >
+                  Monthly
+                </button>
+                <button
+                  onClick={() => setPlanBillingTab('yearly')}
+                  className={cn(
+                    'px-6 py-2 text-sm font-medium rounded-full transition-colors',
+                    planBillingTab === 'yearly'
+                      ? 'bg-white text-foreground shadow-sm'
+                      : 'text-muted-foreground hover:text-foreground'
+                  )}
+                >
+                  Yearly
+                </button>
+              </div>
+            </div>
+
+            {/* Pricing Cards */}
+            <div className="grid grid-cols-3 gap-6">
+              {/* Starter Plan */}
+              <div className="bg-white rounded-xl border p-6 flex flex-col">
+                <h3 className="text-lg font-semibold text-foreground">Starter</h3>
+                <div className="mt-4 h-10 flex items-end">
+                  <span className="text-3xl font-bold text-foreground">$49</span>
+                  <span className="text-muted-foreground">/month</span>
+                </div>
+                <button className="mt-6 w-full py-2.5 border border-gray-300 rounded-lg text-sm font-medium text-foreground hover:bg-gray-50 transition-colors">
+                  Upgrade to Starter
+                </button>
+                <div className="mt-4 text-sm text-muted-foreground">
+                  <span><strong>5,000</strong> Credits - Cancel anytime</span>
+                </div>
+                <Separator className="my-4" />
+                <p className="text-sm font-medium text-foreground mb-3">What's included:</p>
+                <ul className="space-y-2 text-sm text-muted-foreground flex-1">
+                  {['Market Insight','Meta/TikTok Ads Library', 'Amazon Products', 'Advertiser Tracking','Download Material'].map((feature) => (
+                    <li key={feature} className="flex items-center gap-2">
+                      <svg className="w-4 h-4 text-blue-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                      </svg>
+                      {feature}
+                    </li>
+                  ))}
+                </ul>
+                <div className="mt-4 py-3 bg-blue-50 rounded-lg flex items-center justify-center gap-2 text-sm text-blue-600 whitespace-nowrap">
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                  </svg>
+                  Included 24/7 customer service
+                </div>
+              </div>
+
+              {/* Pro Plan */}
+              <div className="bg-white rounded-xl border-2 border-blue-500 p-6 flex flex-col relative">
+                <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-1 bg-gradient-to-r from-blue-500 to-blue-600 text-white text-xs font-medium rounded-full flex items-center gap-1 whitespace-nowrap">
+                  <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
+                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                  </svg>
+                  75% of users upgrade to this plan
+                </div>
+                <h3 className="text-lg font-semibold text-foreground">Pro</h3>
+                <div className="mt-4 h-10 flex items-end">
+                  <span className="text-3xl font-bold text-foreground">${planBillingTab === 'monthly' ? '149' : '99'}</span>
+                  <span className="text-muted-foreground">/month</span>
+                </div>
+                <button className="mt-6 w-full py-2.5 bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-lg text-sm font-medium hover:from-blue-600 hover:to-blue-700 transition-colors">
+                  Upgrade to Pro
+                </button>
+                <div className="mt-4 text-sm text-muted-foreground">
+                  <span className="whitespace-nowrap"><strong>100,000</strong> Credits - Cancel anytime</span>
+                </div>
+                <Separator className="my-4" />
+                <p className="text-sm font-medium text-foreground mb-3">All Starter features, plus:</p>
+                <ul className="space-y-2 text-sm text-muted-foreground flex-1">
+                  {[ 'TikTok Products','TikTok/Instagram/YouTube Influencers', 'Brand/Product Tracking', 'AI partner'].map((feature) => (
+                    <li key={feature} className="flex items-center gap-2">
+                      <svg className="w-4 h-4 text-blue-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                      </svg>
+                      {feature}
+                    </li>
+                  ))}
+                </ul>
+                <div className="mt-4 py-3 bg-blue-50 rounded-lg flex items-center justify-center gap-2 text-sm text-blue-600 whitespace-nowrap">
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                  </svg>
+                  Included 24/7 customer service
+                </div>
+              </div>
+
+              {/* Enterprise Plan */}
+              <div className="bg-white rounded-xl border p-6 flex flex-col">
+                <h3 className="text-lg font-semibold text-foreground">Enterprise</h3>
+                <div className="mt-4 h-10 flex items-end">
+                  <span className="text-3xl font-bold text-foreground">$2999</span>
+                  <span className="text-muted-foreground">/month</span>
+                </div>
+                <button className="mt-6 w-full py-2.5 border border-gray-300 rounded-lg text-sm font-medium text-foreground hover:bg-gray-50 transition-colors">
+                  Upgrade to Enterprise
+                </button>
+                <div className="flex items-center gap-2 mt-4 text-sm text-muted-foreground">
+                  <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                  </svg>
+                  <span className="whitespace-nowrap"><strong>1,000,000</strong> Credits - Cancel anytime</span>
+                </div>
+                <Separator className="my-4" />
+                <p className="text-sm font-medium text-foreground mb-3">All Pro features, plus:</p>
+                <ul className="space-y-2 text-sm text-muted-foreground flex-1">
+                  {['Creator Contact Unlock', 'Creator Targeted Search', 'Creator Video Tracking', 'Data Collection Service'].map((feature) => (
+                    <li key={feature} className="flex items-center gap-2">
+                      <svg className="w-4 h-4 text-blue-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                      </svg>
+                      {feature}
+                    </li>
+                  ))}
+                </ul>
+                <div className="mt-4 py-3 bg-blue-50 rounded-lg flex items-center justify-center gap-2 text-sm text-blue-600 whitespace-nowrap">
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                  </svg>
+                  Included 24/7 customer service
+                </div>
+              </div>
+            </div>
+          </div>
+        );
+      
       default:
         return null;
     }
@@ -1078,7 +1249,7 @@ export default function SettingsPage() {
   return (
     <div className="flex h-screen overflow-hidden bg-gray-50/50">
       {/* Left Sidebar */}
-      <div className="w-48 flex flex-col shrink-0 ml-8">
+      <div className="w-56 flex flex-col shrink-0 ml-8">
         {/* User Info */}
         <div className="px-4 pt-6 pb-4">
           <div className="flex items-center gap-2">
@@ -1123,7 +1294,7 @@ export default function SettingsPage() {
 
       {/* Right Content Area */}
       <div className="flex-1 overflow-y-auto">
-        <div className="max-w-4xl px-6 py-8 ml-4">
+        <div className="flex-1 px-6 py-8 pr-12 overflow-y-auto">
           {renderContent()}
         </div>
       </div>
