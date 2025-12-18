@@ -345,7 +345,7 @@ export function Sidebar() {
                   onClick={() => setIsAccountMenuOpen(false)}
                 >
                   <SettingsIcon size={16} className="text-muted-foreground" />
-                  <span>Account Setting</span>
+                  <span>Account Settings</span>
                 </Link>
                 <div className="border-t my-1" role="separator"></div>
                 <button 
