@@ -10,13 +10,27 @@ import { cn } from '@/lib/utils';
 import ContactEmail from '@/app/asset-studio/influencer-contact/contact-email';
 
 // View mode types
-type ViewMode = 'submitter' | 'reviewer';
+type ViewMode = 'submitter' | 'reviewer' | 'collection';
 
 // Submission status types
 type SubmissionStatus = 'pending' | 'submitted' | 'approved';
 
 // Creator approval status
 type CreatorApprovalStatus = 'pending' | 'approved' | 'rejected';
+
+// Collection Task interface
+interface CollectionTask {
+  id: string;
+  taskNumber: string;
+  clientName: string;
+  createdDate: string;
+  deliveryDate: string;
+  status: 'pending' | 'completed';
+  fileUrl?: string;
+  fileName?: string;
+  fileSize?: number;
+  shareLink?: string;
+}
 
 // Creator interface
 interface Creator {
@@ -331,9 +345,124 @@ export default function InfluencerSubmissionPage() {
   const [creatorApprovalStates, setCreatorApprovalStates] = useState<Record<string, CreatorApprovalStatus>>({});
   const [showContactEmail, setShowContactEmail] = useState(false);
   const [contactCreators, setContactCreators] = useState<Creator[]>([]);
+  
+  // Collection Service states
+  const [collectionTasks, setCollectionTasks] = useState<CollectionTask[]>([
+    {
+      id: '1',
+      taskNumber: 'TASK-2024-001',
+      clientName: 'Petlibro',
+      createdDate: '2024-12-01',
+      deliveryDate: '2024-12-22',
+      status: 'completed',
+      fileName: 'petlibro_influencers_data.xlsx',
+      fileSize: 2048576,
+      fileUrl: '/mock/data/petlibro_data.xlsx',
+      shareLink: 'https://example.com/share/abc123',
+    },
+    {
+      id: '2',
+      taskNumber: 'TASK-2024-002',
+      clientName: 'Nike Inc.',
+      createdDate: '2024-12-10',
+      deliveryDate: '2024-12-25',
+      status: 'pending',
+    },
+  ]);
+  const [showShareEmailModal, setShowShareEmailModal] = useState(false);
+  const [currentShareTaskId, setCurrentShareTaskId] = useState<string | null>(null);
+  const [shareEmail, setShareEmail] = useState('');
+  const [showPreviewModal, setShowPreviewModal] = useState(false);
+  const [previewData, setPreviewData] = useState<{
+    taskNumber: string;
+    fileName: string;
+    data: Array<Record<string, any>>;
+  } | null>(null);
 
   // Available clients list (mock data)
   const availableClients = ['Nike Inc.', 'Adidas Group', 'Puma Corporation', 'Under Armour', 'New Balance'];
+
+  // Mock preview data for collection tasks
+  const getMockPreviewData = (taskId: string) => {
+    // Simulate loading data from file
+    const mockData = [
+      {
+        influencerName: 'Emma Wilson',
+        platform: 'TikTok',
+        followers: '2.5M',
+        views: '1.2M',
+        homepageLink: 'https://tiktok.com/@emmawilson',
+        influencerId: 'TT001',
+        country: 'US',
+        publishDate: '2024-12-15',
+        language: 'English',
+        engagement: '8.2%',
+      },
+      {
+        influencerName: 'David Chen',
+        platform: 'YouTube',
+        followers: '1.8M',
+        views: '890K',
+        homepageLink: 'https://youtube.com/@davidchen',
+        influencerId: 'YT002',
+        country: 'CN',
+        publishDate: '2024-12-14',
+        language: 'Chinese',
+        engagement: '6.8%',
+      },
+      {
+        influencerName: 'Lisa Park',
+        platform: 'Instagram',
+        followers: '3.2M',
+        views: '2.1M',
+        homepageLink: 'https://instagram.com/lisapark',
+        influencerId: 'IG003',
+        country: 'KR',
+        publishDate: '2024-12-13',
+        language: 'Korean',
+        engagement: '9.5%',
+      },
+      {
+        influencerName: 'Alex Johnson',
+        platform: 'TikTok',
+        followers: '1.5M',
+        views: '750K',
+        homepageLink: 'https://tiktok.com/@alexj',
+        influencerId: 'TT004',
+        country: 'GB',
+        publishDate: '2024-12-12',
+        language: 'English',
+        engagement: '7.3%',
+      },
+      {
+        influencerName: 'Sophie Martin',
+        platform: 'Instagram',
+        followers: '2.2M',
+        views: '1.5M',
+        homepageLink: 'https://instagram.com/sophiem',
+        influencerId: 'IG005',
+        country: 'FR',
+        publishDate: '2024-12-11',
+        language: 'French',
+        engagement: '8.9%',
+      },
+    ];
+    return mockData;
+  };
+
+  const handlePreviewTask = (task: CollectionTask) => {
+    if (!task.fileName) {
+      alert('No file available for preview');
+      return;
+    }
+    const data = getMockPreviewData(task.id);
+    setPreviewData({
+      taskNumber: task.taskNumber,
+      fileName: task.fileName,
+      data,
+    });
+    setShowPreviewModal(true);
+  };
 
   const toggleSubmission = (submissionId: string) => {
     setExpandedSubmissions((prev) => {
@@ -591,6 +720,17 @@ export default function InfluencerSubmissionPage() {
                 )}
               >
                 Reviewer View
+              </button>
+              <button
+                onClick={() => setViewMode('collection')}
+                className={cn(
+                  'px-4 py-2 rounded-md text-sm font-medium transition-colors',
+                  viewMode === 'collection'
+                    ? 'bg-white text-gray-900 shadow-sm'
+                    : 'text-gray-600 hover:text-gray-900'
+                )}
+              >
+                Collection Service
               </button>
             </div>
           </div>
@@ -1073,6 +1213,149 @@ export default function InfluencerSubmissionPage() {
           </div>
         )}
           </>
+        ) : viewMode === 'collection' ? (
+          // Collection Service View
+          <>
+            {/* Upload Button */}
+            <div className="px-8 py-4 border-b border-gray-200 bg-white">
+              <div className="flex items-center justify-between">
+                <div>
+                  <h2 className="text-lg font-semibold text-gray-900">Collection Service Deliveries</h2>
+                  <p className="text-sm text-gray-500 mt-1">{collectionTasks.length} tasks total</p>
+                </div>
+                <div>
+                  <input
+                    type="file"
+                    id="file-upload"
+                    className="hidden"
+                    accept=".xlsx,.xls,.csv"
+                    onChange={(e) => {
+                      const file = e.target.files?.[0];
+                      if (file) {
+                        const newTask: CollectionTask = {
+                          id: `${Date.now()}`,
+                          taskNumber: `TASK-2024-${String(collectionTasks.length + 1).padStart(3, '0')}`,
+                          clientName: 'New Client',
+                          createdDate: new Date().toISOString().split('T')[0],
+                          deliveryDate: new Date().toISOString().split('T')[0],
+                          status: 'completed',
+                          fileName: file.name,
+                          fileSize: file.size,
+                          fileUrl: URL.createObjectURL(file),
+                        };
+                        setCollectionTasks([newTask, ...collectionTasks]);
+                        alert('File uploaded successfully!');
+                      }
+                    }}
+                  />
+                  <Button
+                    onClick={() => document.getElementById('file-upload')?.click()}
+                    className="flex items-center gap-2"
+                  >
+                    <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+                    </svg>
+                    Upload Data
+                  </Button>
+                </div>
+              </div>
+            </div>
+
+            {/* Table Header */}
+            <div className="sticky top-0 z-10 bg-gray-50 px-8 py-3">
+              <div className="grid grid-cols-7 gap-4">
+                <div className="col-span-1">
+                  <span className="text-xs font-semibold text-gray-700 uppercase">Task No.</span>
+                </div>
+                <div className="col-span-1">
+                  <span className="text-xs font-semibold text-gray-700 uppercase">Client Name</span>
+                </div>
+                <div className="col-span-1">
+                  <span className="text-xs font-semibold text-gray-700 uppercase">Created Date</span>
+                </div>
+                <div className="col-span-1">
+                  <span className="text-xs font-semibold text-gray-700 uppercase">Delivery Date</span>
+                </div>
+                <div className="col-span-1">
+                  <span className="text-xs font-semibold text-gray-700 uppercase">Status</span>
+                </div>
+                <div className="col-span-1">
+                  <span className="text-xs font-semibold text-gray-700 uppercase">File</span>
+                </div>
+                <div className="col-span-1">
+                  <span className="text-xs font-semibold text-gray-700 uppercase">Actions</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Task List */}
+            {collectionTasks.length === 0 ? (
+              <div className="flex flex-col items-center justify-center h-64 px-8">
+                <div className="w-16 h-16 rounded-full bg-gray-100 flex items-center justify-center mb-4">
+                  <svg className="w-8 h-8 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                  </svg>
+                </div>
+                <h3 className="text-lg font-medium text-gray-900 mb-2">No collection tasks</h3>
+                <p className="text-sm text-gray-500">Upload data files to create delivery tasks</p>
+              </div>
+            ) : (
+              <div className="px-8 pb-6 space-y-3">
+                {collectionTasks.map((task) => (
+                  <div key={task.id} className="bg-white rounded-lg border border-gray-200 p-4 hover:shadow-md transition-shadow">
+                    <div className="grid grid-cols-7 gap-4 items-center">
+                      <div className="col-span-1">
+                        <span className="font-medium text-gray-900 text-sm">{task.taskNumber}</span>
+                      </div>
+                      <div className="col-span-1">
+                        <span className="text-sm text-gray-600">{task.clientName}</span>
+                      </div>
+                      <div className="col-span-1">
+                        <span className="text-sm text-gray-500">{new Date(task.createdDate).toLocaleDateString()}</span>
+                      </div>
+                      <div className="col-span-1">
+                        <span className="text-sm text-gray-500">{new Date(task.deliveryDate).toLocaleDateString()}</span>
+                      </div>
+                      <div className="col-span-1">
+                        {task.status === 'completed' ? (
+                          <span className="px-2 py-1 rounded-full text-xs font-medium bg-green-100 text-green-700">Completed</span>
+                        ) : (
+                          <span className="px-2 py-1 rounded-full text-xs font-medium bg-yellow-100 text-yellow-700">Pending</span>
+                        )}
+                      </div>
+                      <div className="col-span-1">
+                        {task.fileName ? (
+                          <div className="flex items-center gap-2">
+                            <svg className="w-4 h-4 text-green-600 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                              <path strokeLinecap="round" strokeLinejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                            </svg>
+                            <span className="text-xs text-gray-600 truncate" title={task.fileName}>{task.fileName}</span>
+                          </div>
+                        ) : (
+                          <span className="text-xs text-gray-400">No file</span>
+                        )}
+                      </div>
+                      <div className="col-span-1 flex items-center gap-2">
+                        {task.fileUrl && (
+                          <button onClick={() => handlePreviewTask(task)} className="p-2 hover:bg-gray-100 rounded-lg transition-colors" title="Preview">
+                            <svg className="w-4 h-4 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                              <path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                              <path strokeLinecap="round" strokeLinejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                            </svg>
+                          </button>
+                        )}
+                        <button onClick={() => { setCurrentShareTaskId(task.id); setShareEmail(''); setShowShareEmailModal(true); }} className="p-2 hover:bg-blue-50 rounded-lg transition-colors" title="Share">
+                          <svg className="w-4 h-4 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z" />
+                          </svg>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </>
         ) : (
           // Reviewer View
           <>
@@ -1250,6 +1533,158 @@ export default function InfluencerSubmissionPage() {
             <div className="sticky bottom-0 bg-white border-t border-gray-200 px-6 py-4 flex justify-end gap-3">
               <Button variant="outline" onClick={() => setShowShareModal(false)}>Cancel</Button>
               <Button onClick={handleConfirmShare} disabled={selectedClients.size === 0}>Confirm</Button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Preview Modal for Collection Tasks */}
+      {showPreviewModal && previewData && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
+          <div className="bg-white rounded-lg max-w-7xl w-full max-h-[90vh] flex flex-col">
+            {/* Header */}
+            <div className="border-b border-gray-200 px-6 py-4 flex items-center justify-between">
+              <div>
+                <h3 className="text-lg font-semibold text-gray-900">Preview: {previewData.fileName}</h3>
+                <p className="text-sm text-gray-500 mt-1">Task: {previewData.taskNumber} • {previewData.data.length} influencers</p>
+              </div>
+              <button
+                onClick={() => setShowPreviewModal(false)}
+                className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+              >
+                <svg className="w-5 h-5 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+            </div>
+
+            {/* Table Content */}
+            <div className="flex-1 overflow-auto p-6">
+              <div className="border border-gray-200 rounded-lg overflow-hidden">
+                <table className="min-w-full divide-y divide-gray-200">
+                  <thead className="bg-gray-50">
+                    <tr>
+                      <th className="px-4 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">Influencer Name</th>
+                      <th className="px-4 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">Platform</th>
+                      <th className="px-4 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">Followers</th>
+                      <th className="px-4 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">Views</th>
+                      <th className="px-4 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">Homepage Link</th>
+                      <th className="px-4 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">ID</th>
+                      <th className="px-4 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">Country</th>
+                      <th className="px-4 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">Publish Date</th>
+                      <th className="px-4 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">Language</th>
+                      <th className="px-4 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">Engagement</th>
+                    </tr>
+                  </thead>
+                  <tbody className="bg-white divide-y divide-gray-200">
+                    {previewData.data.map((row, index) => (
+                      <tr key={index} className="hover:bg-gray-50 transition-colors">
+                        <td className="px-4 py-3 text-sm font-medium text-gray-900">{row.influencerName}</td>
+                        <td className="px-4 py-3 text-sm text-gray-600">{row.platform}</td>
+                        <td className="px-4 py-3 text-sm text-gray-900 font-semibold">{row.followers}</td>
+                        <td className="px-4 py-3 text-sm text-gray-900 font-semibold">{row.views}</td>
+                        <td className="px-4 py-3 text-sm">
+                          <a href={row.homepageLink} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:text-blue-800 hover:underline">
+                            Link
+                          </a>
+                        </td>
+                        <td className="px-4 py-3 text-sm text-gray-600 font-mono">{row.influencerId}</td>
+                        <td className="px-4 py-3 text-sm text-gray-600">{row.country}</td>
+                        <td className="px-4 py-3 text-sm text-gray-500">{row.publishDate}</td>
+                        <td className="px-4 py-3 text-sm text-gray-600">{row.language}</td>
+                        <td className="px-4 py-3 text-sm text-green-600 font-semibold">{row.engagement}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            {/* Footer */}
+            <div className="border-t border-gray-200 px-6 py-4 flex justify-between items-center">
+              <div className="text-sm text-gray-500">
+                Total: {previewData.data.length} records
+              </div>
+              <div className="flex gap-3">
+                <Button variant="outline" onClick={() => setShowPreviewModal(false)}>Close</Button>
+                <Button onClick={() => {
+                  // In production, trigger download
+                  alert('Downloading file...');
+                  console.log('Download:', previewData.fileName);
+                }}>
+                  <svg className="w-4 h-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                  </svg>
+                  Download
+                </Button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Share Email Modal for Collection Tasks */}
+      {showShareEmailModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
+          <div className="bg-white rounded-lg max-w-lg w-full">
+            <div className="border-b border-gray-200 px-6 py-4">
+              <h3 className="text-lg font-semibold text-gray-900">Share Collection Data</h3>
+            </div>
+            <div className="p-6 space-y-4">
+              {/* Email Input */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Send to email:</label>
+                <Input
+                  type="email"
+                  placeholder="client@example.com"
+                  value={shareEmail}
+                  onChange={(e) => setShareEmail(e.target.value)}
+                  className="w-full"
+                />
+              </div>
+
+              {/* Share Link */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Or copy share link:</label>
+                <div className="flex gap-2">
+                  <Input
+                    type="text"
+                    value={currentShareTaskId ? `${window.location.origin}/share/collection/${currentShareTaskId}` : ''}
+                    readOnly
+                    className="flex-1 bg-gray-50"
+                  />
+                  <Button
+                    variant="outline"
+                    onClick={() => {
+                      if (currentShareTaskId) {
+                        const shareLink = `${window.location.origin}/share/collection/${currentShareTaskId}`;
+                        navigator.clipboard.writeText(shareLink);
+                        alert('Share link copied to clipboard!');
+                      }
+                    }}
+                  >
+                    Copy
+                  </Button>
+                </div>
+              </div>
+            </div>
+            <div className="border-t border-gray-200 px-6 py-4 flex justify-end gap-3">
+              <Button variant="outline" onClick={() => setShowShareEmailModal(false)}>Cancel</Button>
+              <Button
+                onClick={() => {
+                  if (!shareEmail.trim()) {
+                    alert('Please enter an email address');
+                    return;
+                  }
+                  // In production, call API to send email
+                  console.log('Sending email to:', shareEmail);
+                  alert(`Email sent to ${shareEmail} successfully!`);
+                  setShowShareEmailModal(false);
+                }}
+                disabled={!shareEmail.trim()}
+              >
+                Send Email
+              </Button>
             </div>
           </div>
         </div>

@@ -287,6 +287,7 @@ export default function CreatorPage() {
   const [creatorsToSave, setCreatorsToSave] = useState<Creator[]>([]);
   const [submissionCount, setSubmissionCount] = useState(0);
   const [showBadgeAnimation, setShowBadgeAnimation] = useState(false);
+  const [showTargetedSearch, setShowTargetedSearch] = useState(false);
   const [showShortlistConfirm, setShowShortlistConfirm] = useState(false);
 
   const handleWatchTutorial = () => {
@@ -466,39 +467,87 @@ export default function CreatorPage() {
       <div className="bg-white h-full p-6">
         <div className="flex flex-1 overflow-hidden">
           {/* Filter Panel */}
-          <CreatorFilters />
+          <CreatorFilters onTargetedSearchClick={() => setShowTargetedSearch(true)} />
         
         {/* Right Creator List */}
         <div className={`${showDetail ? 'flex-1' : 'flex-1'} overflow-hidden`}>
-          {/* Search Bar and Shortlist - 移到右侧列表最上方 */}
-          <div className="bg-white p-4">
-            <div className="flex items-center gap-4">
-              <div className="relative flex-1">
-                <SearchIcon size={18} className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground" />
-                <Input
-                  placeholder="Search influencers..."
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  className="pl-10"
-                />
+          {/* Search Bar and Shortlist - 仅在非定向搜索模式下显示 */}
+          {!showTargetedSearch && (
+            <div className="bg-white p-4">
+              <div className="flex items-center gap-4">
+                <div className="relative flex-1">
+                  <SearchIcon size={18} className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground" />
+                  <Input
+                    placeholder="Search influencers..."
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    className="pl-10"
+                  />
+                </div>
+                <Button 
+                  variant="outline" 
+                  size="sm" 
+                  className="flex items-center gap-2"
+                  onClick={handleShortlistAll}
+                >
+                  <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.29 1.51 4.04 3 5.5l7 7Z"/>
+                  </svg>
+                  Shortlist all
+                </Button>
               </div>
-              <Button 
-                variant="outline" 
-                size="sm" 
-                className="flex items-center gap-2"
-                onClick={handleShortlistAll}
-              >
-                <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.29 1.51 4.04 3 5.5l7 7Z"/>
-                </svg>
-                Shortlist all
-              </Button>
             </div>
-          </div>
+          )}
           
           <div className="h-full overflow-y-auto overflow-x-visible">
             <div className="pl-6 pr-6 py-6 pb-20">
-              {filteredCreators.length === 0 ? (
+              {showTargetedSearch ? (
+                <>
+                  {/* Back to List Button - 定向搜索模式下显示 */}
+                  <div className="mb-6 -mt-2">
+                    <button
+                      onClick={() => setShowTargetedSearch(false)}
+                      className="flex items-center gap-2 text-sm text-gray-600 hover:text-gray-900 transition-colors"
+                    >
+                      <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                        <path d="M19 12H5M12 19l-7-7 7-7"/>
+                      </svg>
+                      <span>Back to List</span>
+                    </button>
+                  </div>
+                  {/* Targeted Search - Empty State with Tabs (Upload/Link/Keywords) */}
+                  <EmptyStateTabs
+                  onFileSelect={(file) => {
+                    console.log('File selected:', file.name);
+                    // TODO: Handle CSV file upload and parse influencer data
+                    setShowTargetedSearch(false);
+                  }}
+                  onLinkCollect={async (url) => {
+                    console.log('Collecting from URL:', url);
+                    // TODO: Handle URL collection - fetch influencer data from social media URL
+                    alert(`Starting collection from: ${url}`);
+                    await new Promise(resolve => setTimeout(resolve, 2000));
+                    alert('Collection completed!');
+                    setShowTargetedSearch(false);
+                  }}
+                  onWordsCollect={async (platform, keywords) => {
+                    console.log('Searching on', platform, 'for:', keywords);
+                    // TODO: Handle keyword search - find influencers by keywords on selected platform
+                    alert(`Searching on ${platform.toUpperCase()} for: ${keywords.join(', ')}`);
+                    await new Promise(resolve => setTimeout(resolve, 2000));
+                    alert(`Found influencers for: ${keywords.join(', ')}`);
+                    setShowTargetedSearch(false);
+                  }}
+                  onCollectionSubmit={async (requirements) => {
+                    console.log('Collection requirements:', requirements);
+                    // TODO: Submit collection requirements to backend
+                    await new Promise(resolve => setTimeout(resolve, 2000));
+                    setShowTargetedSearch(false);
+                  }}
+                  defaultTab="upload"
+                />
+                </>
+              ) : filteredCreators.length === 0 ? (
                 /* Empty State with Tabs (Upload/Link/Keywords) */
                 <EmptyStateTabs
                   onFileSelect={(file) => {

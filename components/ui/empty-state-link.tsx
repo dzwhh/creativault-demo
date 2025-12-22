@@ -48,7 +48,7 @@ export function EmptyStateLink({
 
   return (
     <div className="flex items-center justify-center min-h-[400px]">
-      <div className="bg-white border-2 border-dashed border-gray-300 rounded-lg p-8 max-w-2xl w-full">
+      <div className="bg-white border-2 border-dashed border-gray-300 rounded-lg p-10 max-w-4xl w-full">
         <div className="text-center mb-6">
           <div className="w-16 h-16 rounded-full bg-blue-100 flex items-center justify-center mx-auto mb-4">
             <svg className="w-8 h-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">

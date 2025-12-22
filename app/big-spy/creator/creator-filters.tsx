@@ -246,7 +246,7 @@ const audienceFilterSections: FilterSection[] = [
   },
 ];
 
-export function CreatorFilters() {
+export function CreatorFilters({ onTargetedSearchClick }: { onTargetedSearchClick?: () => void }) {
   const router = useRouter();
   const searchParams = useSearchParams();
 
@@ -282,88 +282,104 @@ export function CreatorFilters() {
       onFilterChange={updateFilter}
       getFilterValue={getFilterValue}
       extraSections={
-        <div className="pt-4 mt-4">
-          <div className="px-3 mb-4">
-            <h3 className="text-sm font-medium text-gray-500">Audience</h3>
-          </div>
-          <div className="space-y-1">
-            {audienceFilterSections.map((section) => {
-              const Icon = section.icon;
-              return (
-                <div key={section.id} className="px-3">
-                  <div className="flex items-center gap-2 py-2 text-sm font-medium text-gray-700">
-                    <Icon size={16} className="text-gray-500" />
-                    {section.title}
-                  </div>
-                  {section.type === 'range' && section.id === 'audience_gender' && (
-                    <div className="ml-6 space-y-2 mb-4">
-                      <Slider
-                        defaultValue={[70]}
-                        max={100}
-                        min={0}
-                        step={1}
-                        className="w-full"
-                      />
-                      <div className="flex justify-between text-xs text-gray-500">
-                        <span>0% Female</span>
-                        <span>100% Female</span>
+        <>
+          <div className="pt-4 mt-4">
+            <div className="px-3 mb-4">
+              <h3 className="text-sm font-medium text-gray-500">Audience</h3>
+            </div>
+            <div className="space-y-1">
+              {audienceFilterSections.map((section) => {
+                const Icon = section.icon;
+                return (
+                  <div key={section.id} className="px-3">
+                    <div className="flex items-center gap-2 py-2 text-sm font-medium text-gray-700">
+                      <Icon size={16} className="text-gray-500" />
+                      {section.title}
+                    </div>
+                    {section.type === 'range' && section.id === 'audience_gender' && (
+                      <div className="ml-6 space-y-2 mb-4">
+                        <Slider
+                          defaultValue={[70]}
+                          max={100}
+                          min={0}
+                          step={1}
+                          className="w-full"
+                        />
+                        <div className="flex justify-between text-xs text-gray-500">
+                          <span>0% Female</span>
+                          <span>100% Female</span>
+                        </div>
                       </div>
-                    </div>
-                  )}
-                  {section.type === 'select' && section.options && (
-                    <div className="ml-6 mb-4">
-                      <Select>
-                        <SelectTrigger className="w-full h-8">
-                          <SelectValue placeholder={`Select ${section.title.toLowerCase()}`} />
-                        </SelectTrigger>
-                        <SelectContent>
-                          {section.options.map((option) => (
-                            <SelectItem key={option.value} value={option.value}>
-                              {option.label}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                    </div>
-                  )}
-                  {section.type === 'multiselect' && section.options && (
-                    <div className="ml-6 space-y-2 mb-4">
-                      {section.options.map((option) => {
-                        const currentValues = getFilterValue(section.id)?.split(',') || [];
-                        const isChecked = currentValues.includes(option.value);
-                        
-                        return (
-                          <label
-                            key={option.value}
-                            className="flex items-center gap-2 cursor-pointer hover:bg-gray-50 p-1 rounded"
-                          >
-                            <input
-                              type="checkbox"
-                              className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
-                              onChange={(e) => {
-                                let newValues;
-                                
-                                if (e.target.checked) {
-                                  newValues = [...currentValues, option.value];
-                                } else {
-                                  newValues = currentValues.filter((v) => v !== option.value);
-                                }
-                                
-                                updateFilter(section.id, newValues);
-                              }}
-                              checked={isChecked}
-                            />
-                            <span className="text-sm text-gray-600">{option.label}</span>
-                          </label>
-                        );
-                      })}
-                    </div>
-                  )}
-                </div>
-              );
-            })}
+                    )}
+                    {section.type === 'select' && section.options && (
+                      <div className="ml-6 mb-4">
+                        <Select>
+                          <SelectTrigger className="w-full h-8">
+                            <SelectValue placeholder={`Select ${section.title.toLowerCase()}`} />
+                          </SelectTrigger>
+                          <SelectContent>
+                            {section.options.map((option) => (
+                              <SelectItem key={option.value} value={option.value}>
+                                {option.label}
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                      </div>
+                    )}
+                    {section.type === 'multiselect' && section.options && (
+                      <div className="ml-6 space-y-2 mb-4">
+                        {section.options.map((option) => {
+                          const currentValues = getFilterValue(section.id)?.split(',') || [];
+                          const isChecked = currentValues.includes(option.value);
+                          
+                          return (
+                            <label
+                              key={option.value}
+                              className="flex items-center gap-2 cursor-pointer hover:bg-gray-50 p-1 rounded"
+                            >
+                              <input
+                                type="checkbox"
+                                className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                                onChange={(e) => {
+                                  let newValues;
+                                  
+                                  if (e.target.checked) {
+                                    newValues = [...currentValues, option.value];
+                                  } else {
+                                    newValues = currentValues.filter((v) => v !== option.value);
+                                  }
+                                  
+                                  updateFilter(section.id, newValues);
+                                }}
+                                checked={isChecked}
+                              />
+                              <span className="text-sm text-gray-600">{option.label}</span>
+                            </label>
+                          );
+                        })}
+                      </div>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
           </div>
-        </div>
+          
+          {/* Targeted Search Button */}
+          <div className="pt-4 mt-4 border-t px-3">
+            <button
+              onClick={onTargetedSearchClick}
+              className="w-full flex items-center justify-center gap-2 px-4 py-2.5 bg-blue-50 text-blue-600 text-sm font-medium rounded-lg hover:bg-blue-100 transition-colors border border-blue-200"
+            >
+              <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <circle cx="11" cy="11" r="8"/>
+                <path d="m21 21-4.35-4.35"/>
+              </svg>
+              Targeted Search
+            </button>
+          </div>
+        </>
       }
     />
   );

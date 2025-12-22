@@ -4,13 +4,15 @@ import { useState } from 'react';
 import { EmptyStateUpload } from './empty-state-upload';
 import { EmptyStateLink } from './empty-state-link';
 import { EmptyStateWords } from './empty-state-words';
+import { EmptyStateCollection } from './empty-state-collection';
 
-type TabType = 'upload' | 'link' | 'words';
+type TabType = 'upload' | 'link' | 'words' | 'collection';
 
 interface EmptyStateTabsProps {
   onFileSelect?: (file: File) => void;
   onLinkCollect?: (url: string) => Promise<void>;
   onWordsCollect?: (platform: string, keywords: string[]) => Promise<void>;
+  onCollectionSubmit?: (requirements: string) => Promise<void>;
   defaultTab?: TabType;
 }
 
@@ -18,6 +20,7 @@ export function EmptyStateTabs({
   onFileSelect,
   onLinkCollect,
   onWordsCollect,
+  onCollectionSubmit,
   defaultTab = 'upload',
 }: EmptyStateTabsProps) {
   const [activeTab, setActiveTab] = useState<TabType>(defaultTab);
@@ -51,6 +54,15 @@ export function EmptyStateTabs({
         <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
           <circle cx="11" cy="11" r="8"/>
           <path d="m21 21-4.35-4.35"/>
+        </svg>
+      )
+    },
+    { 
+      id: 'collection' as TabType, 
+      label: 'Collection Service', 
+      icon: (
+        <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+          <path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
         </svg>
       )
     },
@@ -105,6 +117,15 @@ export function EmptyStateTabs({
             onCollect={onWordsCollect}
             placeholder="Enter keywords or #hashtags (separate by comma)"
             buttonText="Search Influencers"
+          />
+        )}
+
+        {activeTab === 'collection' && (
+          <EmptyStateCollection
+            title="Data Collection Service"
+            description="Submit your influencer data collection requirements and our team will help you gather the information"
+            onSubmit={onCollectionSubmit}
+            buttonText="Submit Requirements"
           />
         )}
       </div>
