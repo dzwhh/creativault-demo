@@ -365,20 +365,6 @@ export function CreatorFilters({ onTargetedSearchClick }: { onTargetedSearchClic
               })}
             </div>
           </div>
-          
-          {/* Targeted Search Button */}
-          <div className="pt-4 mt-4 border-t px-3">
-            <button
-              onClick={onTargetedSearchClick}
-              className="w-full flex items-center justify-center gap-2 px-4 py-2.5 bg-blue-50 text-blue-600 text-sm font-medium rounded-lg hover:bg-blue-100 transition-colors border border-blue-200"
-            >
-              <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <circle cx="11" cy="11" r="8"/>
-                <path d="m21 21-4.35-4.35"/>
-              </svg>
-              Targeted Search
-            </button>
-          </div>
         </>
       }
     />

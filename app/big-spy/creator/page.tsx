@@ -471,7 +471,7 @@ export default function CreatorPage() {
         
         {/* Right Creator List */}
         <div className={`${showDetail ? 'flex-1' : 'flex-1'} overflow-hidden`}>
-          {/* Search Bar and Shortlist - 仅在非定向搜索模式下显示 */}
+          {/* Search Bar and Shortlist - 仅在非定向采集模式下显示 */}
           {!showTargetedSearch && (
             <div className="bg-white p-4">
               <div className="flex items-center gap-4">
@@ -481,9 +481,37 @@ export default function CreatorPage() {
                     placeholder="Search influencers..."
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
-                    className="pl-10"
+                    className="pl-10 pr-44"
                   />
+                  {/* Targeted Collection Button - Inside Search Box */}
+                  <Button 
+                    variant="outline" 
+                    size="sm" 
+                    className="absolute right-1 top-1/2 transform -translate-y-1/2 flex items-center gap-2 bg-blue-50 text-blue-600 border-blue-200 hover:bg-blue-100 h-8"
+                    onClick={() => setShowTargetedSearch(true)}
+                  >
+                    <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M11 2v2.07A8 8 0 0 0 4.07 11H2v2h2.07A8 8 0 0 0 11 19.93V22h2v-2.07A8 8 0 0 0 19.93 13H22v-2h-2.07A8 8 0 0 0 13 4.07V2m-2 4.08V8h2V6.09c2.5.41 4.5 2.41 4.92 4.91H16v2h1.91c-.41 2.5-2.41 4.5-4.91 4.92V16h-2v1.91C8.5 17.5 6.5 15.5 6.08 13H8v-2H6.09C6.5 8.5 8.5 6.5 11 6.08M12 11a1 1 0 0 0-1 1a1 1 0 0 0 1 1a1 1 0 0 0 1-1a1 1 0 0 0-1-1"/>
+                    </svg>
+                    Targeted Collection
+                  </Button>
                 </div>
+                {/* Search Button */}
+                <Button 
+                  variant="default" 
+                  size="sm" 
+                  className="flex items-center gap-2"
+                  onClick={() => {
+                    // TODO: Handle search action
+                    console.log('Search clicked:', searchQuery);
+                  }}
+                >
+                  <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <circle cx="11" cy="11" r="8"/>
+                    <path d="m21 21-4.35-4.35"/>
+                  </svg>
+                  Search
+                </Button>
                 <Button 
                   variant="outline" 
                   size="sm" 
@@ -503,7 +531,7 @@ export default function CreatorPage() {
             <div className="pl-6 pr-6 py-6 pb-20">
               {showTargetedSearch ? (
                 <>
-                  {/* Back to List Button - 定向搜索模式下显示 */}
+                  {/* Back to List Button - 定向采集模式下显示 */}
                   <div className="mb-6 -mt-2">
                     <button
                       onClick={() => setShowTargetedSearch(false)}
@@ -515,7 +543,7 @@ export default function CreatorPage() {
                       <span>Back to List</span>
                     </button>
                   </div>
-                  {/* Targeted Search - Empty State with Tabs (Upload/Link/Keywords) */}
+                  {/* Targeted Collection - Empty State with Tabs (Upload/Link/Keywords) */}
                   <EmptyStateTabs
                   onFileSelect={(file) => {
                     console.log('File selected:', file.name);
