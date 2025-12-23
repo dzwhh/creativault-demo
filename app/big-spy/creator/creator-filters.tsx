@@ -1,10 +1,12 @@
 'use client';
 
+import { useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { PageFilterBase, FilterSection } from '@/components/ui/page-filter-base';
 import { TikTokIcon, InstagramIcon, YoutubeIcon } from '@/components/icons';
 import { Slider } from '@/components/ui/slider';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { cn } from '@/lib/utils';
 
 // 创建所需的图标组件
 const PlatformIcon = ({ size = 16, className = '' }: { size?: number; className?: string }) => (
@@ -143,19 +145,24 @@ const languages = [
   { value: 'zh', label: 'Chinese' },
 ];
 
-const audienceLocations = [
-  { value: 'us', label: '🇺🇸 United States' },
-  { value: 'ca', label: '🇨🇦 Canada' },
-  { value: 'gb', label: '🇬🇧 United Kingdom' },
-  { value: 'kr', label: '🇰🇷 South Korea' },
-];
-
-const ageRanges = [
+// Audience Age options
+const audienceAgeOptions = [
+  { value: '13-17', label: '13-17' },
   { value: '18-24', label: '18-24' },
   { value: '25-34', label: '25-34' },
   { value: '35-44', label: '35-44' },
   { value: '45-54', label: '45-54' },
-  { value: '55+', label: '55+' },
+  { value: '55-64', label: '55-64' },
+  { value: '65+', label: '65+' },
+];
+
+// Audience Ratio options
+const audienceRatioOptions = [
+  { value: '0-20', label: '0% - 20%' },
+  { value: '20-40', label: '20% - 40%' },
+  { value: '40-60', label: '40% - 60%' },
+  { value: '60-80', label: '60% - 80%' },
+  { value: '80-100', label: '80% - 100%' },
 ];
 
 // Creator 过滤器配置
@@ -222,33 +229,19 @@ const filterSections: FilterSection[] = [
   },
 ];
 
-// Audience 过滤器配置
-const audienceFilterSections: FilterSection[] = [
-  {
-    id: 'audience_gender',
-    title: 'Gender Distribution',
-    icon: GenderIcon,
-    type: 'range',
-  },
-  {
-    id: 'audience_location',
-    title: 'Audience Location',
-    icon: LocationIcon,
-    type: 'select',
-    options: audienceLocations,
-  },
-  {
-    id: 'age_range',
-    title: 'Age Range',
-    icon: AgeIcon,
-    type: 'multiselect',
-    options: ageRanges,
-  },
-];
+
 
 export function CreatorFilters({ onTargetedSearchClick }: { onTargetedSearchClick?: () => void }) {
   const router = useRouter();
   const searchParams = useSearchParams();
+  
+  // Audience filter states
+  const [showAgeDropdown, setShowAgeDropdown] = useState(false);
+  const [showRatioDropdown, setShowRatioDropdown] = useState(false);
+  const [ratioTab, setRatioTab] = useState<'male' | 'female'>('male');
+  const [selectedAges, setSelectedAges] = useState<string[]>([]);
+  const [selectedMaleRatio, setSelectedMaleRatio] = useState<string>('');
+  const [selectedFemaleRatio, setSelectedFemaleRatio] = useState<string>('');
 
   const updateFilter = (key: string, value: string | string[]) => {
     const params = new URLSearchParams(searchParams.toString());
@@ -287,82 +280,154 @@ export function CreatorFilters({ onTargetedSearchClick }: { onTargetedSearchClic
             <div className="px-3 mb-4">
               <h3 className="text-sm font-medium text-gray-500">Audience</h3>
             </div>
-            <div className="space-y-1">
-              {audienceFilterSections.map((section) => {
-                const Icon = section.icon;
-                return (
-                  <div key={section.id} className="px-3">
-                    <div className="flex items-center gap-2 py-2 text-sm font-medium text-gray-700">
-                      <Icon size={16} className="text-gray-500" />
-                      {section.title}
+            <div className="space-y-2 px-3">
+              {/* Audience Age */}
+              <div className="relative">
+                <button
+                  onClick={() => {
+                    setShowAgeDropdown(!showAgeDropdown);
+                    setShowRatioDropdown(false);
+                  }}
+                  className="w-full flex items-center justify-between gap-2 py-2 px-3 text-sm font-medium text-gray-700 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors"
+                >
+                  <div className="flex items-center gap-2">
+                    <AgeIcon size={16} className="text-gray-500" />
+                    <span>Audience Age</span>
+                    {selectedAges.length > 0 && (
+                      <span className="bg-blue-100 text-blue-600 text-xs px-1.5 py-0.5 rounded">
+                        {selectedAges.length}
+                      </span>
+                    )}
+                  </div>
+                  <svg className={cn("w-4 h-4 text-gray-400 transition-transform", showAgeDropdown && "rotate-180")} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <polyline points="6 9 12 15 18 9"/>
+                  </svg>
+                </button>
+                
+                {/* Age Dropdown */}
+                {showAgeDropdown && (
+                  <div className="mt-2 p-3 bg-white border border-gray-200 rounded-lg shadow-lg">
+                    <div className="space-y-2">
+                      {audienceAgeOptions.map((option) => (
+                        <label
+                          key={option.value}
+                          className="flex items-center gap-2 cursor-pointer hover:bg-gray-50 p-1.5 rounded"
+                        >
+                          <input
+                            type="checkbox"
+                            className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                            checked={selectedAges.includes(option.value)}
+                            onChange={(e) => {
+                              if (e.target.checked) {
+                                setSelectedAges([...selectedAges, option.value]);
+                              } else {
+                                setSelectedAges(selectedAges.filter(v => v !== option.value));
+                              }
+                            }}
+                          />
+                          <span className="text-sm text-gray-600">{option.label}</span>
+                        </label>
+                      ))}
                     </div>
-                    {section.type === 'range' && section.id === 'audience_gender' && (
-                      <div className="ml-6 space-y-2 mb-4">
-                        <Slider
-                          defaultValue={[70]}
-                          max={100}
-                          min={0}
-                          step={1}
-                          className="w-full"
-                        />
-                        <div className="flex justify-between text-xs text-gray-500">
-                          <span>0% Female</span>
-                          <span>100% Female</span>
-                        </div>
-                      </div>
+                  </div>
+                )}
+              </div>
+              
+              {/* Audience Ratio */}
+              <div className="relative">
+                <button
+                  onClick={() => {
+                    setShowRatioDropdown(!showRatioDropdown);
+                    setShowAgeDropdown(false);
+                  }}
+                  className="w-full flex items-center justify-between gap-2 py-2 px-3 text-sm font-medium text-gray-700 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors"
+                >
+                  <div className="flex items-center gap-2">
+                    <GenderIcon size={16} className="text-gray-500" />
+                    <span>Audience Ratio</span>
+                    {(selectedMaleRatio || selectedFemaleRatio) && (
+                      <span className="bg-blue-100 text-blue-600 text-xs px-1.5 py-0.5 rounded">
+                        {(selectedMaleRatio ? 1 : 0) + (selectedFemaleRatio ? 1 : 0)}
+                      </span>
                     )}
-                    {section.type === 'select' && section.options && (
-                      <div className="ml-6 mb-4">
-                        <Select>
-                          <SelectTrigger className="w-full h-8">
-                            <SelectValue placeholder={`Select ${section.title.toLowerCase()}`} />
-                          </SelectTrigger>
-                          <SelectContent>
-                            {section.options.map((option) => (
-                              <SelectItem key={option.value} value={option.value}>
-                                {option.label}
-                              </SelectItem>
-                            ))}
-                          </SelectContent>
-                        </Select>
-                      </div>
-                    )}
-                    {section.type === 'multiselect' && section.options && (
-                      <div className="ml-6 space-y-2 mb-4">
-                        {section.options.map((option) => {
-                          const currentValues = getFilterValue(section.id)?.split(',') || [];
-                          const isChecked = currentValues.includes(option.value);
-                          
-                          return (
+                  </div>
+                  <svg className={cn("w-4 h-4 text-gray-400 transition-transform", showRatioDropdown && "rotate-180")} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <polyline points="6 9 12 15 18 9"/>
+                  </svg>
+                </button>
+                
+                {/* Ratio Dropdown with Tabs */}
+                {showRatioDropdown && (
+                  <div className="mt-2 bg-white border border-gray-200 rounded-lg shadow-lg overflow-hidden">
+                    {/* Tab Header */}
+                    <div className="flex border-b border-gray-200">
+                      <button
+                        onClick={() => setRatioTab('male')}
+                        className={cn(
+                          "flex-1 py-2 px-3 text-sm font-medium transition-colors",
+                          ratioTab === 'male'
+                            ? "bg-blue-50 text-blue-600 border-b-2 border-blue-600"
+                            : "text-gray-500 hover:text-gray-700 hover:bg-gray-50"
+                        )}
+                      >
+                        Male Ratio
+                      </button>
+                      <button
+                        onClick={() => setRatioTab('female')}
+                        className={cn(
+                          "flex-1 py-2 px-3 text-sm font-medium transition-colors",
+                          ratioTab === 'female'
+                            ? "bg-pink-50 text-pink-600 border-b-2 border-pink-600"
+                            : "text-gray-500 hover:text-gray-700 hover:bg-gray-50"
+                        )}
+                      >
+                        Female Ratio
+                      </button>
+                    </div>
+                    
+                    {/* Tab Content */}
+                    <div className="p-3">
+                      {ratioTab === 'male' ? (
+                        <div className="space-y-2">
+                          {audienceRatioOptions.map((option) => (
                             <label
                               key={option.value}
-                              className="flex items-center gap-2 cursor-pointer hover:bg-gray-50 p-1 rounded"
+                              className="flex items-center gap-2 cursor-pointer hover:bg-blue-50 p-1.5 rounded"
                             >
                               <input
-                                type="checkbox"
-                                className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
-                                onChange={(e) => {
-                                  let newValues;
-                                  
-                                  if (e.target.checked) {
-                                    newValues = [...currentValues, option.value];
-                                  } else {
-                                    newValues = currentValues.filter((v) => v !== option.value);
-                                  }
-                                  
-                                  updateFilter(section.id, newValues);
-                                }}
-                                checked={isChecked}
+                                type="radio"
+                                name="maleRatio"
+                                className="border-gray-300 text-blue-600 focus:ring-blue-500"
+                                checked={selectedMaleRatio === option.value}
+                                onChange={() => setSelectedMaleRatio(option.value)}
                               />
                               <span className="text-sm text-gray-600">{option.label}</span>
                             </label>
-                          );
-                        })}
-                      </div>
-                    )}
+                          ))}
+                        </div>
+                      ) : (
+                        <div className="space-y-2">
+                          {audienceRatioOptions.map((option) => (
+                            <label
+                              key={option.value}
+                              className="flex items-center gap-2 cursor-pointer hover:bg-pink-50 p-1.5 rounded"
+                            >
+                              <input
+                                type="radio"
+                                name="femaleRatio"
+                                className="border-gray-300 text-pink-600 focus:ring-pink-500"
+                                checked={selectedFemaleRatio === option.value}
+                                onChange={() => setSelectedFemaleRatio(option.value)}
+                              />
+                              <span className="text-sm text-gray-600">{option.label}</span>
+                            </label>
+                          ))}
+                        </div>
+                      )}
+                    </div>
                   </div>
-                );
-              })}
+                )}
+              </div>
             </div>
           </div>
         </>
