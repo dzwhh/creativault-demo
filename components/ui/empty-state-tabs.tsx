@@ -14,6 +14,7 @@ interface EmptyStateTabsProps {
   onWordsCollect?: (platform: string, keywords: string[]) => Promise<void>;
   onCollectionSubmit?: (requirements: string) => Promise<void>;
   defaultTab?: TabType;
+  hideCollectionService?: boolean;
 }
 
 export function EmptyStateTabs({
@@ -22,10 +23,11 @@ export function EmptyStateTabs({
   onWordsCollect,
   onCollectionSubmit,
   defaultTab = 'upload',
+  hideCollectionService = false,
 }: EmptyStateTabsProps) {
   const [activeTab, setActiveTab] = useState<TabType>(defaultTab);
 
-  const tabs = [
+  const allTabs = [
     { 
       id: 'upload' as TabType, 
       label: 'Upload CSV', 
@@ -67,6 +69,11 @@ export function EmptyStateTabs({
       )
     },
   ];
+
+  // Filter tabs based on hideCollectionService prop
+  const tabs = hideCollectionService 
+    ? allTabs.filter(tab => tab.id !== 'collection')
+    : allTabs;
 
   return (
     <div className="w-full max-w-4xl mx-auto flex flex-col items-center">
