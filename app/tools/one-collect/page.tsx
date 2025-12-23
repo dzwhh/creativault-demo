@@ -12,6 +12,7 @@ import { InstagramIcon, YoutubeIcon } from '@/components/icons';
 // Menu types
 type MenuType = 'advertiser' | 'mobile-app' | 'influencer' | 'custom-services';
 type InfluencerTab = 'operations' | 'results';
+type CustomServicesTab = 'operations' | 'progress';
 type OperationMode = 'upload' | 'url' | 'keywords';
 type Platform = 'tiktok' | 'instagram' | 'youtube';
 
@@ -24,6 +25,31 @@ interface CollectionJob {
   status: 'pending' | 'running' | 'completed' | 'failed';
   progress: number;
   resultCount?: number;
+  fileUrl?: string;
+}
+
+// Service Request interface
+interface RequestRequirements {
+  platform: string[];
+  targetRegion: string[];
+  followerRange: string;
+  contentCategory: string[];
+  engagementRate?: string;
+  dataFields: string[];
+  quantity: number;
+  additionalNotes?: string;
+}
+
+interface ServiceRequest {
+  id: string;
+  title: string;
+  description: string;
+  requirements: RequestRequirements;
+  createdAt: string;
+  status: 'submitted' | 'reviewing' | 'in-progress' | 'completed' | 'cancelled';
+  progress: number;
+  estimatedDelivery?: string;
+  deliveredAt?: string;
   fileUrl?: string;
 }
 
@@ -181,6 +207,30 @@ const influencerTabs = [
   },
 ];
 
+// Custom Services sub-tabs
+const customServicesTabs = [
+  { 
+    id: 'operations' as CustomServicesTab, 
+    label: 'Operations Console',
+    icon: (
+      <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+        <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/>
+        <line x1="8" y1="21" x2="16" y2="21"/>
+        <line x1="12" y1="17" x2="12" y2="21"/>
+      </svg>
+    )
+  },
+  { 
+    id: 'progress' as CustomServicesTab, 
+    label: 'Request Progress',
+    icon: (
+      <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+        <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
+      </svg>
+    )
+  },
+];
+
 // Operation mode options for dropdown
 const operationModes = [
   { id: 'upload' as OperationMode, label: 'Upload CSV', icon: (
@@ -248,6 +298,74 @@ export default function OneCollectPage() {
   const [keywordInput, setKeywordInput] = useState('');
   const [keywords, setKeywords] = useState<string[]>([]);
   const [isSearchingKeywords, setIsSearchingKeywords] = useState(false);
+
+  // Custom Services state
+  const [customServicesTab, setCustomServicesTab] = useState<CustomServicesTab>('operations');
+  const [serviceRequests, setServiceRequests] = useState<ServiceRequest[]>([
+    // Mock initial requests
+    {
+      id: '1',
+      title: 'Collect 500 beauty influencers from TikTok',
+      description: 'Need beauty influencers with 100K+ followers in the US market for upcoming skincare product launch campaign.',
+      requirements: {
+        platform: ['TikTok'],
+        targetRegion: ['United States', 'Canada'],
+        followerRange: '100K - 1M',
+        contentCategory: ['Beauty', 'Skincare', 'Makeup'],
+        engagementRate: '> 3%',
+        dataFields: ['Account ID', 'Followers', 'Email', 'Engagement Rate', 'Avg Views', 'Audience Demographics'],
+        quantity: 500,
+        additionalNotes: 'Prefer influencers who have previously worked with beauty brands. Exclude accounts with less than 50% female audience.',
+      },
+      createdAt: '2024-12-18 10:30',
+      status: 'completed',
+      progress: 100,
+      estimatedDelivery: '2024-12-20',
+      deliveredAt: '2024-12-19 16:45',
+      fileUrl: '/mock/custom_request_1.xlsx',
+    },
+    {
+      id: '2',
+      title: 'Gaming influencer database for EU region',
+      description: 'Looking for gaming content creators across YouTube and Twitch for esports tournament promotion.',
+      requirements: {
+        platform: ['YouTube', 'Twitch'],
+        targetRegion: ['Germany', 'France', 'United Kingdom', 'Spain', 'Italy'],
+        followerRange: '50K - 5M',
+        contentCategory: ['Gaming', 'Esports', 'Live Streaming'],
+        engagementRate: '> 5%',
+        dataFields: ['Account ID', 'Followers', 'Email', 'Avg Views', 'Primary Game Genre', 'Streaming Schedule'],
+        quantity: 300,
+        additionalNotes: 'Focus on FPS and MOBA game streamers. Must have English or local language content.',
+      },
+      createdAt: '2024-12-21 14:00',
+      status: 'in-progress',
+      progress: 45,
+      estimatedDelivery: '2024-12-25',
+    },
+    {
+      id: '3',
+      title: 'Fashion brand ambassador list',
+      description: 'Need fashion influencers suitable for luxury brand collaborations targeting high-end consumers.',
+      requirements: {
+        platform: ['Instagram', 'TikTok'],
+        targetRegion: ['United States', 'United Kingdom', 'France', 'Japan'],
+        followerRange: '200K - 2M',
+        contentCategory: ['Fashion', 'Luxury', 'Lifestyle'],
+        engagementRate: '> 4%',
+        dataFields: ['Account ID', 'Followers', 'Email', 'Engagement Rate', 'Brand Collaborations History', 'Audience Income Level'],
+        quantity: 200,
+        additionalNotes: 'Must have clean, aesthetic feed. Previous luxury brand experience preferred. No controversial content.',
+      },
+      createdAt: '2024-12-22 09:00',
+      status: 'reviewing',
+      progress: 10,
+      estimatedDelivery: '2024-12-28',
+    },
+  ]);
+  const [showRequestSuccess, setShowRequestSuccess] = useState(false);
+  const [previewRequest, setPreviewRequest] = useState<ServiceRequest | null>(null);
+  const [detailsRequest, setDetailsRequest] = useState<ServiceRequest | null>(null);
 
   // Add new job
   const addJob = (type: 'csv' | 'url' | 'keywords', name: string) => {
@@ -814,16 +932,184 @@ export default function OneCollectPage() {
       
       case 'custom-services':
         return (
-          <div className="py-8">
-            <EmptyStateCollection
-              title="Custom Data Collection Service"
-              description="Submit your custom data collection requirements and our professional team will help you gather the information you need"
-              onSubmit={async (requirements) => {
-                console.log('Custom service requirements:', requirements);
-                await new Promise(resolve => setTimeout(resolve, 2000));
-              }}
-              buttonText="Submit Request"
-            />
+          <div className="py-4">
+            {/* Custom Services Sub-tabs */}
+            <div className="flex gap-3 mb-8 bg-gray-100 p-1.5 rounded-lg w-fit">
+              {customServicesTabs.map((tab) => (
+                <button
+                  key={tab.id}
+                  onClick={() => setCustomServicesTab(tab.id)}
+                  className={cn(
+                    'flex items-center gap-2 px-6 py-2.5 text-sm font-medium transition-all rounded-md',
+                    customServicesTab === tab.id
+                      ? 'bg-white text-gray-900 shadow-sm'
+                      : 'text-gray-600 hover:text-gray-900'
+                  )}
+                >
+                  {tab.icon}
+                  {tab.label}
+                  {tab.id === 'progress' && serviceRequests.length > 0 && (
+                    <span className="ml-1 px-1.5 py-0.5 text-xs bg-blue-100 text-blue-600 rounded-full">
+                      {serviceRequests.length}
+                    </span>
+                  )}
+                </button>
+              ))}
+            </div>
+
+            {/* Success Message */}
+            {showRequestSuccess && (
+              <div className="mb-6 p-4 bg-green-50 border border-green-200 rounded-lg flex items-center gap-3">
+                <svg className="w-5 h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                </svg>
+                <span className="text-sm text-green-700 font-medium">Request submitted successfully! Check Request Progress for updates.</span>
+              </div>
+            )}
+
+            {/* Tab Content */}
+            {customServicesTab === 'operations' ? (
+              <div className="pt-6">
+                <EmptyStateCollection
+                  title="Custom Data Collection Service"
+                  description="Submit your custom data collection requirements and our professional team will help you gather the information you need"
+                  onSubmit={async (requirements) => {
+                    console.log('Custom service requirements:', requirements);
+                    // Add new request
+                    const newRequest: ServiceRequest = {
+                      id: Date.now().toString(),
+                      title: requirements.substring(0, 50) + (requirements.length > 50 ? '...' : ''),
+                      description: requirements,
+                      requirements: {
+                        platform: ['TikTok', 'Instagram'],
+                        targetRegion: ['United States'],
+                        followerRange: '10K - 500K',
+                        contentCategory: ['General'],
+                        dataFields: ['Account ID', 'Followers', 'Email', 'Engagement Rate'],
+                        quantity: 100,
+                        additionalNotes: requirements,
+                      },
+                      createdAt: new Date().toLocaleString('en-US', { 
+                        year: 'numeric', month: '2-digit', day: '2-digit',
+                        hour: '2-digit', minute: '2-digit', hour12: false 
+                      }),
+                      status: 'submitted',
+                      progress: 0,
+                      estimatedDelivery: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
+                    };
+                    setServiceRequests(prev => [newRequest, ...prev]);
+                    setShowRequestSuccess(true);
+                    setTimeout(() => setShowRequestSuccess(false), 3000);
+                  }}
+                  buttonText="Submit Request"
+                />
+              </div>
+            ) : (
+              /* Request Progress */
+              <div className="space-y-4">
+                {serviceRequests.length === 0 ? (
+                  <div className="flex items-center justify-center py-20">
+                    <div className="text-center">
+                      <div className="w-16 h-16 rounded-full bg-gray-100 flex items-center justify-center mx-auto mb-4">
+                        <svg className="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+                        </svg>
+                      </div>
+                      <h3 className="text-lg font-medium text-gray-900 mb-2">No Requests Yet</h3>
+                      <p className="text-sm text-gray-500">Submit a custom request in Operations Console to see progress here.</p>
+                    </div>
+                  </div>
+                ) : (
+                  <div className="space-y-4">
+                    {serviceRequests.map((request) => (
+                      <div key={request.id} className="bg-white rounded-lg border border-gray-200 p-6">
+                        <div className="flex items-start justify-between mb-4">
+                          <div className="flex-1">
+                            <div className="flex items-center gap-2 mb-1">
+                              <h3 className="text-sm font-semibold text-gray-900">{request.title}</h3>
+                              <button
+                                onClick={() => setDetailsRequest(request)}
+                                className="text-xs text-blue-600 hover:text-blue-700 hover:underline"
+                              >
+                                View Details
+                              </button>
+                            </div>
+                            <p className="text-xs text-gray-500 line-clamp-1">{request.description}</p>
+                          </div>
+                          <span className={cn(
+                            'px-2.5 py-1 text-xs font-medium rounded-full ml-4',
+                            request.status === 'submitted' && 'bg-gray-100 text-gray-600',
+                            request.status === 'reviewing' && 'bg-yellow-100 text-yellow-700',
+                            request.status === 'in-progress' && 'bg-blue-100 text-blue-600',
+                            request.status === 'completed' && 'bg-green-100 text-green-600',
+                            request.status === 'cancelled' && 'bg-red-100 text-red-600'
+                          )}>
+                            {request.status === 'in-progress' ? 'In Progress' : request.status.charAt(0).toUpperCase() + request.status.slice(1)}
+                          </span>
+                        </div>
+
+                        {/* Progress Bar */}
+                        <div className="mb-4">
+                          <div className="flex items-center justify-between text-xs text-gray-500 mb-1">
+                            <span>Progress</span>
+                            <span>{request.progress}%</span>
+                          </div>
+                          <div className="w-full h-2 bg-gray-200 rounded-full overflow-hidden">
+                            <div 
+                              className={cn(
+                                'h-full rounded-full transition-all duration-300',
+                                request.status === 'completed' ? 'bg-green-500' : 'bg-blue-500'
+                              )}
+                              style={{ width: `${request.progress}%` }}
+                            />
+                          </div>
+                        </div>
+
+                        {/* Info Row */}
+                        <div className="flex items-center justify-between text-xs text-gray-500">
+                          <div className="flex items-center gap-4">
+                            <span>Submitted: {request.createdAt}</span>
+                            {request.estimatedDelivery && (
+                              <span>Est. Delivery: {request.estimatedDelivery}</span>
+                            )}
+                            {request.deliveredAt && (
+                              <span className="text-green-600">Delivered: {request.deliveredAt}</span>
+                            )}
+                          </div>
+                          {request.status === 'completed' && request.fileUrl && (
+                            <div className="flex items-center gap-2">
+                              <Button
+                                variant="outline"
+                                size="sm"
+                                className="h-7 text-xs"
+                                onClick={() => setPreviewRequest(request)}
+                              >
+                                <svg className="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                                </svg>
+                                Preview
+                              </Button>
+                              <Button
+                                variant="default"
+                                size="sm"
+                                className="h-7 text-xs"
+                                onClick={() => alert(`Downloading: ${request.fileUrl}`)}
+                              >
+                                <svg className="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                                </svg>
+                                Download
+                              </Button>
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            )}
           </div>
         );
       
@@ -917,6 +1203,273 @@ export default function OneCollectPage() {
                   Download Full Data
                 </Button>
               </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Service Request Preview Modal - Shows Data Table */}
+      {previewRequest && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center">
+          {/* Backdrop */}
+          <div 
+            className="absolute inset-0 bg-black/50" 
+            onClick={() => setPreviewRequest(null)}
+          />
+          
+          {/* Modal Content */}
+          <div className="relative bg-white rounded-xl shadow-2xl w-[90%] max-w-6xl max-h-[85vh] overflow-hidden flex flex-col">
+            {/* Modal Header */}
+            <div className="flex items-center justify-between px-6 py-4 border-b border-gray-200">
+              <div>
+                <h2 className="text-lg font-semibold text-gray-900">Preview Results</h2>
+                <p className="text-sm text-gray-500 mt-0.5">{previewRequest.title} • {mockInfluencerData.length} items</p>
+              </div>
+              <button
+                onClick={() => setPreviewRequest(null)}
+                className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+              >
+                <svg className="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+            </div>
+            
+            {/* Modal Body - Table */}
+            <div className="flex-1 overflow-auto">
+              <table className="w-full">
+                <thead className="bg-gray-50 sticky top-0">
+                  <tr>
+                    <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider whitespace-nowrap">Account ID</th>
+                    <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider whitespace-nowrap">Followers</th>
+                    <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider whitespace-nowrap">Engagement Rate</th>
+                    <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider whitespace-nowrap">Region</th>
+                    <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider whitespace-nowrap">Avg Views (Last 10)</th>
+                    <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider whitespace-nowrap">Email</th>
+                    <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider whitespace-nowrap">Audience Gender</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-gray-100">
+                  {mockInfluencerData.map((influencer, index) => (
+                    <tr key={index} className="hover:bg-gray-50">
+                      <td className="px-4 py-3 text-sm font-medium text-blue-600">{influencer.accountId}</td>
+                      <td className="px-4 py-3 text-sm text-gray-900">{influencer.followers}</td>
+                      <td className="px-4 py-3 text-sm text-gray-900">
+                        <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-700">
+                          {influencer.engagementRate}
+                        </span>
+                      </td>
+                      <td className="px-4 py-3 text-sm text-gray-600">{influencer.region}</td>
+                      <td className="px-4 py-3 text-sm text-gray-900">{influencer.avgViewsLast10}</td>
+                      <td className="px-4 py-3 text-sm text-gray-600">{influencer.email}</td>
+                      <td className="px-4 py-3 text-sm text-gray-600">{influencer.audienceGender}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+            
+            {/* Modal Footer */}
+            <div className="flex items-center justify-between px-6 py-4 border-t border-gray-200 bg-gray-50">
+              <p className="text-sm text-gray-500">Showing {mockInfluencerData.length} results</p>
+              <div className="flex gap-3">
+                <Button
+                  variant="outline"
+                  onClick={() => setPreviewRequest(null)}
+                >
+                  Close
+                </Button>
+                <Button
+                  onClick={() => {
+                    alert(`Downloading: ${previewRequest.fileUrl}`);
+                    setPreviewRequest(null);
+                  }}
+                >
+                  <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                  </svg>
+                  Download Full Data
+                </Button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Request Details Modal - Shows Structured Requirements */}
+      {detailsRequest && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center">
+          {/* Backdrop */}
+          <div 
+            className="absolute inset-0 bg-black/50" 
+            onClick={() => setDetailsRequest(null)}
+          />
+          
+          {/* Modal Content */}
+          <div className="relative bg-white rounded-xl shadow-2xl w-[90%] max-w-3xl max-h-[85vh] overflow-hidden flex flex-col">
+            {/* Modal Header */}
+            <div className="flex items-center justify-between px-6 py-4 border-b border-gray-200">
+              <h2 className="text-lg font-semibold text-gray-900">Request Details</h2>
+              <button
+                onClick={() => setDetailsRequest(null)}
+                className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+              >
+                <svg className="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+            </div>
+            
+            {/* Modal Body */}
+            <div className="flex-1 overflow-auto px-6 py-5 space-y-6">
+              {/* Title & Status */}
+              <div className="flex items-start justify-between">
+                <div className="flex-1">
+                  <label className="text-xs font-medium text-gray-500 uppercase tracking-wider">Request Title</label>
+                  <p className="mt-1 text-base font-semibold text-gray-900">{detailsRequest.title}</p>
+                </div>
+                <span className={cn(
+                  'px-3 py-1.5 text-xs font-medium rounded-full',
+                  detailsRequest.status === 'submitted' && 'bg-gray-100 text-gray-600',
+                  detailsRequest.status === 'reviewing' && 'bg-yellow-100 text-yellow-700',
+                  detailsRequest.status === 'in-progress' && 'bg-blue-100 text-blue-600',
+                  detailsRequest.status === 'completed' && 'bg-green-100 text-green-600',
+                  detailsRequest.status === 'cancelled' && 'bg-red-100 text-red-600'
+                )}>
+                  {detailsRequest.status === 'in-progress' ? 'In Progress' : detailsRequest.status.charAt(0).toUpperCase() + detailsRequest.status.slice(1)}
+                </span>
+              </div>
+
+              {/* Description */}
+              <div>
+                <label className="text-xs font-medium text-gray-500 uppercase tracking-wider">Description</label>
+                <p className="mt-1 text-sm text-gray-700">{detailsRequest.description}</p>
+              </div>
+
+              {/* Structured Requirements */}
+              <div className="bg-gray-50 rounded-lg p-5 space-y-4">
+                <h3 className="text-sm font-semibold text-gray-900 flex items-center gap-2">
+                  <svg className="w-4 h-4 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
+                  </svg>
+                  Requirements Specification
+                </h3>
+
+                <div className="grid grid-cols-2 gap-4">
+                  {/* Platform */}
+                  <div>
+                    <label className="text-xs font-medium text-gray-500">Platform</label>
+                    <div className="mt-1 flex flex-wrap gap-1">
+                      {detailsRequest.requirements.platform.map((p) => (
+                        <span key={p} className="px-2 py-0.5 text-xs bg-blue-100 text-blue-700 rounded">{p}</span>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Target Region */}
+                  <div>
+                    <label className="text-xs font-medium text-gray-500">Target Region</label>
+                    <div className="mt-1 flex flex-wrap gap-1">
+                      {detailsRequest.requirements.targetRegion.map((r) => (
+                        <span key={r} className="px-2 py-0.5 text-xs bg-purple-100 text-purple-700 rounded">{r}</span>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Follower Range */}
+                  <div>
+                    <label className="text-xs font-medium text-gray-500">Follower Range</label>
+                    <p className="mt-1 text-sm text-gray-900 font-medium">{detailsRequest.requirements.followerRange}</p>
+                  </div>
+
+                  {/* Quantity */}
+                  <div>
+                    <label className="text-xs font-medium text-gray-500">Target Quantity</label>
+                    <p className="mt-1 text-sm text-gray-900 font-medium">{detailsRequest.requirements.quantity.toLocaleString()} influencers</p>
+                  </div>
+
+                  {/* Content Category */}
+                  <div>
+                    <label className="text-xs font-medium text-gray-500">Content Category</label>
+                    <div className="mt-1 flex flex-wrap gap-1">
+                      {detailsRequest.requirements.contentCategory.map((c) => (
+                        <span key={c} className="px-2 py-0.5 text-xs bg-green-100 text-green-700 rounded">{c}</span>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Engagement Rate */}
+                  {detailsRequest.requirements.engagementRate && (
+                    <div>
+                      <label className="text-xs font-medium text-gray-500">Min. Engagement Rate</label>
+                      <p className="mt-1 text-sm text-gray-900 font-medium">{detailsRequest.requirements.engagementRate}</p>
+                    </div>
+                  )}
+                </div>
+
+                {/* Data Fields */}
+                <div>
+                  <label className="text-xs font-medium text-gray-500">Required Data Fields</label>
+                  <div className="mt-2 flex flex-wrap gap-2">
+                    {detailsRequest.requirements.dataFields.map((field) => (
+                      <span key={field} className="px-2.5 py-1 text-xs bg-white border border-gray-200 text-gray-700 rounded-md">{field}</span>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Additional Notes */}
+                {detailsRequest.requirements.additionalNotes && (
+                  <div>
+                    <label className="text-xs font-medium text-gray-500">Additional Notes</label>
+                    <p className="mt-1 text-sm text-gray-600 italic">"{detailsRequest.requirements.additionalNotes}"</p>
+                  </div>
+                )}
+              </div>
+
+              {/* Timeline Info */}
+              <div className="grid grid-cols-3 gap-4 pt-2">
+                <div>
+                  <label className="text-xs font-medium text-gray-500 uppercase tracking-wider">Submitted At</label>
+                  <p className="mt-1 text-sm text-gray-900">{detailsRequest.createdAt}</p>
+                </div>
+                {detailsRequest.estimatedDelivery && (
+                  <div>
+                    <label className="text-xs font-medium text-gray-500 uppercase tracking-wider">Est. Delivery</label>
+                    <p className="mt-1 text-sm text-gray-900">{detailsRequest.estimatedDelivery}</p>
+                  </div>
+                )}
+                {detailsRequest.deliveredAt && (
+                  <div>
+                    <label className="text-xs font-medium text-gray-500 uppercase tracking-wider">Delivered At</label>
+                    <p className="mt-1 text-sm text-green-600 font-medium">{detailsRequest.deliveredAt}</p>
+                  </div>
+                )}
+                <div>
+                  <label className="text-xs font-medium text-gray-500 uppercase tracking-wider">Progress</label>
+                  <div className="mt-1 flex items-center gap-2">
+                    <div className="flex-1 h-2 bg-gray-200 rounded-full overflow-hidden">
+                      <div 
+                        className={cn(
+                          'h-full rounded-full',
+                          detailsRequest.status === 'completed' ? 'bg-green-500' : 'bg-blue-500'
+                        )}
+                        style={{ width: `${detailsRequest.progress}%` }}
+                      />
+                    </div>
+                    <span className="text-sm font-medium text-gray-900">{detailsRequest.progress}%</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            {/* Modal Footer */}
+            <div className="flex justify-end px-6 py-4 border-t border-gray-200 bg-gray-50">
+              <Button
+                variant="outline"
+                onClick={() => setDetailsRequest(null)}
+              >
+                Close
+              </Button>
             </div>
           </div>
         </div>
