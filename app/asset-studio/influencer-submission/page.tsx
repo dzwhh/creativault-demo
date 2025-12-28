@@ -693,8 +693,11 @@ Nike Marketing Team`,
   const [currentShareTaskId, setCurrentShareTaskId] = useState<string | null>(null);
   const [shareEmail, setShareEmail] = useState('');
   
-  // Creator selection states for quick approve/reject
+  // Creator selection states for quick approve/reject (Submitter View)
   const [creatorSelectionStates, setCreatorSelectionStates] = useState<Record<string, 'approved' | 'rejected' | null>>({});
+  
+  // Reviewer selection states - when reviewer approves/rejects, it syncs to submitter view
+  const [reviewerCreatorSelections, setReviewerCreatorSelections] = useState<Record<string, 'approved' | 'rejected' | null>>({});
   
   // Creator price states
   const [creatorPrices, setCreatorPrices] = useState<Record<string, number | null>>({});
@@ -833,15 +836,37 @@ Nike Marketing Team`,
       return;
     }
 
-    // Generate share link and navigate to share page
-    const shareId = `share_${Date.now()}_${Math.random().toString(36).substring(7)}`;
-    const shareUrl = `/my/favorites/creator/share/${shareId}`;
+    // Get selected submissions and their creators with submitter selections
+    const selectedSubs = mockSubmissions.filter(s => selectedSubmissions.has(s.id));
     
-    // In production, should call API to save share data
-    console.log('Batch sharing submissions:', Array.from(selectedSubmissions));
+    // Create reviewer submissions for the selected submissions
+    const newReviewerSubmissions: ReviewerSubmission[] = selectedSubs.map(submission => {
+      // Get creators that have been selected (approved/rejected) by submitter
+      const creatorsWithSelection = submission.creators.filter(creator => {
+        const selectionKey = `${submission.id}_${creator.id}`;
+        return creatorSelectionStates[selectionKey] === 'approved' || creatorSelectionStates[selectionKey] === 'rejected';
+      });
+      
+      // If no creators selected, include all creators
+      const creatorsToShare = creatorsWithSelection.length > 0 ? creatorsWithSelection : submission.creators;
+      
+      return {
+        id: `${submission.id}_review_${Date.now()}`,
+        submissionNumber: submission.submissionNumber,
+        partner: submission.submitter,
+        submissionDate: new Date().toISOString().split('T')[0],
+        status: 'pending' as SubmissionStatus,
+        creators: creatorsToShare.map(c => ({ ...c, approvalStatus: 'on_track' as CreatorApprovalStatus })),
+      };
+    });
+
+    setReviewerSubmissions(prev => [...prev, ...newReviewerSubmissions]);
     
-    // Navigate to share page
-    router.push(shareUrl);
+    // Clear selections and switch to reviewer view
+    setSelectedSubmissions(new Set());
+    setViewMode('reviewer');
+    
+    alert(`Successfully shared ${newReviewerSubmissions.length} submission(s) to Reviewer View`);
   };
 
   const handlePendingCreator = (creatorId: string, creatorName: string) => {
@@ -1412,61 +1437,89 @@ Nike Marketing Team`,
                           <div key={creator.id} className="px-6 py-5 hover:bg-gray-100 transition-colors relative">
                             {/* Quick Approve/Reject Capsule Buttons - centered, aligned with avatar top */}
                             <div className="absolute left-1/2 -translate-x-1/2 top-5 z-10">
-                              {selectionState ? (
-                                /* Cancel button when selection is made */
-                                <button
-                                  onClick={(e) => {
-                                    e.stopPropagation();
-                                    setCreatorSelectionStates(prev => ({
-                                      ...prev,
-                                      [selectionKey]: null
-                                    }));
-                                  }}
-                                  className="inline-flex items-center gap-1.5 px-4 py-1.5 bg-gray-100 hover:bg-gray-200 text-gray-600 hover:text-gray-800 rounded-full text-sm font-medium transition-all"
-                                  title="Cancel selection"
-                                >
-                                  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-                                    <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
-                                  </svg>
-                                  Cancel
-                                </button>
-                              ) : (
-                                /* Approve/Reject buttons when no selection */
-                                <div className="inline-flex items-center bg-gray-100 rounded-full p-0.5" style={{ gap: '2px' }}>
-                                  {/* Reject Button (X) */}
-                                  <button
-                                    onClick={(e) => {
-                                      e.stopPropagation();
-                                      setCreatorSelectionStates(prev => ({
-                                        ...prev,
-                                        [selectionKey]: 'rejected'
-                                      }));
-                                    }}
-                                    className="px-3 py-1.5 rounded-full flex items-center justify-center transition-all bg-white text-gray-400 hover:text-red-500 hover:bg-red-50"
-                                    title="Reject"
-                                  >
-                                    <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
-                                      <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
-                                    </svg>
-                                  </button>
-                                  {/* Approve Button (Check) */}
-                                  <button
-                                    onClick={(e) => {
-                                      e.stopPropagation();
-                                      setCreatorSelectionStates(prev => ({
-                                        ...prev,
-                                        [selectionKey]: 'approved'
-                                      }));
-                                    }}
-                                    className="px-3 py-1.5 rounded-full flex items-center justify-center transition-all bg-white text-gray-400 hover:text-green-500 hover:bg-green-50"
-                                    title="Approve"
-                                  >
-                                    <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
-                                      <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
-                                    </svg>
-                                  </button>
-                                </div>
-                              )}
+                              {(() => {
+                                // Use creator.id to match with Reviewer View
+                                const reviewerSelection = reviewerCreatorSelections[creator.id];
+                                
+                                // If reviewer has made a selection, show the status badge
+                                if (reviewerSelection) {
+                                  return reviewerSelection === 'approved' ? (
+                                    <div className="inline-flex items-center gap-1.5 px-4 py-1.5 bg-green-100 text-green-700 rounded-full text-sm font-medium">
+                                      <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                                        <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                                      </svg>
+                                      Approved
+                                    </div>
+                                  ) : (
+                                    <div className="inline-flex items-center gap-1.5 px-4 py-1.5 bg-red-100 text-red-700 rounded-full text-sm font-medium">
+                                      <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                                        <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                                      </svg>
+                                      Rejected
+                                    </div>
+                                  );
+                                }
+                                
+                                // If submitter has made a selection, show Cancel button
+                                if (selectionState) {
+                                  return (
+                                    <button
+                                      onClick={(e) => {
+                                        e.stopPropagation();
+                                        setCreatorSelectionStates(prev => ({
+                                          ...prev,
+                                          [selectionKey]: null
+                                        }));
+                                      }}
+                                      className="inline-flex items-center gap-1.5 px-4 py-1.5 bg-gray-100 hover:bg-gray-200 text-gray-600 hover:text-gray-800 rounded-full text-sm font-medium transition-all"
+                                      title="Cancel selection"
+                                    >
+                                      <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                                        <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                                      </svg>
+                                      Cancel
+                                    </button>
+                                  );
+                                }
+                                
+                                // Default: show approve/reject buttons
+                                return (
+                                  <div className="inline-flex items-center bg-gray-100 rounded-full p-0.5" style={{ gap: '2px' }}>
+                                    {/* Reject Button (X) */}
+                                    <button
+                                      onClick={(e) => {
+                                        e.stopPropagation();
+                                        setCreatorSelectionStates(prev => ({
+                                          ...prev,
+                                          [selectionKey]: 'rejected'
+                                        }));
+                                      }}
+                                      className="px-3 py-1.5 rounded-full flex items-center justify-center transition-all bg-white text-gray-400 hover:text-red-500 hover:bg-red-50"
+                                      title="Reject"
+                                    >
+                                      <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
+                                        <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                                      </svg>
+                                    </button>
+                                    {/* Approve Button (Check) */}
+                                    <button
+                                      onClick={(e) => {
+                                        e.stopPropagation();
+                                        setCreatorSelectionStates(prev => ({
+                                          ...prev,
+                                          [selectionKey]: 'approved'
+                                        }));
+                                      }}
+                                      className="px-3 py-1.5 rounded-full flex items-center justify-center transition-all bg-white text-gray-400 hover:text-green-500 hover:bg-green-50"
+                                      title="Approve"
+                                    >
+                                      <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
+                                        <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                                      </svg>
+                                    </button>
+                                  </div>
+                                );
+                              })()}
                             </div>
 
                             {/* Creator Header: Avatar + Name + Approval Status + Action Buttons */}
@@ -2389,18 +2442,93 @@ Nike Marketing Team`,
                         <div className="border-t border-gray-200 bg-gray-50">
                           <div className="divide-y divide-gray-200">
                             {submission.creators.map((creator) => {
+                              // Use creator.id as key to sync with Submitter View
+                              const reviewerKey = creator.id;
+                              const reviewerSelection = reviewerCreatorSelections[reviewerKey];
                               const creatorStatus = creatorApprovalStates[`${submission.id}_${creator.id}`] || creator.approvalStatus;
                               return (
-                                <div key={creator.id} className="px-6 py-5 hover:bg-gray-100 transition-colors">
+                                <div key={creator.id} className="px-6 py-5 hover:bg-gray-100 transition-colors relative">
+                                  {/* Quick Approve/Reject Capsule Buttons - centered, aligned with avatar top */}
+                                  <div className="absolute left-1/2 -translate-x-1/2 top-5 z-10">
+                                    {reviewerSelection ? (
+                                      /* Cancel button when selection is made */
+                                      <button
+                                        onClick={(e) => {
+                                          e.stopPropagation();
+                                          setReviewerCreatorSelections(prev => ({
+                                            ...prev,
+                                            [reviewerKey]: null
+                                          }));
+                                        }}
+                                        className="inline-flex items-center gap-1.5 px-4 py-1.5 bg-gray-100 hover:bg-gray-200 text-gray-600 hover:text-gray-800 rounded-full text-sm font-medium transition-all"
+                                        title="Cancel selection"
+                                      >
+                                        <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                                          <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                                        </svg>
+                                        Cancel
+                                      </button>
+                                    ) : (
+                                      /* Approve/Reject buttons when no selection */
+                                      <div className="inline-flex items-center bg-gray-100 rounded-full p-0.5" style={{ gap: '2px' }}>
+                                        {/* Reject Button (X) */}
+                                        <button
+                                          onClick={(e) => {
+                                            e.stopPropagation();
+                                            setReviewerCreatorSelections(prev => ({
+                                              ...prev,
+                                              [reviewerKey]: 'rejected'
+                                            }));
+                                          }}
+                                          className="px-3 py-1.5 rounded-full flex items-center justify-center transition-all bg-white text-gray-400 hover:text-red-500 hover:bg-red-50"
+                                          title="Reject"
+                                        >
+                                          <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
+                                            <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                                          </svg>
+                                        </button>
+                                        {/* Approve Button (Check) */}
+                                        <button
+                                          onClick={(e) => {
+                                            e.stopPropagation();
+                                            setReviewerCreatorSelections(prev => ({
+                                              ...prev,
+                                              [reviewerKey]: 'approved'
+                                            }));
+                                          }}
+                                          className="px-3 py-1.5 rounded-full flex items-center justify-center transition-all bg-white text-gray-400 hover:text-green-500 hover:bg-green-50"
+                                          title="Approve"
+                                        >
+                                          <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
+                                            <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                                          </svg>
+                                        </button>
+                                      </div>
+                                    )}
+                                  </div>
+
                                   <div className="flex items-center gap-3 mb-4">
-                                    <img src={creator.avatar} alt={creator.name} className="w-12 h-12 rounded-lg object-cover flex-shrink-0" />
+                                    <div className="relative flex-shrink-0">
+                                      <img src={creator.avatar} alt={creator.name} className="w-12 h-12 rounded-lg object-cover" />
+                                      {/* Selection indicator on top-left of avatar */}
+                                      {reviewerSelection === 'approved' && (
+                                        <div className="absolute -top-1.5 -left-1.5 w-5 h-5 bg-green-500 rounded-full flex items-center justify-center shadow-md">
+                                          <svg className="w-3 h-3 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="3">
+                                            <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                                          </svg>
+                                        </div>
+                                      )}
+                                      {reviewerSelection === 'rejected' && (
+                                        <div className="absolute -top-1.5 -left-1.5 w-5 h-5 bg-red-500 rounded-full flex items-center justify-center shadow-md">
+                                          <svg className="w-3 h-3 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="3">
+                                            <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                                          </svg>
+                                        </div>
+                                      )}
+                                    </div>
                                     <div className="flex items-center gap-2 flex-1">
                                       <h4 className="font-semibold text-gray-900 text-base">{creator.name}</h4>
                                       {getCreatorApprovalBadge(creatorStatus)}
-                                    </div>
-                                    <div className="flex items-center gap-2">
-                                      <button onClick={(e) => { e.stopPropagation(); handleApproveCreator(submission.id, creator.id); }} className="px-3 py-1.5 text-xs font-medium text-green-700 bg-white border border-green-300 rounded-md hover:bg-green-50 transition-colors">Approve</button>
-                                      <button onClick={(e) => { e.stopPropagation(); handleRejectCreator(submission.id, creator.id); }} className="px-3 py-1.5 text-xs font-medium text-red-600 bg-white border border-red-300 rounded-md hover:bg-red-50 transition-colors">Reject</button>
                                     </div>
                                   </div>
                                   {/* Creator details grid (same as submitter view) */}
