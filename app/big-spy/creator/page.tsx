@@ -397,35 +397,15 @@ export default function CreatorPage() {
       {/* Header */}
       <div className="shrink-0 border-b bg-gray-50 backdrop-blur supports-[backdrop-filter]:bg-gray-50">
         <div className="flex flex-col gap-4 p-6 pb-0">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <h1 className="text-2xl font-bold">Find Influencers</h1>
-              <WatchTutorialButton onClick={handleWatchTutorial} />
-            </div>
-            <div className="relative">
-              <Button
-                onClick={() => router.push('/asset-studio/influencer-submission')}
-                className="flex items-center gap-2 bg-gradient-to-r from-blue-400 via-blue-600 to-blue-800 text-white hover:opacity-90"
-              >
-                <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2"/>
-                  <path d="M9 5a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2a2 2 0 0 0-2-2h-2a2 2 0 0 0-2 2"/>
-                </svg>
-                Influencer Submission
-              </Button>
-              {submissionCount > 0 && (
-                <span className={`absolute -top-2 -right-2 bg-red-500 text-white text-xs font-bold rounded-full min-w-[20px] h-5 flex items-center justify-center px-1.5 ${
-                  showBadgeAnimation ? 'animate-bounce' : ''
-                }`}>
-                  {submissionCount}
-                </span>
-              )}
-            </div>
+          <div className="flex items-center gap-3">
+            <h1 className="text-2xl font-bold">Find Influencers</h1>
+            <WatchTutorialButton onClick={handleWatchTutorial} />
           </div>
           <p className="text-muted-foreground">Find the right influencers in no time and get your content to the right crowd</p>
           
           {/* Platform Tabs */}
-          <div className="flex gap-0">
+          <div className="flex items-center justify-between">
+            <div className="flex gap-0">
             <button
               onClick={() => setActivePlatform('tiktok')}
               className={`flex items-center gap-3 px-4 py-3 border-b-2 transition-all ${
@@ -448,17 +428,37 @@ export default function CreatorPage() {
               <InstagramIcon className="w-5 h-5" />
               <span>Instagram</span>
             </button>
-            <button
-              onClick={() => setActivePlatform('youtube')}
-              className={`flex items-center gap-3 px-4 py-3 border-b-2 transition-all ${
-                activePlatform === 'youtube'
-                  ? 'text-red-600 border-red-600 bg-red-50 font-medium'
-                  : 'text-gray-600 border-transparent hover:text-gray-900 hover:border-gray-300'
-              }`}
-            >
-              <YoutubeIcon className="w-5 h-5" />
-              <span>YouTube</span>
-            </button>
+              <button
+                onClick={() => setActivePlatform('youtube')}
+                className={`flex items-center gap-3 px-4 py-3 border-b-2 transition-all ${
+                  activePlatform === 'youtube'
+                    ? 'text-red-600 border-red-600 bg-red-50 font-medium'
+                    : 'text-gray-600 border-transparent hover:text-gray-900 hover:border-gray-300'
+                }`}
+              >
+                <YoutubeIcon className="w-5 h-5" />
+                <span>YouTube</span>
+              </button>
+            </div>
+            <div className="relative">
+              <Button
+                onClick={() => router.push('/asset-studio/influencer-submission')}
+                className="flex items-center gap-2 bg-gradient-to-r from-blue-400 via-blue-600 to-blue-800 text-white hover:opacity-90"
+              >
+                <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2"/>
+                  <path d="M9 5a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2a2 2 0 0 0-2-2h-2a2 2 0 0 0-2 2"/>
+                </svg>
+                Influencer Submission
+              </Button>
+              {submissionCount > 0 && (
+                <span className={`absolute -top-2 -right-2 bg-red-500 text-white text-xs font-bold rounded-full min-w-[20px] h-5 flex items-center justify-center px-1.5 ${
+                  showBadgeAnimation ? 'animate-bounce' : ''
+                }`}>
+                  {submissionCount}
+                </span>
+              )}
+            </div>
           </div>
         </div>
       </div>
