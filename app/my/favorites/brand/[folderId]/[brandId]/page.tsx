@@ -914,14 +914,14 @@ export default function BrandDetailPage() {
                               className="flex-1 flex items-center justify-center gap-1 px-2 py-1.5 bg-blue-50 text-blue-700 rounded-lg text-[11px] font-medium hover:bg-blue-100 transition-colors"
                             >
                               <span>🧠</span>
-                              <span>AI Script Analysis</span>
+                              <span>Analyze Creative</span>
                             </button>
                             <button 
                               onClick={(e) => e.stopPropagation()}
                               className="flex items-center justify-center gap-1 px-2 py-1.5 bg-gray-100 text-gray-700 rounded-lg text-[11px] font-medium hover:bg-gray-200 transition-colors"
                             >
                               <span>📥</span>
-                              <span>Track</span>
+                              <span>Download</span>
                             </button>
                           </div>
                         </div>
