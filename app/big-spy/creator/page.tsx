@@ -524,6 +524,44 @@ export default function CreatorPage() {
                   Shortlist all
                 </Button>
               </div>
+              
+              {/* Quick Select Tags */}
+              <div className="flex items-center gap-2 mt-3 flex-wrap">
+                <span className="text-xs text-gray-400">Quick Select</span>
+                <button className="px-2.5 py-1 text-xs bg-gray-100 text-gray-600 rounded-full hover:bg-gray-200 transition-colors flex items-center gap-1">
+                  <svg className="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <path d="M3 3h18v18H3zM12 8v8M8 12h8"/>
+                  </svg>
+                  Columns
+                </button>
+                <button className="px-2.5 py-1 text-xs bg-gray-100 text-gray-600 rounded-full hover:bg-gray-200 transition-colors flex items-center gap-1">
+                  <svg className="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                    <polyline points="22,6 12,13 2,6"/>
+                  </svg>
+                  Has Email
+                </button>
+                <button className="px-2.5 py-1 text-xs bg-gray-100 text-gray-600 rounded-full hover:bg-gray-200 transition-colors flex items-center gap-1">
+                  <svg className="w-3 h-3" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/>
+                  </svg>
+                  AI Creator
+                </button>
+                <button className="px-2.5 py-1 text-xs bg-gray-100 text-gray-600 rounded-full hover:bg-gray-200 transition-colors">💄 Beauty</button>
+                <button className="px-2.5 py-1 text-xs bg-gray-100 text-gray-600 rounded-full hover:bg-gray-200 transition-colors">👗 Fashion</button>
+                <button className="px-2.5 py-1 text-xs bg-gray-100 text-gray-600 rounded-full hover:bg-gray-200 transition-colors">📱 Consumer Electronics</button>
+                <button className="px-2.5 py-1 text-xs bg-gray-100 text-gray-600 rounded-full hover:bg-gray-200 transition-colors">🎮 Gaming</button>
+                {/* Amazon Top Creator - Only show on Instagram tab */}
+                {activePlatform === 'instagram' && (
+                  <button className="px-2.5 py-1 text-xs bg-orange-100 text-orange-700 rounded-full hover:bg-orange-200 transition-colors flex items-center gap-1">
+                    <svg className="w-3 h-3" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M18.42 14.58c-.51-.51-1.41-1.37-2.54-2.54-1.13-1.17-2.53-2.6-4.05-4.1-1.52-1.5-2.97-2.95-4.15-4.1-1.18-1.15-2.03-2.01-2.55-2.54-.35-.35-.92-.35-1.27 0s-.35.92 0 1.27c.52.52 1.37 1.37 2.52 2.52 1.15 1.15 2.56 2.57 4.04 4.1 1.48 1.53 2.87 2.97 4.03 4.12 1.16 1.15 2.01 2.01 2.53 2.54.35.35.92.35 1.27 0s.35-.92.17-1.27z"/>
+                      <path d="M7.5 21c-2.07 0-3.75-1.68-3.75-3.75v-7.5C3.75 7.68 5.43 6 7.5 6h9c2.07 0 3.75 1.68 3.75 3.75v7.5c0 2.07-1.68 3.75-3.75 3.75h-9z"/>
+                    </svg>
+                    Amazon Top Creator
+                  </button>
+                )}
+              </div>
             </div>
           )}
           

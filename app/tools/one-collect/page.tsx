@@ -13,8 +13,11 @@ import { InstagramIcon, YoutubeIcon } from '@/components/icons';
 type MenuType = 'advertiser' | 'mobile-app' | 'influencer' | 'custom-services';
 type InfluencerTab = 'operations' | 'results';
 type CustomServicesTab = 'operations' | 'progress';
+type AdvertiserTab = 'operations' | 'results';
 type OperationMode = 'upload' | 'url' | 'keywords';
+type AdvertiserOperationMode = 'manual' | 'url' | 'keywords';
 type Platform = 'tiktok' | 'instagram' | 'youtube';
+type AdvertiserPlatform = 'meta' | 'tiktok' | 'google';
 
 // Job interface
 interface CollectionJob {
@@ -26,6 +29,37 @@ interface CollectionJob {
   progress: number;
   resultCount?: number;
   fileUrl?: string;
+}
+
+// Advertiser Tracking Job interface
+interface AdvertiserTrackingJob {
+  id: string;
+  type: 'manual' | 'url' | 'keywords';
+  name: string;
+  platform: AdvertiserPlatform;
+  createdAt: string;
+  status: 'pending' | 'running' | 'completed' | 'failed';
+  progress: number;
+  advertiserCount?: number;
+  advertisers?: AdvertiserData[];
+}
+
+// Advertiser data interface
+interface AdvertiserData {
+  id: string;
+  name: string;
+  avatar: string;
+  platform: AdvertiserPlatform;
+  domain: string;
+  totalAds: number;
+  activeAds: number;
+  totalSpend: string;
+  totalCreatives: number;
+  mainCategories: string[];
+  topCountries: string[];
+  firstSeen: string;
+  lastSeen: string;
+  status: 'active' | 'paused' | 'inactive';
 }
 
 // Service Request interface
@@ -173,7 +207,7 @@ const CustomServicesIcon = ({ size = 18, className = '' }: { size?: number; clas
 
 // Menu items
 const menuItems = [
-  { id: 'advertiser' as MenuType, label: 'Advertiser', icon: AdvertiserIcon, comingSoon: true },
+  { id: 'advertiser' as MenuType, label: 'Advertiser', icon: AdvertiserIcon, comingSoon: false },
   { id: 'mobile-app' as MenuType, label: 'Mobile App', icon: MobileAppIcon, comingSoon: true },
   { id: 'influencer' as MenuType, label: 'Influencer', icon: InfluencerIcon, comingSoon: false },
   { id: 'custom-services' as MenuType, label: 'Custom Services', icon: CustomServicesIcon, comingSoon: false },
@@ -231,6 +265,34 @@ const customServicesTabs = [
   },
 ];
 
+// Advertiser sub-tabs
+const advertiserTabs = [
+  { 
+    id: 'operations' as AdvertiserTab, 
+    label: 'Operations Console',
+    icon: (
+      <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+        <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/>
+        <line x1="8" y1="21" x2="16" y2="21"/>
+        <line x1="12" y1="17" x2="12" y2="21"/>
+      </svg>
+    )
+  },
+  { 
+    id: 'results' as AdvertiserTab, 
+    label: 'Job Results',
+    icon: (
+      <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+        <polyline points="14 2 14 8 20 8"/>
+        <line x1="16" y1="13" x2="8" y2="13"/>
+        <line x1="16" y1="17" x2="8" y2="17"/>
+        <polyline points="10 9 9 9 8 9"/>
+      </svg>
+    )
+  },
+];
+
 // Operation mode options for dropdown
 const operationModes = [
   { id: 'upload' as OperationMode, label: 'Upload CSV', icon: (
@@ -259,6 +321,170 @@ const platforms = [
   ), bgColor: 'bg-black', textColor: 'text-white', borderColor: 'border-black' },
   { id: 'instagram' as Platform, name: 'Instagram', icon: <InstagramIcon className="w-4 h-4" />, bgColor: 'bg-gradient-to-tr from-yellow-400 via-pink-500 to-purple-600', textColor: 'text-white', borderColor: 'border-pink-500' },
   { id: 'youtube' as Platform, name: 'YouTube', icon: <YoutubeIcon className="w-4 h-4" />, bgColor: 'bg-red-600', textColor: 'text-white', borderColor: 'border-red-600' },
+];
+
+// Advertiser operation mode options
+const advertiserOperationModes = [
+  { id: 'manual' as AdvertiserOperationMode, label: 'Manual Input', icon: (
+    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+    </svg>
+  )},
+  { id: 'url' as AdvertiserOperationMode, label: 'From URL', icon: (
+    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" />
+    </svg>
+  )},
+  { id: 'keywords' as AdvertiserOperationMode, label: 'By Keywords', icon: (
+    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+    </svg>
+  )},
+];
+
+// Advertiser platform options
+const advertiserPlatforms = [
+  { id: 'meta' as AdvertiserPlatform, name: 'Meta', icon: (
+    <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
+      <path d="M12 2.04c-5.5 0-10 4.49-10 10.02 0 5 3.66 9.15 8.44 9.9v-7H7.9v-2.9h2.54V9.85c0-2.51 1.49-3.89 3.78-3.89 1.09 0 2.23.19 2.23.19v2.47h-1.26c-1.24 0-1.63.77-1.63 1.56v1.88h2.78l-.45 2.9h-2.33v7a10 10 0 008.44-9.9c0-5.53-4.5-10.02-10-10.02z"/>
+    </svg>
+  ), bgColor: 'bg-blue-600', textColor: 'text-white', borderColor: 'border-blue-600' },
+  { id: 'tiktok' as AdvertiserPlatform, name: 'TikTok', icon: (
+    <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
+      <path d="M12.53.02C13.84 0 15.14.01 16.44 0c.08 1.53.63 3.09 1.75 4.17c1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97c-.57-.26-1.1-.59-1.62-.93c-.01 2.92.01 5.84-.02 8.75c-.08 1.4-.54 2.79-1.35 3.94c-1.31 1.92-3.58 3.17-5.91 3.21c-1.43.08-2.86-.31-4.08-1.03c-2.02-1.19-3.44-3.37-3.65-5.71c-.02-.5-.03-1-.01-1.49c.18-1.9 1.12-3.72 2.58-4.96c1.66-1.44 3.98-2.13 6.15-1.72c.02 1.48-.04 2.96-.04 4.44c-.99-.32-2.15-.23-3.02.37c-.63.41-1.11 1.04-1.36 1.75c-.21.51-.15 1.07-.14 1.61c.24 1.64 1.82 3.02 3.5 2.87c1.12-.01 2.19-.66 2.77-1.61c.19-.33.4-.67.41-1.06c.1-1.79.06-3.57.07-5.36c.01-4.03-.01-8.05.02-12.07z"/>
+    </svg>
+  ), bgColor: 'bg-black', textColor: 'text-white', borderColor: 'border-black' },
+  { id: 'google' as AdvertiserPlatform, name: 'Google', icon: (
+    <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
+      <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
+      <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+      <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/>
+      <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
+    </svg>
+  ), bgColor: 'bg-white', textColor: 'text-gray-800', borderColor: 'border-gray-300' },
+];
+
+// Mock Advertiser data for preview
+const mockAdvertiserData: AdvertiserData[] = [
+  {
+    id: 'adv1',
+    name: 'Nike Inc.',
+    avatar: 'https://placehold.co/100/1e40af/ffffff?text=N',
+    platform: 'meta',
+    domain: 'nike.com',
+    totalAds: 1245,
+    activeAds: 328,
+    totalSpend: '$2.4M',
+    totalCreatives: 486,
+    mainCategories: ['Sports', 'Fashion', 'Lifestyle'],
+    topCountries: ['US', 'UK', 'DE'],
+    firstSeen: '2022-01-15',
+    lastSeen: '2024-12-21',
+    status: 'active',
+  },
+  {
+    id: 'adv2',
+    name: 'Adidas',
+    avatar: 'https://placehold.co/100/000000/ffffff?text=A',
+    platform: 'tiktok',
+    domain: 'adidas.com',
+    totalAds: 892,
+    activeAds: 156,
+    totalSpend: '$1.8M',
+    totalCreatives: 312,
+    mainCategories: ['Sports', 'Streetwear'],
+    topCountries: ['US', 'CN', 'JP'],
+    firstSeen: '2022-03-20',
+    lastSeen: '2024-12-20',
+    status: 'active',
+  },
+  {
+    id: 'adv3',
+    name: 'Lululemon',
+    avatar: 'https://placehold.co/100/dc2626/ffffff?text=L',
+    platform: 'meta',
+    domain: 'lululemon.com',
+    totalAds: 567,
+    activeAds: 89,
+    totalSpend: '$980K',
+    totalCreatives: 178,
+    mainCategories: ['Fitness', 'Yoga', 'Lifestyle'],
+    topCountries: ['US', 'CA', 'AU'],
+    firstSeen: '2022-06-10',
+    lastSeen: '2024-12-19',
+    status: 'active',
+  },
+  {
+    id: 'adv4',
+    name: 'Under Armour',
+    avatar: 'https://placehold.co/100/1f2937/ffffff?text=UA',
+    platform: 'google',
+    domain: 'underarmour.com',
+    totalAds: 423,
+    activeAds: 67,
+    totalSpend: '$650K',
+    totalCreatives: 134,
+    mainCategories: ['Sports', 'Performance'],
+    topCountries: ['US', 'UK'],
+    firstSeen: '2022-08-05',
+    lastSeen: '2024-12-18',
+    status: 'active',
+  },
+  {
+    id: 'adv5',
+    name: 'Puma',
+    avatar: 'https://placehold.co/100/059669/ffffff?text=P',
+    platform: 'tiktok',
+    domain: 'puma.com',
+    totalAds: 356,
+    activeAds: 45,
+    totalSpend: '$520K',
+    totalCreatives: 98,
+    mainCategories: ['Sports', 'Fashion'],
+    topCountries: ['DE', 'US', 'FR'],
+    firstSeen: '2022-09-12',
+    lastSeen: '2024-12-17',
+    status: 'active',
+  },
+];
+
+// Meta Ads Library Advertiser Suggestions (for search)
+const metaAdsLibraryAdvertisers = [
+  { id: 'meta1', name: 'Nike', domain: 'nike.com', avatar: 'https://placehold.co/40/1e40af/ffffff?text=N', totalAds: 1245 },
+  { id: 'meta2', name: 'Adidas', domain: 'adidas.com', avatar: 'https://placehold.co/40/000000/ffffff?text=A', totalAds: 892 },
+  { id: 'meta3', name: 'Lululemon', domain: 'lululemon.com', avatar: 'https://placehold.co/40/dc2626/ffffff?text=L', totalAds: 567 },
+  { id: 'meta4', name: 'Under Armour', domain: 'underarmour.com', avatar: 'https://placehold.co/40/1f2937/ffffff?text=UA', totalAds: 423 },
+  { id: 'meta5', name: 'Puma', domain: 'puma.com', avatar: 'https://placehold.co/40/059669/ffffff?text=P', totalAds: 356 },
+  { id: 'meta6', name: 'New Balance', domain: 'newbalance.com', avatar: 'https://placehold.co/40/dc2626/ffffff?text=NB', totalAds: 289 },
+  { id: 'meta7', name: 'Reebok', domain: 'reebok.com', avatar: 'https://placehold.co/40/1e40af/ffffff?text=R', totalAds: 234 },
+  { id: 'meta8', name: 'ASICS', domain: 'asics.com', avatar: 'https://placehold.co/40/3b82f6/ffffff?text=AS', totalAds: 198 },
+  { id: 'meta9', name: 'Skechers', domain: 'skechers.com', avatar: 'https://placehold.co/40/6366f1/ffffff?text=SK', totalAds: 176 },
+  { id: 'meta10', name: 'Fila', domain: 'fila.com', avatar: 'https://placehold.co/40/ef4444/ffffff?text=F', totalAds: 145 },
+  { id: 'meta11', name: "Levi's", domain: 'levi.com', avatar: 'https://placehold.co/40/dc2626/ffffff?text=LV', totalAds: 312 },
+  { id: 'meta12', name: 'H&M', domain: 'hm.com', avatar: 'https://placehold.co/40/ef4444/ffffff?text=HM', totalAds: 456 },
+  { id: 'meta13', name: 'Zara', domain: 'zara.com', avatar: 'https://placehold.co/40/000000/ffffff?text=Z', totalAds: 387 },
+  { id: 'meta14', name: 'Uniqlo', domain: 'uniqlo.com', avatar: 'https://placehold.co/40/dc2626/ffffff?text=U', totalAds: 298 },
+  { id: 'meta15', name: 'GAP', domain: 'gap.com', avatar: 'https://placehold.co/40/1e3a8a/ffffff?text=G', totalAds: 234 },
+  { id: 'meta16', name: 'Coca-Cola', domain: 'coca-cola.com', avatar: 'https://placehold.co/40/dc2626/ffffff?text=CC', totalAds: 567 },
+  { id: 'meta17', name: 'Pepsi', domain: 'pepsi.com', avatar: 'https://placehold.co/40/1e40af/ffffff?text=PP', totalAds: 489 },
+  { id: 'meta18', name: 'Red Bull', domain: 'redbull.com', avatar: 'https://placehold.co/40/1e40af/ffffff?text=RB', totalAds: 378 },
+  { id: 'meta19', name: 'Monster Energy', domain: 'monsterenergy.com', avatar: 'https://placehold.co/40/22c55e/ffffff?text=M', totalAds: 234 },
+  { id: 'meta20', name: 'Gatorade', domain: 'gatorade.com', avatar: 'https://placehold.co/40/f97316/ffffff?text=GT', totalAds: 198 },
+];
+
+// Mock Advertiser Folders for Favorites
+interface AdvertiserFolder {
+  id: string;
+  name: string;
+  itemCount: number;
+}
+
+const mockAdvertiserFolders: AdvertiserFolder[] = [
+  { id: 'default', name: 'Default', itemCount: 0 },
+  { id: 'folder1', name: 'Tracked Advertisers', itemCount: 15 },
+  { id: 'folder2', name: 'Competitor Analysis', itemCount: 8 },
+  { id: 'folder3', name: 'Fashion Brands', itemCount: 12 },
+  { id: 'folder4', name: 'Sports Advertisers', itemCount: 6 },
 ];
 
 export default function OneCollectPage() {
@@ -366,6 +592,101 @@ export default function OneCollectPage() {
   const [showRequestSuccess, setShowRequestSuccess] = useState(false);
   const [previewRequest, setPreviewRequest] = useState<ServiceRequest | null>(null);
   const [detailsRequest, setDetailsRequest] = useState<ServiceRequest | null>(null);
+
+  // Advertiser Tracking state
+  const [advertiserTab, setAdvertiserTab] = useState<AdvertiserTab>('operations');
+  const [advertiserOperationMode, setAdvertiserOperationMode] = useState<AdvertiserOperationMode>('manual');
+  const [advertiserTrackingJobs, setAdvertiserTrackingJobs] = useState<AdvertiserTrackingJob[]>([
+    // Mock initial jobs
+    {
+      id: '1',
+      type: 'manual',
+      name: 'Track: Nike, Adidas, Puma',
+      platform: 'meta',
+      createdAt: '2024-12-20 10:30',
+      status: 'completed',
+      progress: 100,
+      advertiserCount: 3,
+      advertisers: mockAdvertiserData.slice(0, 3),
+    },
+    {
+      id: '2',
+      type: 'url',
+      name: 'Extract: facebook.com/ads/library?advertiser=nike',
+      platform: 'meta',
+      createdAt: '2024-12-21 14:20',
+      status: 'running',
+      progress: 45,
+    },
+  ]);
+  const [showAdvertiserSuccess, setShowAdvertiserSuccess] = useState(false);
+  const [previewAdvertiserJob, setPreviewAdvertiserJob] = useState<AdvertiserTrackingJob | null>(null);
+  const [selectedAdvertiser, setSelectedAdvertiser] = useState<AdvertiserData | null>(null);
+  
+  // Advertiser Manual input state
+  const [advertiserManualInput, setAdvertiserManualInput] = useState('');
+  const [advertiserManualList, setAdvertiserManualList] = useState<string[]>([]);
+  const [isSubmittingManual, setIsSubmittingManual] = useState(false);
+  
+  // Advertiser Search & Select state
+  const [advertiserSearchInput, setAdvertiserSearchInput] = useState('');
+  const [advertiserSearchFocused, setAdvertiserSearchFocused] = useState(false);
+  const [selectedAdvertisersForTracking, setSelectedAdvertisersForTracking] = useState<typeof metaAdsLibraryAdvertisers>([]);
+  
+  // Advertiser URL input state
+  const [advertiserUrlInput, setAdvertiserUrlInput] = useState('');
+  const [isExtractingUrl, setIsExtractingUrl] = useState(false);
+  
+  // Advertiser Keywords input state
+  const [selectedAdvertiserPlatform, setSelectedAdvertiserPlatform] = useState<AdvertiserPlatform>('meta');
+  const [advertiserKeywordInput, setAdvertiserKeywordInput] = useState('');
+  const [advertiserKeywords, setAdvertiserKeywords] = useState<string[]>([]);
+  const [isSearchingAdvertiserKeywords, setIsSearchingAdvertiserKeywords] = useState(false);
+
+  // Advertiser Save to Favorites state
+  const [advertiserFolders, setAdvertiserFolders] = useState<AdvertiserFolder[]>(mockAdvertiserFolders);
+  const [selectedSaveFolder, setSelectedSaveFolder] = useState<string>('default');
+  const [isFolderDropdownOpen, setIsFolderDropdownOpen] = useState(false);
+  const [isCreatingNewFolder, setIsCreatingNewFolder] = useState(false);
+  const [newFolderName, setNewFolderName] = useState('');
+  const [isSaving, setIsSaving] = useState(false);
+
+  // Filter advertisers based on search input
+  const filteredAdvertisers = metaAdsLibraryAdvertisers.filter(adv => 
+    adv.name.toLowerCase().includes(advertiserSearchInput.toLowerCase()) ||
+    adv.domain.toLowerCase().includes(advertiserSearchInput.toLowerCase())
+  ).filter(adv => !selectedAdvertisersForTracking.find(s => s.id === adv.id));
+
+  // Toggle advertiser selection
+  const toggleAdvertiserSelection = (advertiser: typeof metaAdsLibraryAdvertisers[0]) => {
+    if (selectedAdvertisersForTracking.find(s => s.id === advertiser.id)) {
+      setSelectedAdvertisersForTracking(prev => prev.filter(s => s.id !== advertiser.id));
+    } else {
+      setSelectedAdvertisersForTracking(prev => [...prev, advertiser]);
+    }
+  };
+
+  // Remove selected advertiser
+  const removeSelectedAdvertiser = (advertiserId: string) => {
+    setSelectedAdvertisersForTracking(prev => prev.filter(s => s.id !== advertiserId));
+  };
+
+  // Submit selected advertisers for tracking
+  const handleSubmitSelectedAdvertisers = async () => {
+    if (selectedAdvertisersForTracking.length === 0) {
+      alert('Please select at least one advertiser');
+      return;
+    }
+    setIsSubmittingManual(true);
+    try {
+      const names = selectedAdvertisersForTracking.map(a => a.name);
+      addAdvertiserJob('manual', `Track: ${names.slice(0, 3).join(', ')}${names.length > 3 ? '...' : ''}`, 'meta');
+      setSelectedAdvertisersForTracking([]);
+      setAdvertiserSearchInput('');
+    } finally {
+      setIsSubmittingManual(false);
+    }
+  };
 
   // Add new job
   const addJob = (type: 'csv' | 'url' | 'keywords', name: string) => {
@@ -504,6 +825,167 @@ export default function OneCollectPage() {
       setKeywords([]);
     } finally {
       setIsSearchingKeywords(false);
+    }
+  };
+
+  // ========== Advertiser Tracking Functions ==========
+  
+  // Add new advertiser tracking job
+  const addAdvertiserJob = (type: 'manual' | 'url' | 'keywords', name: string, platform: AdvertiserPlatform) => {
+    const newJob: AdvertiserTrackingJob = {
+      id: Date.now().toString(),
+      type,
+      name,
+      platform,
+      createdAt: new Date().toLocaleString('en-US', { 
+        year: 'numeric', month: '2-digit', day: '2-digit',
+        hour: '2-digit', minute: '2-digit', hour12: false 
+      }),
+      status: 'pending',
+      progress: 0,
+    };
+    setAdvertiserTrackingJobs(prev => [newJob, ...prev]);
+    
+    // Show success message
+    setShowAdvertiserSuccess(true);
+    setTimeout(() => setShowAdvertiserSuccess(false), 3000);
+    
+    // Simulate job progress
+    simulateAdvertiserJobProgress(newJob.id);
+  };
+
+  // Simulate advertiser job progress
+  const simulateAdvertiserJobProgress = (jobId: string) => {
+    let progress = 0;
+    const interval = setInterval(() => {
+      progress += Math.random() * 15;
+      if (progress >= 100) {
+        progress = 100;
+        clearInterval(interval);
+        setAdvertiserTrackingJobs(prev => prev.map(job => 
+          job.id === jobId 
+            ? { 
+                ...job, 
+                status: 'completed', 
+                progress: 100, 
+                advertiserCount: Math.floor(Math.random() * 10) + 1,
+                advertisers: mockAdvertiserData.slice(0, Math.floor(Math.random() * 5) + 1)
+              }
+            : job
+        ));
+      } else {
+        setAdvertiserTrackingJobs(prev => prev.map(job => 
+          job.id === jobId 
+            ? { ...job, status: 'running', progress: Math.round(progress) }
+            : job
+        ));
+      }
+    }, 1000);
+  };
+
+  // Get advertiser type icon
+  const getAdvertiserTypeIcon = (type: AdvertiserTrackingJob['type']) => {
+    switch (type) {
+      case 'manual':
+        return (
+          <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <path d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5"/>
+            <path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/>
+          </svg>
+        );
+      case 'url':
+        return (
+          <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/>
+            <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>
+          </svg>
+        );
+      case 'keywords':
+        return (
+          <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <circle cx="11" cy="11" r="8"/>
+            <path d="m21 21-4.35-4.35"/>
+          </svg>
+        );
+    }
+  };
+
+  // Handle advertiser manual input
+  const handleAddAdvertiserManual = () => {
+    if (!advertiserManualInput.trim()) return;
+    const newItems = advertiserManualInput
+      .split(/[,\n]/)
+      .map(k => k.trim())
+      .filter(k => k.length > 0)
+      .filter(k => !advertiserManualList.includes(k));
+    if (newItems.length > 0) {
+      setAdvertiserManualList([...advertiserManualList, ...newItems]);
+      setAdvertiserManualInput('');
+    }
+  };
+
+  const removeAdvertiserManual = (item: string) => {
+    setAdvertiserManualList(advertiserManualList.filter(k => k !== item));
+  };
+
+  const handleSubmitAdvertiserManual = async () => {
+    if (advertiserManualList.length === 0) {
+      alert('Please add at least one advertiser name or domain');
+      return;
+    }
+    setIsSubmittingManual(true);
+    try {
+      addAdvertiserJob('manual', `Track: ${advertiserManualList.slice(0, 3).join(', ')}${advertiserManualList.length > 3 ? '...' : ''}`, selectedAdvertiserPlatform);
+      setAdvertiserManualList([]);
+    } finally {
+      setIsSubmittingManual(false);
+    }
+  };
+
+  // Handle advertiser URL extraction
+  const handleAdvertiserUrlExtract = async () => {
+    if (!advertiserUrlInput.trim()) {
+      alert('Please enter a valid URL');
+      return;
+    }
+    setIsExtractingUrl(true);
+    try {
+      addAdvertiserJob('url', `Extract: ${advertiserUrlInput.substring(0, 50)}...`, selectedAdvertiserPlatform);
+      setAdvertiserUrlInput('');
+    } finally {
+      setIsExtractingUrl(false);
+    }
+  };
+
+  // Handle advertiser keyword operations
+  const handleAddAdvertiserKeyword = () => {
+    if (!advertiserKeywordInput.trim()) return;
+    const newKeywords = advertiserKeywordInput
+      .split(',')
+      .map(k => k.trim())
+      .filter(k => k.length > 0)
+      .filter(k => !advertiserKeywords.includes(k));
+    if (newKeywords.length > 0) {
+      setAdvertiserKeywords([...advertiserKeywords, ...newKeywords]);
+      setAdvertiserKeywordInput('');
+    }
+  };
+
+  const removeAdvertiserKeyword = (keyword: string) => {
+    setAdvertiserKeywords(advertiserKeywords.filter(k => k !== keyword));
+  };
+
+  const handleAdvertiserKeywordsSearch = async () => {
+    if (advertiserKeywords.length === 0) {
+      alert('Please add at least one keyword');
+      return;
+    }
+    setIsSearchingAdvertiserKeywords(true);
+    try {
+      addAdvertiserJob('keywords', `Search: ${advertiserKeywords.join(', ')} on ${selectedAdvertiserPlatform}`, selectedAdvertiserPlatform);
+      setAdvertiserKeywords([]);
+    } finally {
+      setIsSearchingAdvertiserKeywords(false);
     }
   };
 
@@ -716,6 +1198,288 @@ export default function OneCollectPage() {
   const renderContent = () => {
     switch (activeMenu) {
       case 'advertiser':
+        return (
+          <div className="py-4">
+            {/* Advertiser Sub-tabs */}
+            <div className="flex gap-3 mb-8 bg-gray-100 p-1.5 rounded-lg w-fit">
+              {advertiserTabs.map((tab) => (
+                <button
+                  key={tab.id}
+                  onClick={() => setAdvertiserTab(tab.id)}
+                  className={cn(
+                    'flex items-center gap-2 px-6 py-2.5 text-sm font-medium transition-all rounded-md',
+                    advertiserTab === tab.id
+                      ? 'bg-white text-gray-900 shadow-sm'
+                      : 'text-gray-600 hover:text-gray-900'
+                  )}
+                >
+                  {tab.icon}
+                  {tab.label}
+                  {tab.id === 'results' && advertiserTrackingJobs.length > 0 && (
+                    <span className="ml-1 px-1.5 py-0.5 text-xs bg-blue-100 text-blue-600 rounded-full">
+                      {advertiserTrackingJobs.length}
+                    </span>
+                  )}
+                </button>
+              ))}
+            </div>
+
+            {/* Success Message */}
+            {showAdvertiserSuccess && (
+              <div className="mb-6 p-4 bg-green-50 border border-green-200 rounded-lg flex items-center gap-3">
+                <svg className="w-5 h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                </svg>
+                <span className="text-sm text-green-700 font-medium">Tracking job submitted successfully! Check Job Results for progress.</span>
+              </div>
+            )}
+
+            {/* Tab Content */}
+            {advertiserTab === 'operations' ? (
+              <div className="flex justify-center">
+                <div className="w-full max-w-2xl space-y-6">
+                  {/* Header */}
+                  <div className="text-center">
+                    <div className="w-16 h-16 rounded-full bg-blue-100 flex items-center justify-center mx-auto mb-4">
+                      <svg className="w-8 h-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                      </svg>
+                    </div>
+                    <h3 className="text-lg font-semibold text-gray-900 mb-2">Search & Track Advertisers</h3>
+                    <p className="text-sm text-gray-500">Search from Meta Ads Library or enter keywords directly to track advertisers</p>
+                  </div>
+
+                  {/* Search and Select Area */}
+                  <div className="bg-gray-50 rounded-lg p-6 space-y-4">
+                  {/* Meta Platform Badge */}
+                  <div className="flex items-center gap-2 mb-2">
+                    <span className="text-xs text-gray-500">Data Source:</span>
+                    <span className="flex items-center gap-1.5 px-2.5 py-1 bg-blue-100 text-blue-700 text-xs font-medium rounded-full">
+                      <svg className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 2.04c-5.5 0-10 4.49-10 10.02 0 5 3.66 9.15 8.44 9.9v-7H7.9v-2.9h2.54V9.85c0-2.51 1.49-3.89 3.78-3.89 1.09 0 2.23.19 2.23.19v2.47h-1.26c-1.24 0-1.63.77-1.63 1.56v1.88h2.78l-.45 2.9h-2.33v7a10 10 0 008.44-9.9c0-5.53-4.5-10.02-10-10.02z"/>
+                      </svg>
+                      Meta Ads Library
+                    </span>
+                  </div>
+
+                  {/* Search Input with Dropdown */}
+                  <div className="relative">
+                    <div className="relative">
+                      <svg className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                      </svg>
+                      <Input
+                        type="text"
+                        placeholder="Search advertisers by name or domain..."
+                        value={advertiserSearchInput}
+                        onChange={(e) => setAdvertiserSearchInput(e.target.value)}
+                        onFocus={() => setAdvertiserSearchFocused(true)}
+                        onBlur={() => setTimeout(() => setAdvertiserSearchFocused(false), 200)}
+                        className="pl-10 pr-4 py-3 text-base"
+                      />
+                    </div>
+
+                    {/* Dropdown Suggestions */}
+                    {advertiserSearchFocused && advertiserSearchInput.length > 0 && filteredAdvertisers.length > 0 && (
+                      <div className="absolute z-10 w-full mt-1 bg-white rounded-lg border border-gray-200 shadow-lg max-h-64 overflow-auto">
+                        {filteredAdvertisers.map((advertiser) => (
+                          <button
+                            key={advertiser.id}
+                            onClick={() => {
+                              toggleAdvertiserSelection(advertiser);
+                              setAdvertiserSearchInput('');
+                            }}
+                            className="w-full flex items-center gap-3 px-4 py-3 hover:bg-gray-50 transition-colors text-left"
+                          >
+                            <img 
+                              src={advertiser.avatar} 
+                              alt={advertiser.name}
+                              className="w-8 h-8 rounded-lg object-cover"
+                            />
+                            <div className="flex-1 min-w-0">
+                              <p className="text-sm font-medium text-gray-900">{advertiser.name}</p>
+                              <p className="text-xs text-gray-500">{advertiser.domain}</p>
+                            </div>
+                            <span className="text-xs text-gray-400">{advertiser.totalAds.toLocaleString()} ads</span>
+                          </button>
+                        ))}
+                      </div>
+                    )}
+
+                    {/* No results */}
+                    {advertiserSearchFocused && advertiserSearchInput.length > 0 && filteredAdvertisers.length === 0 && (
+                      <div className="absolute z-10 w-full mt-1 bg-white rounded-lg border border-gray-200 shadow-lg p-4 text-center">
+                        <p className="text-sm text-gray-500">No advertisers found matching "{advertiserSearchInput}"</p>
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Selected Advertisers */}
+                  {selectedAdvertisersForTracking.length > 0 && (
+                    <div className="space-y-3">
+                      <div className="flex items-center justify-between">
+                        <h4 className="text-sm font-medium text-gray-900">Selected Advertisers ({selectedAdvertisersForTracking.length})</h4>
+                        <button 
+                          onClick={() => setSelectedAdvertisersForTracking([])}
+                          className="text-xs text-gray-500 hover:text-red-600"
+                        >
+                          Clear all
+                        </button>
+                      </div>
+                      <div className="flex flex-wrap gap-2">
+                        {selectedAdvertisersForTracking.map((advertiser) => (
+                          <div 
+                            key={advertiser.id} 
+                            className="flex items-center gap-2 px-3 py-2 bg-white rounded-lg border border-gray-200 shadow-sm"
+                          >
+                            <img 
+                              src={advertiser.avatar} 
+                              alt={advertiser.name}
+                              className="w-6 h-6 rounded object-cover"
+                            />
+                            <span className="text-sm font-medium text-gray-900">{advertiser.name}</span>
+                            <button 
+                              onClick={() => removeSelectedAdvertiser(advertiser.id)}
+                              className="ml-1 text-gray-400 hover:text-red-600"
+                            >
+                              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                              </svg>
+                            </button>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Submit Button */}
+                  <Button
+                    onClick={handleSubmitSelectedAdvertisers}
+                    disabled={isSubmittingManual || selectedAdvertisersForTracking.length === 0}
+                    className="w-full bg-blue-600 hover:bg-blue-700 text-white mt-4"
+                  >
+                    {isSubmittingManual ? 'Submitting...' : `Start Tracking${selectedAdvertisersForTracking.length > 0 ? ` (${selectedAdvertisersForTracking.length} advertiser${selectedAdvertisersForTracking.length > 1 ? 's' : ''})` : ''}`}
+                  </Button>
+
+                  <p className="text-xs text-gray-500 text-center">Search and select advertisers from Meta Ads Library to monitor their advertising activities.</p>
+                  </div>
+                </div>
+              </div>
+            ) : (
+              /* Advertiser Job Results */
+              <div className="space-y-4">
+                {advertiserTrackingJobs.length === 0 ? (
+                  <div className="flex items-center justify-center py-20">
+                    <div className="text-center">
+                      <div className="w-16 h-16 rounded-full bg-gray-100 flex items-center justify-center mx-auto mb-4">
+                        <svg className="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+                        </svg>
+                      </div>
+                      <h3 className="text-lg font-medium text-gray-900 mb-2">No Tracking Jobs Yet</h3>
+                      <p className="text-sm text-gray-500">Submit a tracking task in Operations Console to see results here.</p>
+                    </div>
+                  </div>
+                ) : (
+                  <div className="bg-white rounded-lg border border-gray-200 overflow-hidden">
+                    {/* Table Header */}
+                    <div className="grid grid-cols-12 gap-4 px-6 py-3 bg-gray-50 border-b border-gray-200 text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      <div className="col-span-1">Type</div>
+                      <div className="col-span-4">Task Name</div>
+                      <div className="col-span-2">Platform</div>
+                      <div className="col-span-2">Status</div>
+                      <div className="col-span-1">Results</div>
+                      <div className="col-span-2 text-right">Actions</div>
+                    </div>
+                    
+                    {/* Table Body */}
+                    {advertiserTrackingJobs.map((job) => (
+                      <div key={job.id} className="grid grid-cols-12 gap-4 px-6 py-4 border-b border-gray-100 last:border-b-0 items-center hover:bg-gray-50">
+                        {/* Type */}
+                        <div className="col-span-1">
+                          <div className="w-8 h-8 rounded-lg bg-gray-100 flex items-center justify-center text-gray-600">
+                            {getAdvertiserTypeIcon(job.type)}
+                          </div>
+                        </div>
+                        
+                        {/* Task Name */}
+                        <div className="col-span-4">
+                          <p className="text-sm font-medium text-gray-900 truncate">{job.name}</p>
+                          <p className="text-xs text-gray-500">{job.createdAt}</p>
+                        </div>
+                        
+                        {/* Platform */}
+                        <div className="col-span-2">
+                          <span className={cn(
+                            'inline-flex items-center gap-1.5 px-2 py-1 text-xs font-medium rounded-full',
+                            job.platform === 'meta' && 'bg-blue-100 text-blue-700',
+                            job.platform === 'tiktok' && 'bg-gray-900 text-white',
+                            job.platform === 'google' && 'bg-green-100 text-green-700'
+                          )}>
+                            {job.platform === 'meta' && 'Meta'}
+                            {job.platform === 'tiktok' && 'TikTok'}
+                            {job.platform === 'google' && 'Google'}
+                          </span>
+                        </div>
+                        
+                        {/* Status with Progress */}
+                        <div className="col-span-2">
+                          <div className="space-y-1">
+                            <span className={cn('inline-flex px-2 py-0.5 text-xs font-medium rounded-full', getStatusBadge(job.status))}>
+                              {job.status.charAt(0).toUpperCase() + job.status.slice(1)}
+                            </span>
+                            {job.status === 'running' && (
+                              <div className="w-full h-1.5 bg-gray-200 rounded-full overflow-hidden">
+                                <div 
+                                  className="h-full bg-blue-500 rounded-full transition-all duration-300"
+                                  style={{ width: `${job.progress}%` }}
+                                />
+                              </div>
+                            )}
+                          </div>
+                        </div>
+                        
+                        {/* Results Count */}
+                        <div className="col-span-1">
+                          <p className="text-sm text-gray-600">
+                            {job.advertiserCount ? `${job.advertiserCount} found` : '-'}
+                          </p>
+                        </div>
+                        
+                        {/* Actions */}
+                        <div className="col-span-2 flex items-center justify-end gap-2">
+                          {job.status === 'completed' && (
+                            <>
+                              <Button
+                                variant="outline"
+                                size="sm"
+                                className="h-8"
+                                onClick={() => setPreviewAdvertiserJob(job)}
+                              >
+                                <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                                </svg>
+                                View
+                              </Button>
+                            </>
+                          )}
+                          {job.status === 'running' && (
+                            <span className="text-sm text-blue-600">{job.progress}%</span>
+                          )}
+                          {job.status === 'pending' && (
+                            <span className="text-sm text-gray-400">Waiting...</span>
+                          )}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            )}
+          </div>
+        );
+      
       case 'mobile-app':
         return (
           <div className="flex items-center justify-center h-full">
@@ -727,9 +1491,7 @@ export default function OneCollectPage() {
               </div>
               <h3 className="text-xl font-semibold text-gray-900 mb-2">Coming Soon</h3>
               <p className="text-sm text-gray-500 max-w-md">
-                {activeMenu === 'advertiser' 
-                  ? 'Advertiser data collection feature is under development. Stay tuned!'
-                  : 'Mobile App data collection feature is under development. Stay tuned!'}
+                Mobile App data collection feature is under development. Stay tuned!
               </p>
             </div>
           </div>
@@ -1120,6 +1882,269 @@ export default function OneCollectPage() {
 
   return (
     <div className="min-h-screen bg-background">
+      {/* Advertiser Preview Modal */}
+      {previewAdvertiserJob && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center">
+          {/* Backdrop */}
+          <div 
+            className="absolute inset-0 bg-black/50" 
+            onClick={() => setPreviewAdvertiserJob(null)}
+          />
+          
+          {/* Modal Content */}
+          <div className="relative bg-white rounded-xl shadow-2xl w-[90%] max-w-6xl max-h-[85vh] overflow-hidden flex flex-col">
+            {/* Modal Header */}
+            <div className="flex items-center justify-between px-6 py-4 border-b border-gray-200">
+              <div>
+                <h2 className="text-lg font-semibold text-gray-900">Tracked Advertisers</h2>
+                <p className="text-sm text-gray-500 mt-0.5">{previewAdvertiserJob.name} • {previewAdvertiserJob.advertiserCount} advertisers found</p>
+              </div>
+              <button
+                onClick={() => setPreviewAdvertiserJob(null)}
+                className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+              >
+                <svg className="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+            </div>
+            
+            {/* Modal Body - Advertiser Cards */}
+            <div className="flex-1 overflow-auto p-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                {(previewAdvertiserJob.advertisers || mockAdvertiserData).map((advertiser) => (
+                  <div 
+                    key={advertiser.id} 
+                    className="bg-white border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow"
+                  >
+                    <div className="flex items-start gap-3 mb-3">
+                      <img 
+                        src={advertiser.avatar} 
+                        alt={advertiser.name}
+                        className="w-12 h-12 rounded-lg object-cover"
+                      />
+                      <div className="flex-1 min-w-0">
+                        <h3 className="text-sm font-semibold text-gray-900 truncate">{advertiser.name}</h3>
+                        <p className="text-xs text-gray-500 truncate">{advertiser.domain}</p>
+                        <span className={cn(
+                          'inline-flex items-center px-1.5 py-0.5 text-xs font-medium rounded mt-1',
+                          advertiser.status === 'active' && 'bg-green-100 text-green-700',
+                          advertiser.status === 'paused' && 'bg-yellow-100 text-yellow-700',
+                          advertiser.status === 'inactive' && 'bg-gray-100 text-gray-600'
+                        )}>
+                          {advertiser.status.charAt(0).toUpperCase() + advertiser.status.slice(1)}
+                        </span>
+                      </div>
+                    </div>
+                    
+                    <div className="grid grid-cols-2 gap-2 text-xs">
+                      <div>
+                        <span className="text-gray-500">Total Ads</span>
+                        <p className="font-semibold text-gray-900">{advertiser.totalAds.toLocaleString()}</p>
+                      </div>
+                      <div>
+                        <span className="text-gray-500">Active Ads</span>
+                        <p className="font-semibold text-gray-900">{advertiser.activeAds.toLocaleString()}</p>
+                      </div>
+                      <div>
+                        <span className="text-gray-500">Total Spend</span>
+                        <p className="font-semibold text-gray-900">{advertiser.totalSpend}</p>
+                      </div>
+                      <div>
+                        <span className="text-gray-500">Total Creatives</span>
+                        <p className="font-semibold text-gray-900">{advertiser.totalCreatives.toLocaleString()}</p>
+                      </div>
+                    </div>
+                    
+                    <div className="mt-3 pt-3 border-t border-gray-100">
+                      <div className="flex justify-between gap-4">
+                        <div className="flex-1 min-w-0">
+                          <span className="text-xs text-gray-500 block mb-1">Countries</span>
+                          <div className="flex flex-wrap gap-1">
+                            {advertiser.topCountries.slice(0, 3).map(country => (
+                              <span key={country} className="px-1.5 py-0.5 bg-blue-50 text-blue-600 text-xs rounded">{country}</span>
+                            ))}
+                          </div>
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <span className="text-xs text-gray-500 block mb-1">Categories</span>
+                          <div className="flex flex-wrap gap-1">
+                            {advertiser.mainCategories.slice(0, 2).map(cat => (
+                              <span key={cat} className="px-1.5 py-0.5 bg-gray-100 text-gray-600 text-xs rounded">{cat}</span>
+                            ))}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+            
+            {/* Modal Footer */}
+            <div className="flex items-center justify-between px-6 py-4 border-t border-gray-200 bg-gray-50">
+              {/* Folder Dropdown */}
+              <div className="relative">
+                <button
+                  onClick={() => setIsFolderDropdownOpen(!isFolderDropdownOpen)}
+                  className="flex items-center gap-2 px-3 py-2 bg-white border border-gray-300 rounded-lg text-sm text-gray-700 hover:bg-gray-50 transition-colors min-w-[200px]"
+                >
+                  <svg className="w-4 h-4 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                    <path d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z" />
+                  </svg>
+                  <span className="flex-1 text-left truncate">
+                    {advertiserFolders.find(f => f.id === selectedSaveFolder)?.name || 'Default'}
+                  </span>
+                  <svg className={cn("w-4 h-4 text-gray-500 transition-transform", isFolderDropdownOpen && "rotate-180")} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+                  </svg>
+                </button>
+
+                {/* Dropdown Menu */}
+                {isFolderDropdownOpen && (
+                  <div className="absolute bottom-full mb-2 left-0 w-64 bg-white rounded-lg border border-gray-200 shadow-lg z-10 max-h-64 overflow-auto">
+                    {/* Existing Folders */}
+                    {advertiserFolders.map((folder) => (
+                      <button
+                        key={folder.id}
+                        onClick={() => {
+                          setSelectedSaveFolder(folder.id);
+                          setIsFolderDropdownOpen(false);
+                          setIsCreatingNewFolder(false);
+                        }}
+                        className={cn(
+                          "w-full flex items-center gap-3 px-4 py-2.5 text-left hover:bg-gray-50 transition-colors",
+                          selectedSaveFolder === folder.id && "bg-blue-50"
+                        )}
+                      >
+                        <svg className={cn("w-4 h-4", selectedSaveFolder === folder.id ? "text-blue-600" : "text-gray-400")} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                          <path d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z" />
+                        </svg>
+                        <div className="flex-1 min-w-0">
+                          <p className={cn("text-sm font-medium truncate", selectedSaveFolder === folder.id ? "text-blue-600" : "text-gray-900")}>{folder.name}</p>
+                          <p className="text-xs text-gray-500">{folder.itemCount} items</p>
+                        </div>
+                        {selectedSaveFolder === folder.id && (
+                          <svg className="w-4 h-4 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                          </svg>
+                        )}
+                      </button>
+                    ))}
+
+                    {/* Divider */}
+                    <div className="border-t border-gray-100 my-1"></div>
+
+                    {/* Create New Folder */}
+                    {!isCreatingNewFolder ? (
+                      <button
+                        onClick={() => setIsCreatingNewFolder(true)}
+                        className="w-full flex items-center gap-3 px-4 py-2.5 text-left hover:bg-gray-50 transition-colors text-blue-600"
+                      >
+                        <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" />
+                        </svg>
+                        <span className="text-sm font-medium">Create New Folder</span>
+                      </button>
+                    ) : (
+                      <div className="px-4 py-2.5">
+                        <div className="flex gap-2">
+                          <Input
+                            type="text"
+                            placeholder="Folder name..."
+                            value={newFolderName}
+                            onChange={(e) => setNewFolderName(e.target.value)}
+                            className="flex-1 h-8 text-sm"
+                            autoFocus
+                            onKeyPress={(e) => {
+                              if (e.key === 'Enter' && newFolderName.trim()) {
+                                const newFolder: AdvertiserFolder = {
+                                  id: `folder-${Date.now()}`,
+                                  name: newFolderName.trim(),
+                                  itemCount: 0,
+                                };
+                                setAdvertiserFolders(prev => [...prev, newFolder]);
+                                setSelectedSaveFolder(newFolder.id);
+                                setNewFolderName('');
+                                setIsCreatingNewFolder(false);
+                                setIsFolderDropdownOpen(false);
+                              }
+                            }}
+                          />
+                          <Button
+                            size="sm"
+                            onClick={() => {
+                              if (newFolderName.trim()) {
+                                const newFolder: AdvertiserFolder = {
+                                  id: `folder-${Date.now()}`,
+                                  name: newFolderName.trim(),
+                                  itemCount: 0,
+                                };
+                                setAdvertiserFolders(prev => [...prev, newFolder]);
+                                setSelectedSaveFolder(newFolder.id);
+                                setNewFolderName('');
+                                setIsCreatingNewFolder(false);
+                                setIsFolderDropdownOpen(false);
+                              }
+                            }}
+                            disabled={!newFolderName.trim()}
+                            className="h-8 px-3"
+                          >
+                            Add
+                          </Button>
+                        </div>
+                        <button
+                          onClick={() => {
+                            setIsCreatingNewFolder(false);
+                            setNewFolderName('');
+                          }}
+                          className="text-xs text-gray-500 hover:text-gray-700 mt-1"
+                        >
+                          Cancel
+                        </button>
+                      </div>
+                    )}
+                  </div>
+                )}
+              </div>
+
+              {/* Action Buttons */}
+              <div className="flex items-center gap-3">
+                <Button
+                  variant="outline"
+                  onClick={() => {
+                    setPreviewAdvertiserJob(null);
+                    setIsFolderDropdownOpen(false);
+                    setIsCreatingNewFolder(false);
+                  }}
+                >
+                  Close
+                </Button>
+                <Button
+                  onClick={() => {
+                    setIsSaving(true);
+                    // Simulate save
+                    setTimeout(() => {
+                      const folderName = advertiserFolders.find(f => f.id === selectedSaveFolder)?.name || 'Default';
+                      alert(`Saved to "${folderName}" folder successfully!`);
+                      setIsSaving(false);
+                      setPreviewAdvertiserJob(null);
+                    }, 500);
+                  }}
+                  disabled={isSaving}
+                  className="bg-blue-600 hover:bg-blue-700 text-white"
+                >
+                  <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z" />
+                  </svg>
+                  {isSaving ? 'Saving...' : 'Save'}
+                </Button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Preview Modal */}
       {previewJob && (
         <div className="fixed inset-0 z-50 flex items-center justify-center">

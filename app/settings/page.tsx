@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { useSearchParams } from 'next/navigation';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Label } from '@/components/ui/label';
 import { Separator } from '@/components/ui/separator';
@@ -223,7 +224,26 @@ export default function SettingsPage() {
     end: '2025-12-17',
   });
   const [showCreditPacks, setShowCreditPacks] = useState(false);
-    const [planBillingTab, setPlanBillingTab] = useState<'monthly' | 'yearly'>('monthly');
+  const [planBillingTab, setPlanBillingTab] = useState<'monthly' | 'yearly'>('monthly');
+  const [showInviteCodeApplication, setShowInviteCodeApplication] = useState(false);
+  const [applicationForm, setApplicationForm] = useState({
+    companyName: '',
+    username: '',
+    email: '',
+    contactInfo: '',
+    industries: [] as string[],
+    preferredServices: [] as string[],
+  });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const searchParams = useSearchParams();
+
+  // Check URL params for apply=true
+  useEffect(() => {
+    if (searchParams.get('apply') === 'true' && searchParams.get('tab') === 'usage') {
+      setActiveTab('usage');
+      setShowInviteCodeApplication(true);
+    }
+  }, [searchParams]);
 
   // 初始化：从localStorage加载或默认只显示指定菜单
   useEffect(() => {
@@ -301,11 +321,214 @@ export default function SettingsPage() {
         );
       
       case 'usage':
+        // Invite Code Application Form
+        if (showInviteCodeApplication) {
+          const industryOptions = ['E-commerce', 'Gaming', 'Non-game apps', 'Short drama', 'Others'];
+          const serviceOptions = ['Market & Industry Insights', 'Winning Ads', 'Winning Products', 'Influencer Marketing', 'Others'];
+
+          const toggleIndustry = (industry: string) => {
+            setApplicationForm(prev => ({
+              ...prev,
+              industries: prev.industries.includes(industry)
+                ? prev.industries.filter(i => i !== industry)
+                : [...prev.industries, industry]
+            }));
+          };
+
+          const toggleService = (service: string) => {
+            setApplicationForm(prev => ({
+              ...prev,
+              preferredServices: prev.preferredServices.includes(service)
+                ? prev.preferredServices.filter(s => s !== service)
+                : [...prev.preferredServices, service]
+            }));
+          };
+
+          const handleSubmit = async () => {
+            setIsSubmitting(true);
+            // Simulate API call
+            await new Promise(resolve => setTimeout(resolve, 1500));
+            setIsSubmitting(false);
+            alert('Application submitted successfully! We will contact you soon.');
+            setShowInviteCodeApplication(false);
+            setApplicationForm({
+              companyName: '',
+              username: '',
+              email: '',
+              contactInfo: '',
+              industries: [],
+              preferredServices: [],
+            });
+          };
+
+          return (
+            <div className="space-y-6">
+              {/* Back Button */}
+              <button
+                onClick={() => setShowInviteCodeApplication(false)}
+                className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors"
+              >
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                </svg>
+                <span>Usage</span>
+              </button>
+
+              <div>
+                <h2 className="text-xl font-semibold text-foreground">Apply for Invite Code</h2>
+                <p className="text-sm text-muted-foreground mt-1">Fill out the form below to apply for an Enterprise invite code.</p>
+              </div>
+
+              <div className="bg-white rounded-lg border p-6 space-y-6">
+                {/* Company Name */}
+                <div className="space-y-2">
+                  <label className="text-sm font-medium text-foreground">Company Name</label>
+                  <input
+                    type="text"
+                    value={applicationForm.companyName}
+                    onChange={(e) => setApplicationForm({ ...applicationForm, companyName: e.target.value })}
+                    placeholder="Please enter the name of the company entity."
+                    className="w-full px-4 py-2.5 bg-gray-50 border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                  />
+                </div>
+
+                {/* Username */}
+                <div className="space-y-2">
+                  <label className="text-sm font-medium text-foreground">Username</label>
+                  <input
+                    type="text"
+                    value={applicationForm.username}
+                    onChange={(e) => setApplicationForm({ ...applicationForm, username: e.target.value })}
+                    placeholder="Please enter your name."
+                    className="w-full px-4 py-2.5 bg-gray-50 border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                  />
+                </div>
+
+                {/* User email address */}
+                <div className="space-y-2">
+                  <label className="text-sm font-medium text-foreground">User email address</label>
+                  <input
+                    type="email"
+                    value={applicationForm.email}
+                    onChange={(e) => setApplicationForm({ ...applicationForm, email: e.target.value })}
+                    placeholder="Please enter your email address."
+                    className="w-full px-4 py-2.5 bg-gray-50 border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                  />
+                </div>
+
+                {/* Contact Information */}
+                <div className="space-y-2">
+                  <label className="text-sm font-medium text-foreground">Contact Information</label>
+                  <input
+                    type="text"
+                    value={applicationForm.contactInfo}
+                    onChange={(e) => setApplicationForm({ ...applicationForm, contactInfo: e.target.value })}
+                    placeholder="Email, WeChat, Telegram, WhatsApp, etc."
+                    className="w-full px-4 py-2.5 bg-gray-50 border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                  />
+                </div>
+
+                {/* Industry */}
+                <div className="space-y-3">
+                  <div>
+                    <label className="text-sm font-medium text-foreground">Industry</label>
+                    <p className="text-xs text-muted-foreground mt-0.5">Select all that apply</p>
+                  </div>
+                  <div className="flex flex-wrap gap-2">
+                    {industryOptions.map((industry) => (
+                      <button
+                        key={industry}
+                        type="button"
+                        onClick={() => toggleIndustry(industry)}
+                        className={cn(
+                          'px-4 py-2 rounded-lg text-sm font-medium transition-colors border',
+                          applicationForm.industries.includes(industry)
+                            ? 'bg-purple-100 border-purple-500 text-purple-700'
+                            : 'bg-gray-50 border-gray-200 text-gray-600 hover:bg-gray-100'
+                        )}
+                      >
+                        {industry}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Preferred Services */}
+                <div className="space-y-3">
+                  <div>
+                    <label className="text-sm font-medium text-foreground">Preferred Services</label>
+                    <p className="text-xs text-muted-foreground mt-0.5">Select all that apply</p>
+                  </div>
+                  <div className="flex flex-wrap gap-2">
+                    {serviceOptions.map((service) => (
+                      <button
+                        key={service}
+                        type="button"
+                        onClick={() => toggleService(service)}
+                        className={cn(
+                          'px-4 py-2 rounded-lg text-sm font-medium transition-colors border',
+                          applicationForm.preferredServices.includes(service)
+                            ? 'bg-purple-100 border-purple-500 text-purple-700'
+                            : 'bg-gray-50 border-gray-200 text-gray-600 hover:bg-gray-100'
+                        )}
+                      >
+                        {service}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Submit Button */}
+                <button
+                  onClick={handleSubmit}
+                  disabled={isSubmitting}
+                  className="w-full py-3 bg-gradient-to-r from-purple-500 to-pink-500 text-white font-semibold rounded-lg hover:from-purple-600 hover:to-pink-600 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                >
+                  {isSubmitting ? (
+                    <>
+                      <svg className="w-5 h-5 animate-spin" fill="none" viewBox="0 0 24 24">
+                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                      </svg>
+                      <span>Submitting...</span>
+                    </>
+                  ) : (
+                    'Submit Application'
+                  )}
+                </button>
+              </div>
+            </div>
+          );
+        }
+
         return (
           <div className="space-y-8">
             {/* Usage Section */}
             <div className="space-y-6">
               <h2 className="text-xl font-semibold text-foreground">Usage</h2>
+
+              {/* Invite Code Application Entry */}
+              <div className="bg-gradient-to-r from-purple-600 via-purple-500 to-pink-500 rounded-lg p-5">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-4">
+                    <div className="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center">
+                      <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V5.5A2.5 2.5 0 109.5 8H12zm-7 4h14M5 12a2 2 0 110-4h14a2 2 0 110 4M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7" />
+                      </svg>
+                    </div>
+                    <div>
+                      <h3 className="text-white font-semibold">Apply for Enterprise Invite Code</h3>
+                      <p className="text-white/80 text-sm mt-0.5">Get exclusive access to premium features with an invite code</p>
+                    </div>
+                  </div>
+                  <button
+                    onClick={() => setShowInviteCodeApplication(true)}
+                    className="px-5 py-2.5 bg-white text-purple-600 font-semibold text-sm rounded-lg hover:bg-gray-100 transition-colors"
+                  >
+                    Apply Now
+                  </button>
+                </div>
+              </div>
               
               {/* Part 1: Plan Credits */}
               <div className="bg-white rounded-lg border p-6">
