@@ -642,6 +642,7 @@ export default function OneCollectPage() {
   const [advertiserSearchFocused, setAdvertiserSearchFocused] = useState(false);
   const [selectedAdvertisersForTracking, setSelectedAdvertisersForTracking] = useState<typeof metaAdsLibraryAdvertisers>([]);
   const [customAdvertiserKeywords, setCustomAdvertiserKeywords] = useState<string[]>([]);
+  const [trackingDuration, setTrackingDuration] = useState<'7' | '14' | '30'>('7');
   
   // Advertiser URL input state
   const [advertiserUrlInput, setAdvertiserUrlInput] = useState('');
@@ -1278,14 +1279,35 @@ export default function OneCollectPage() {
                   {/* Search and Select Area */}
                   <div className="bg-gray-50 rounded-lg p-6 space-y-4">
                   {/* Meta Platform Badge */}
-                  <div className="flex items-center gap-2 mb-2">
-                    <span className="text-xs text-gray-500">Data Source:</span>
-                    <span className="flex items-center gap-1.5 px-2.5 py-1 bg-blue-100 text-blue-700 text-xs font-medium rounded-full">
-                      <svg className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M12 2.04c-5.5 0-10 4.49-10 10.02 0 5 3.66 9.15 8.44 9.9v-7H7.9v-2.9h2.54V9.85c0-2.51 1.49-3.89 3.78-3.89 1.09 0 2.23.19 2.23.19v2.47h-1.26c-1.24 0-1.63.77-1.63 1.56v1.88h2.78l-.45 2.9h-2.33v7a10 10 0 008.44-9.9c0-5.53-4.5-10.02-10-10.02z"/>
-                      </svg>
-                      Meta Ads Library
-                    </span>
+                  <div className="flex items-center justify-between mb-2">
+                    <div className="flex items-center gap-2">
+                      <span className="text-xs text-gray-500">Data Source:</span>
+                      <span className="flex items-center gap-1.5 px-2.5 py-1 bg-blue-100 text-blue-700 text-xs font-medium rounded-full">
+                        <svg className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="currentColor">
+                          <path d="M12 2.04c-5.5 0-10 4.49-10 10.02 0 5 3.66 9.15 8.44 9.9v-7H7.9v-2.9h2.54V9.85c0-2.51 1.49-3.89 3.78-3.89 1.09 0 2.23.19 2.23.19v2.47h-1.26c-1.24 0-1.63.77-1.63 1.56v1.88h2.78l-.45 2.9h-2.33v7a10 10 0 008.44-9.9c0-5.53-4.5-10.02-10-10.02z"/>
+                        </svg>
+                        Meta Ads Library
+                      </span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <span className="text-xs text-gray-500">Track Duration:</span>
+                      <div className="flex items-center bg-white rounded-lg border border-gray-200 p-0.5">
+                        {(['7', '14', '30'] as const).map((duration) => (
+                          <button
+                            key={duration}
+                            onClick={() => setTrackingDuration(duration)}
+                            className={cn(
+                              'px-3 py-1 text-xs font-medium rounded-md transition-colors whitespace-nowrap',
+                              trackingDuration === duration
+                                ? 'bg-blue-600 text-white'
+                                : 'text-gray-600 hover:bg-gray-100'
+                            )}
+                          >
+                            {duration} Days
+                          </button>
+                        ))}
+                      </div>
+                    </div>
                   </div>
 
                   {/* Search Input with Dropdown */}
