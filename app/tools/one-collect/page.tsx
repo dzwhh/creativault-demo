@@ -10,7 +10,7 @@ import { Badge } from '@/components/ui/badge';
 import { InstagramIcon, YoutubeIcon } from '@/components/icons';
 
 // Menu types
-type MenuType = 'advertiser' | 'mobile-app' | 'influencer' | 'custom-services';
+type MenuType = 'advertiser' | 'products' | 'mobile-app' | 'influencer' | 'custom-services';
 type InfluencerTab = 'operations' | 'results';
 type CustomServicesTab = 'operations' | 'progress';
 type AdvertiserTab = 'operations' | 'results';
@@ -205,9 +205,18 @@ const CustomServicesIcon = ({ size = 18, className = '' }: { size?: number; clas
   </svg>
 );
 
+const ProductsIcon = ({ size = 18, className = '' }: { size?: number; className?: string }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className={className}>
+    <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/>
+    <line x1="3" y1="6" x2="21" y2="6"/>
+    <path d="M16 10a4 4 0 0 1-8 0"/>
+  </svg>
+);
+
 // Menu items
 const menuItems = [
   { id: 'advertiser' as MenuType, label: 'Advertiser', icon: AdvertiserIcon, comingSoon: false },
+  { id: 'products' as MenuType, label: 'Products', icon: ProductsIcon, comingSoon: true },
   { id: 'mobile-app' as MenuType, label: 'Mobile App', icon: MobileAppIcon, comingSoon: true },
   { id: 'influencer' as MenuType, label: 'Influencer', icon: InfluencerIcon, comingSoon: false },
   { id: 'custom-services' as MenuType, label: 'Custom Services', icon: CustomServicesIcon, comingSoon: false },
@@ -632,6 +641,7 @@ export default function OneCollectPage() {
   const [advertiserSearchInput, setAdvertiserSearchInput] = useState('');
   const [advertiserSearchFocused, setAdvertiserSearchFocused] = useState(false);
   const [selectedAdvertisersForTracking, setSelectedAdvertisersForTracking] = useState<typeof metaAdsLibraryAdvertisers>([]);
+  const [customAdvertiserKeywords, setCustomAdvertiserKeywords] = useState<string[]>([]);
   
   // Advertiser URL input state
   const [advertiserUrlInput, setAdvertiserUrlInput] = useState('');
@@ -671,17 +681,33 @@ export default function OneCollectPage() {
     setSelectedAdvertisersForTracking(prev => prev.filter(s => s.id !== advertiserId));
   };
 
+  // Add custom keyword
+  const addCustomAdvertiserKeyword = () => {
+    const keyword = advertiserSearchInput.trim();
+    if (keyword && !customAdvertiserKeywords.includes(keyword)) {
+      setCustomAdvertiserKeywords(prev => [...prev, keyword]);
+      setAdvertiserSearchInput('');
+    }
+  };
+
+  // Remove custom keyword
+  const removeCustomAdvertiserKeyword = (keyword: string) => {
+    setCustomAdvertiserKeywords(prev => prev.filter(k => k !== keyword));
+  };
+
   // Submit selected advertisers for tracking
   const handleSubmitSelectedAdvertisers = async () => {
-    if (selectedAdvertisersForTracking.length === 0) {
-      alert('Please select at least one advertiser');
+    if (selectedAdvertisersForTracking.length === 0 && customAdvertiserKeywords.length === 0) {
+      alert('Please select advertisers or add keywords');
       return;
     }
     setIsSubmittingManual(true);
     try {
       const names = selectedAdvertisersForTracking.map(a => a.name);
-      addAdvertiserJob('manual', `Track: ${names.slice(0, 3).join(', ')}${names.length > 3 ? '...' : ''}`, 'meta');
+      const allItems = [...names, ...customAdvertiserKeywords];
+      addAdvertiserJob('manual', `Track: ${allItems.slice(0, 3).join(', ')}${allItems.length > 3 ? '...' : ''}`, 'meta');
       setSelectedAdvertisersForTracking([]);
+      setCustomAdvertiserKeywords([]);
       setAdvertiserSearchInput('');
     } finally {
       setIsSubmittingManual(false);
@@ -1264,19 +1290,35 @@ export default function OneCollectPage() {
 
                   {/* Search Input with Dropdown */}
                   <div className="relative">
-                    <div className="relative">
-                      <svg className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                      </svg>
-                      <Input
-                        type="text"
-                        placeholder="Search advertisers by name or domain..."
-                        value={advertiserSearchInput}
-                        onChange={(e) => setAdvertiserSearchInput(e.target.value)}
-                        onFocus={() => setAdvertiserSearchFocused(true)}
-                        onBlur={() => setTimeout(() => setAdvertiserSearchFocused(false), 200)}
-                        className="pl-10 pr-4 py-3 text-base"
-                      />
+                    <div className="flex gap-2">
+                      <div className="relative flex-1">
+                        <svg className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                        </svg>
+                        <Input
+                          type="text"
+                          placeholder="Search advertisers or enter keywords..."
+                          value={advertiserSearchInput}
+                          onChange={(e) => setAdvertiserSearchInput(e.target.value)}
+                          onFocus={() => setAdvertiserSearchFocused(true)}
+                          onBlur={() => setTimeout(() => setAdvertiserSearchFocused(false), 200)}
+                          onKeyDown={(e) => {
+                            if (e.key === 'Enter' && advertiserSearchInput.trim()) {
+                              e.preventDefault();
+                              addCustomAdvertiserKeyword();
+                            }
+                          }}
+                          className="pl-10 pr-4 py-3 text-base"
+                        />
+                      </div>
+                      <Button
+                        onClick={addCustomAdvertiserKeyword}
+                        variant="outline"
+                        disabled={!advertiserSearchInput.trim()}
+                        className="px-4 whitespace-nowrap"
+                      >
+                        Add
+                      </Button>
                     </div>
 
                     {/* Dropdown Suggestions */}
@@ -1314,19 +1356,25 @@ export default function OneCollectPage() {
                     )}
                   </div>
 
-                  {/* Selected Advertisers */}
-                  {selectedAdvertisersForTracking.length > 0 && (
+                  {/* Selected Advertisers & Custom Keywords */}
+                  {(selectedAdvertisersForTracking.length > 0 || customAdvertiserKeywords.length > 0) && (
                     <div className="space-y-3">
                       <div className="flex items-center justify-between">
-                        <h4 className="text-sm font-medium text-gray-900">Selected Advertisers ({selectedAdvertisersForTracking.length})</h4>
+                        <h4 className="text-sm font-medium text-gray-900">
+                          Selected Items ({selectedAdvertisersForTracking.length + customAdvertiserKeywords.length})
+                        </h4>
                         <button 
-                          onClick={() => setSelectedAdvertisersForTracking([])}
+                          onClick={() => {
+                            setSelectedAdvertisersForTracking([]);
+                            setCustomAdvertiserKeywords([]);
+                          }}
                           className="text-xs text-gray-500 hover:text-red-600"
                         >
                           Clear all
                         </button>
                       </div>
                       <div className="flex flex-wrap gap-2">
+                        {/* Selected Advertisers */}
                         {selectedAdvertisersForTracking.map((advertiser) => (
                           <div 
                             key={advertiser.id} 
@@ -1348,6 +1396,26 @@ export default function OneCollectPage() {
                             </button>
                           </div>
                         ))}
+                        {/* Custom Keywords */}
+                        {customAdvertiserKeywords.map((keyword) => (
+                          <div 
+                            key={keyword} 
+                            className="flex items-center gap-2 px-3 py-2 bg-purple-50 rounded-lg border border-purple-200 shadow-sm"
+                          >
+                            <svg className="w-4 h-4 text-purple-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 20l4-16m2 16l4-16M6 9h14M4 15h14" />
+                            </svg>
+                            <span className="text-sm font-medium text-purple-700">{keyword}</span>
+                            <button 
+                              onClick={() => removeCustomAdvertiserKeyword(keyword)}
+                              className="ml-1 text-purple-400 hover:text-red-600"
+                            >
+                              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                              </svg>
+                            </button>
+                          </div>
+                        ))}
                       </div>
                     </div>
                   )}
@@ -1355,13 +1423,13 @@ export default function OneCollectPage() {
                   {/* Submit Button */}
                   <Button
                     onClick={handleSubmitSelectedAdvertisers}
-                    disabled={isSubmittingManual || selectedAdvertisersForTracking.length === 0}
+                    disabled={isSubmittingManual || (selectedAdvertisersForTracking.length === 0 && customAdvertiserKeywords.length === 0)}
                     className="w-full bg-blue-600 hover:bg-blue-700 text-white mt-4"
                   >
-                    {isSubmittingManual ? 'Submitting...' : `Start Tracking${selectedAdvertisersForTracking.length > 0 ? ` (${selectedAdvertisersForTracking.length} advertiser${selectedAdvertisersForTracking.length > 1 ? 's' : ''})` : ''}`}
+                    {isSubmittingManual ? 'Submitting...' : `Start Tracking${(selectedAdvertisersForTracking.length + customAdvertiserKeywords.length) > 0 ? ` (${selectedAdvertisersForTracking.length + customAdvertiserKeywords.length} item${(selectedAdvertisersForTracking.length + customAdvertiserKeywords.length) > 1 ? 's' : ''})` : ''}`}
                   </Button>
 
-                  <p className="text-xs text-gray-500 text-center">Search and select advertisers from Meta Ads Library to monitor their advertising activities.</p>
+                  <p className="text-xs text-gray-500 text-center">Search advertisers from Meta Ads Library or enter custom keywords to track.</p>
                   </div>
                 </div>
               </div>
