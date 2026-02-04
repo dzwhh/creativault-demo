@@ -641,8 +641,8 @@ export default function OneCollectPage() {
   const [advertiserSearchInput, setAdvertiserSearchInput] = useState('');
   const [advertiserSearchFocused, setAdvertiserSearchFocused] = useState(false);
   const [selectedAdvertisersForTracking, setSelectedAdvertisersForTracking] = useState<typeof metaAdsLibraryAdvertisers>([]);
-  const [customAdvertiserKeywords, setCustomAdvertiserKeywords] = useState<string[]>([]);
   const [trackingDuration, setTrackingDuration] = useState<'7' | '14' | '30'>('7');
+  const [trackingCountry, setTrackingCountry] = useState<string>('ALL');
   
   // Advertiser URL input state
   const [advertiserUrlInput, setAdvertiserUrlInput] = useState('');
@@ -682,33 +682,17 @@ export default function OneCollectPage() {
     setSelectedAdvertisersForTracking(prev => prev.filter(s => s.id !== advertiserId));
   };
 
-  // Add custom keyword
-  const addCustomAdvertiserKeyword = () => {
-    const keyword = advertiserSearchInput.trim();
-    if (keyword && !customAdvertiserKeywords.includes(keyword)) {
-      setCustomAdvertiserKeywords(prev => [...prev, keyword]);
-      setAdvertiserSearchInput('');
-    }
-  };
-
-  // Remove custom keyword
-  const removeCustomAdvertiserKeyword = (keyword: string) => {
-    setCustomAdvertiserKeywords(prev => prev.filter(k => k !== keyword));
-  };
-
   // Submit selected advertisers for tracking
   const handleSubmitSelectedAdvertisers = async () => {
-    if (selectedAdvertisersForTracking.length === 0 && customAdvertiserKeywords.length === 0) {
-      alert('Please select advertisers or add keywords');
+    if (selectedAdvertisersForTracking.length === 0) {
+      alert('Please select at least one advertiser');
       return;
     }
     setIsSubmittingManual(true);
     try {
       const names = selectedAdvertisersForTracking.map(a => a.name);
-      const allItems = [...names, ...customAdvertiserKeywords];
-      addAdvertiserJob('manual', `Track: ${allItems.slice(0, 3).join(', ')}${allItems.length > 3 ? '...' : ''}`, 'meta');
+      addAdvertiserJob('manual', `Track: ${names.slice(0, 3).join(', ')}${names.length > 3 ? '...' : ''}`, 'meta');
       setSelectedAdvertisersForTracking([]);
-      setCustomAdvertiserKeywords([]);
       setAdvertiserSearchInput('');
     } finally {
       setIsSubmittingManual(false);
@@ -1264,7 +1248,7 @@ export default function OneCollectPage() {
             {/* Tab Content */}
             {advertiserTab === 'operations' ? (
               <div className="flex justify-center">
-                <div className="w-full max-w-2xl space-y-6">
+                <div className="w-full max-w-4xl space-y-6">
                   {/* Header */}
                   <div className="text-center">
                     <div className="w-16 h-16 rounded-full bg-blue-100 flex items-center justify-center mx-auto mb-4">
@@ -1273,12 +1257,12 @@ export default function OneCollectPage() {
                       </svg>
                     </div>
                     <h3 className="text-lg font-semibold text-gray-900 mb-2">Search & Track Advertisers</h3>
-                    <p className="text-sm text-gray-500">Search from Meta Ads Library or enter keywords directly to track advertisers</p>
+                    <p className="text-sm text-gray-500">Search advertisers from Meta Ads Library to track their advertising activities</p>
                   </div>
 
                   {/* Search and Select Area */}
                   <div className="bg-gray-50 rounded-lg p-6 space-y-4">
-                  {/* Meta Platform Badge */}
+                  {/* Meta Platform Badge and Filters */}
                   <div className="flex items-center justify-between mb-2">
                     <div className="flex items-center gap-2">
                       <span className="text-xs text-gray-500">Data Source:</span>
@@ -1289,63 +1273,69 @@ export default function OneCollectPage() {
                         Meta Ads Library
                       </span>
                     </div>
-                    <div className="flex items-center gap-2">
-                      <span className="text-xs text-gray-500">Track Duration:</span>
-                      <div className="flex items-center bg-white rounded-lg border border-gray-200 p-0.5">
-                        {(['7', '14', '30'] as const).map((duration) => (
-                          <button
-                            key={duration}
-                            onClick={() => setTrackingDuration(duration)}
-                            className={cn(
-                              'px-3 py-1 text-xs font-medium rounded-md transition-colors whitespace-nowrap',
-                              trackingDuration === duration
-                                ? 'bg-blue-600 text-white'
-                                : 'text-gray-600 hover:bg-gray-100'
-                            )}
-                          >
-                            {duration} Days
-                          </button>
-                        ))}
+                    <div className="flex items-center gap-4">
+                      {/* Country Filter */}
+                      <div className="flex items-center gap-2">
+                        <span className="text-xs text-gray-500">Country:</span>
+                        <select
+                          value={trackingCountry}
+                          onChange={(e) => setTrackingCountry(e.target.value)}
+                          className="px-3 py-1 text-xs font-medium bg-white border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        >
+                          <option value="ALL">ALL</option>
+                          <option value="US">United States</option>
+                          <option value="UK">United Kingdom</option>
+                          <option value="DE">Germany</option>
+                          <option value="FR">France</option>
+                          <option value="JP">Japan</option>
+                          <option value="AU">Australia</option>
+                          <option value="CA">Canada</option>
+                          <option value="CN">China</option>
+                        </select>
+                      </div>
+                      {/* Duration Filter */}
+                      <div className="flex items-center gap-2">
+                        <span className="text-xs text-gray-500">Duration:</span>
+                        <div className="flex items-center bg-white rounded-lg border border-gray-200 p-0.5">
+                          {(['7', '14', '30'] as const).map((duration) => (
+                            <button
+                              key={duration}
+                              onClick={() => setTrackingDuration(duration)}
+                              className={cn(
+                                'px-3 py-1 text-xs font-medium rounded-md transition-colors whitespace-nowrap',
+                                trackingDuration === duration
+                                  ? 'bg-blue-600 text-white'
+                                  : 'text-gray-600 hover:bg-gray-100'
+                              )}
+                            >
+                              {duration} Days
+                            </button>
+                          ))}
+                        </div>
                       </div>
                     </div>
                   </div>
 
                   {/* Search Input with Dropdown */}
                   <div className="relative">
-                    <div className="flex gap-2">
-                      <div className="relative flex-1">
-                        <svg className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                        </svg>
-                        <Input
-                          type="text"
-                          placeholder="Search advertisers or enter keywords..."
-                          value={advertiserSearchInput}
-                          onChange={(e) => setAdvertiserSearchInput(e.target.value)}
-                          onFocus={() => setAdvertiserSearchFocused(true)}
-                          onBlur={() => setTimeout(() => setAdvertiserSearchFocused(false), 200)}
-                          onKeyDown={(e) => {
-                            if (e.key === 'Enter' && advertiserSearchInput.trim()) {
-                              e.preventDefault();
-                              addCustomAdvertiserKeyword();
-                            }
-                          }}
-                          className="pl-10 pr-4 py-3 text-base"
-                        />
-                      </div>
-                      <Button
-                        onClick={addCustomAdvertiserKeyword}
-                        variant="outline"
-                        disabled={!advertiserSearchInput.trim()}
-                        className="px-4 whitespace-nowrap"
-                      >
-                        Add
-                      </Button>
+                    <div className="relative">
+                      <svg className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                      </svg>
+                      <Input
+                        type="text"
+                        placeholder="Search advertisers by name..."
+                        value={advertiserSearchInput}
+                        onChange={(e) => setAdvertiserSearchInput(e.target.value)}
+                        onFocus={() => setAdvertiserSearchFocused(true)}
+                        onBlur={() => setTimeout(() => setAdvertiserSearchFocused(false), 200)}
+                        className="pl-10 pr-4 py-3 text-base"
+                      />
                     </div>
 
                     {/* Dropdown Suggestions */}
                     {advertiserSearchFocused && advertiserSearchInput.length > 0 && filteredAdvertisers.length > 0 && (
-                      <div className="absolute z-10 w-full mt-1 bg-white rounded-lg border border-gray-200 shadow-lg max-h-64 overflow-auto">
+                      <div className="absolute z-10 w-full mt-1 bg-white rounded-lg border border-gray-200 shadow-lg max-h-80 overflow-auto">
                         {filteredAdvertisers.map((advertiser) => (
                           <button
                             key={advertiser.id}
@@ -1353,18 +1343,32 @@ export default function OneCollectPage() {
                               toggleAdvertiserSelection(advertiser);
                               setAdvertiserSearchInput('');
                             }}
-                            className="w-full flex items-center gap-3 px-4 py-3 hover:bg-gray-50 transition-colors text-left"
+                            className="w-full flex items-start gap-3 px-4 py-3 hover:bg-gray-50 transition-colors text-left border-b border-gray-100 last:border-b-0"
                           >
                             <img 
                               src={advertiser.avatar} 
                               alt={advertiser.name}
-                              className="w-8 h-8 rounded-lg object-cover"
+                              className="w-10 h-10 rounded-full object-cover flex-shrink-0"
                             />
                             <div className="flex-1 min-w-0">
-                              <p className="text-sm font-medium text-gray-900">{advertiser.name}</p>
-                              <p className="text-xs text-gray-500">{advertiser.domain}</p>
+                              <p className="text-sm font-semibold text-gray-900">{advertiser.name}</p>
+                              <div className="flex items-center gap-1 mt-1 text-xs text-gray-500">
+                                <svg className="w-3.5 h-3.5 text-blue-600" viewBox="0 0 24 24" fill="currentColor">
+                                  <path d="M12 2.04c-5.5 0-10 4.49-10 10.02 0 5 3.66 9.15 8.44 9.9v-7H7.9v-2.9h2.54V9.85c0-2.51 1.49-3.89 3.78-3.89 1.09 0 2.23.19 2.23.19v2.47h-1.26c-1.24 0-1.63.77-1.63 1.56v1.88h2.78l-.45 2.9h-2.33v7a10 10 0 008.44-9.9c0-5.53-4.5-10.02-10-10.02z"/>
+                                </svg>
+                                <span>@{advertiser.domain.replace('.com', '').replace('www.', '')}</span>
+                                <span className="mx-1">·</span>
+                                <span>{(advertiser.totalAds * 100).toLocaleString()} follow this</span>
+                              </div>
+                              <div className="flex items-center gap-1 mt-0.5 text-xs text-gray-500">
+                                <svg className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="currentColor">
+                                  <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+                                </svg>
+                                <span>@{advertiser.domain.replace('.com', '').replace('www.', '')}</span>
+                                <span className="mx-1">·</span>
+                                <span>{(advertiser.totalAds * 350).toLocaleString()} followers</span>
+                              </div>
                             </div>
-                            <span className="text-xs text-gray-400">{advertiser.totalAds.toLocaleString()} ads</span>
                           </button>
                         ))}
                       </div>
@@ -1378,25 +1382,21 @@ export default function OneCollectPage() {
                     )}
                   </div>
 
-                  {/* Selected Advertisers & Custom Keywords */}
-                  {(selectedAdvertisersForTracking.length > 0 || customAdvertiserKeywords.length > 0) && (
+                  {/* Selected Advertisers */}
+                  {selectedAdvertisersForTracking.length > 0 && (
                     <div className="space-y-3">
                       <div className="flex items-center justify-between">
                         <h4 className="text-sm font-medium text-gray-900">
-                          Selected Items ({selectedAdvertisersForTracking.length + customAdvertiserKeywords.length})
+                          Selected Advertisers ({selectedAdvertisersForTracking.length})
                         </h4>
                         <button 
-                          onClick={() => {
-                            setSelectedAdvertisersForTracking([]);
-                            setCustomAdvertiserKeywords([]);
-                          }}
+                          onClick={() => setSelectedAdvertisersForTracking([])}
                           className="text-xs text-gray-500 hover:text-red-600"
                         >
                           Clear all
                         </button>
                       </div>
                       <div className="flex flex-wrap gap-2">
-                        {/* Selected Advertisers */}
                         {selectedAdvertisersForTracking.map((advertiser) => (
                           <div 
                             key={advertiser.id} 
@@ -1418,26 +1418,6 @@ export default function OneCollectPage() {
                             </button>
                           </div>
                         ))}
-                        {/* Custom Keywords */}
-                        {customAdvertiserKeywords.map((keyword) => (
-                          <div 
-                            key={keyword} 
-                            className="flex items-center gap-2 px-3 py-2 bg-purple-50 rounded-lg border border-purple-200 shadow-sm"
-                          >
-                            <svg className="w-4 h-4 text-purple-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 20l4-16m2 16l4-16M6 9h14M4 15h14" />
-                            </svg>
-                            <span className="text-sm font-medium text-purple-700">{keyword}</span>
-                            <button 
-                              onClick={() => removeCustomAdvertiserKeyword(keyword)}
-                              className="ml-1 text-purple-400 hover:text-red-600"
-                            >
-                              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                              </svg>
-                            </button>
-                          </div>
-                        ))}
                       </div>
                     </div>
                   )}
@@ -1445,13 +1425,13 @@ export default function OneCollectPage() {
                   {/* Submit Button */}
                   <Button
                     onClick={handleSubmitSelectedAdvertisers}
-                    disabled={isSubmittingManual || (selectedAdvertisersForTracking.length === 0 && customAdvertiserKeywords.length === 0)}
+                    disabled={isSubmittingManual || selectedAdvertisersForTracking.length === 0}
                     className="w-full bg-blue-600 hover:bg-blue-700 text-white mt-4"
                   >
-                    {isSubmittingManual ? 'Submitting...' : `Start Tracking${(selectedAdvertisersForTracking.length + customAdvertiserKeywords.length) > 0 ? ` (${selectedAdvertisersForTracking.length + customAdvertiserKeywords.length} item${(selectedAdvertisersForTracking.length + customAdvertiserKeywords.length) > 1 ? 's' : ''})` : ''}`}
+                    {isSubmittingManual ? 'Submitting...' : `Start Tracking${selectedAdvertisersForTracking.length > 0 ? ` (${selectedAdvertisersForTracking.length} advertiser${selectedAdvertisersForTracking.length > 1 ? 's' : ''})` : ''}`}
                   </Button>
 
-                  <p className="text-xs text-gray-500 text-center">Search advertisers from Meta Ads Library or enter custom keywords to track.</p>
+                  <p className="text-xs text-gray-500 text-center">Search and select advertisers from Meta Ads Library to track.</p>
                   </div>
                 </div>
               </div>
@@ -2049,20 +2029,12 @@ export default function OneCollectPage() {
                     <div className="mt-3 pt-3 border-t border-gray-100">
                       <div className="flex justify-between gap-4">
                         <div className="flex-1 min-w-0">
-                          <span className="text-xs text-gray-500 block mb-1">Countries</span>
-                          <div className="flex flex-wrap gap-1">
-                            {advertiser.topCountries.slice(0, 3).map(country => (
-                              <span key={country} className="px-1.5 py-0.5 bg-blue-50 text-blue-600 text-xs rounded">{country}</span>
-                            ))}
-                          </div>
+                          <span className="text-xs text-gray-500 block mb-1">Last Ad Published</span>
+                          <p className="text-xs font-medium text-gray-900">{advertiser.lastSeen}</p>
                         </div>
                         <div className="flex-1 min-w-0">
-                          <span className="text-xs text-gray-500 block mb-1">Categories</span>
-                          <div className="flex flex-wrap gap-1">
-                            {advertiser.mainCategories.slice(0, 2).map(cat => (
-                              <span key={cat} className="px-1.5 py-0.5 bg-gray-100 text-gray-600 text-xs rounded">{cat}</span>
-                            ))}
-                          </div>
+                          <span className="text-xs text-gray-500 block mb-1">Ad Platform</span>
+                          <span className="px-1.5 py-0.5 bg-gray-100 text-gray-600 text-xs rounded">{advertiser.platform}</span>
                         </div>
                       </div>
                     </div>
