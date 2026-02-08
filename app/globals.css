@@ -2,6 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
+
 @layer base {
   :root {
     --background: 0 0% 100%;
@@ -30,7 +32,16 @@
     --chart-4: 43 74% 66%;
     --chart-5: 27 87% 67%; 
     --shadow-rgb: 0, 0, 0;
-
+    
+    /* Plugin Blue Theme */
+    --plugin-bg: 210 40% 98%;
+    --plugin-primary: 211 96% 50%;
+    --plugin-primary-light: 211 96% 96%;
+    --plugin-accent: 199 89% 48%;
+    --plugin-success: 142 76% 36%;
+    --plugin-tiktok: 349 100% 60%;
+    --plugin-instagram: 340 75% 54%;
+    --plugin-youtube: 0 100% 50%;
   }
 
   .dark {
@@ -59,6 +70,12 @@
     --chart-4: 280 65% 60%;
     --chart-5: 340 75% 55%;
     --shadow-rgb: 255, 255, 255;
+    
+    /* Plugin Blue Theme Dark */
+    --plugin-bg: 220 25% 10%;
+    --plugin-primary: 211 96% 58%;
+    --plugin-primary-light: 211 40% 20%;
+    --plugin-accent: 199 89% 55%;
   }
 }
 
@@ -104,4 +121,70 @@
 
 ::-webkit-scrollbar-thumb:hover {
   background: hsl(var(--muted-foreground) / 0.5);
+}
+
+/* Plugin specific styles */
+@layer utilities {
+  .plugin-gradient {
+    background: linear-gradient(135deg, hsl(211, 96%, 50%) 0%, hsl(199, 89%, 48%) 100%);
+  }
+  .plugin-gradient-light {
+    background: linear-gradient(180deg, hsl(210, 40%, 98%) 0%, hsl(210, 35%, 95%) 100%);
+  }
+  .plugin-shadow {
+    box-shadow: 0 4px 20px -4px rgba(59, 130, 246, 0.15);
+  }
+  .plugin-shadow-lg {
+    box-shadow: 0 8px 32px -8px rgba(59, 130, 246, 0.18);
+  }
+  .plugin-glow {
+    box-shadow: 0 0 24px rgba(59, 130, 246, 0.25);
+  }
+  .plugin-glass {
+    background: rgba(255, 255, 255, 0.92);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+  }
+}
+
+@layer components {
+  .plugin-card {
+    @apply bg-white rounded-xl border border-slate-200/60 plugin-shadow transition-all duration-200;
+  }
+  .plugin-card:hover {
+    @apply plugin-shadow-lg;
+    transform: translateY(-2px);
+  }
+  .plugin-btn-primary {
+    @apply plugin-gradient text-white font-semibold px-4 py-2 rounded-lg plugin-shadow transition-all duration-200;
+  }
+  .plugin-btn-primary:hover {
+    @apply plugin-glow;
+    transform: translateY(-1px);
+  }
+  .plugin-tag {
+    @apply inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium transition-all duration-200 cursor-pointer;
+    @apply bg-slate-100 text-slate-600 hover:bg-blue-50 hover:text-blue-600;
+  }
+  .plugin-tag.selected {
+    @apply bg-blue-500 text-white;
+  }
+  .pulse-guide {
+    animation: pulse-scale 2s ease-in-out infinite;
+  }
+  @keyframes pulse-scale {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+  }
+  .fade-in-up {
+    animation: fadeInUp 0.4s ease-out forwards;
+  }
+  @keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .stagger-1 { animation-delay: 0.05s; }
+  .stagger-2 { animation-delay: 0.1s; }
+  .stagger-3 { animation-delay: 0.15s; }
+  .stagger-4 { animation-delay: 0.2s; }
 }

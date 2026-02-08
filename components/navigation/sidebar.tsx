@@ -110,6 +110,7 @@ const sections: NavSection[] = [
       { id: 'magic-search', label: 'Magic Search', href: '/big-spy/magic-search', icon: MagicWandIcon },
       { id: 'creative-clips', label: 'Creative Clips', href: '/tools/creativeclips', icon: VideoIcon },
       { id: 'one-collect', label: 'One Collect', href: '/tools/one-collect', icon: CollectIcon },
+      { id: 'plugins', label: 'Plugins', href: '/tools/plugins', icon: BoxesIcon },
       { id: 'ai-toolkit', label: 'AI Toolkit', href: '/tools/ai-toolkit', icon: AIToolkitIcon },
     ],
   },
@@ -138,18 +139,26 @@ export function Sidebar() {
 
   // 初始化可见菜单项
   useEffect(() => {
+    // 获取所有菜单项ID
+    const allIds = new Set<string>();
+    sections.forEach(section => {
+      section.items.forEach(item => {
+        if (item.id) allIds.add(item.id);
+      });
+    });
+
     const saved = localStorage.getItem('visibleMenuItems');
     if (saved) {
-      setVisibleMenuItems(new Set(JSON.parse(saved)));
+      const savedSet = new Set<string>(JSON.parse(saved));
+      // 合并新菜单项到已保存的集合
+      allIds.forEach(id => savedSet.add(id));
+      setVisibleMenuItems(savedSet);
+      // 更新localStorage
+      localStorage.setItem('visibleMenuItems', JSON.stringify(Array.from(savedSet)));
     } else {
       // 默认全部显示
-      const allIds = new Set<string>();
-      sections.forEach(section => {
-        section.items.forEach(item => {
-          if (item.id) allIds.add(item.id);
-        });
-      });
       setVisibleMenuItems(allIds);
+      localStorage.setItem('visibleMenuItems', JSON.stringify(Array.from(allIds)));
     }
   }, []);
 

@@ -42,6 +42,7 @@ interface AdvertiserTrackingJob {
   progress: number;
   advertiserCount?: number;
   advertisers?: AdvertiserData[];
+  autoUpdate?: boolean;
 }
 
 // Advertiser data interface
@@ -610,13 +611,13 @@ export default function OneCollectPage() {
     {
       id: '1',
       type: 'manual',
-      name: 'Track: Nike, Adidas, Puma',
+      name: 'Track: Nike',
       platform: 'meta',
       createdAt: '2024-12-20 10:30',
       status: 'completed',
       progress: 100,
-      advertiserCount: 3,
-      advertisers: mockAdvertiserData.slice(0, 3),
+      advertiserCount: 1,
+      advertisers: mockAdvertiserData.slice(0, 1),
     },
     {
       id: '2',
@@ -682,16 +683,23 @@ export default function OneCollectPage() {
     setSelectedAdvertisersForTracking(prev => prev.filter(s => s.id !== advertiserId));
   };
 
-  // Submit selected advertisers for tracking
+  // Submit selected advertisers for tracking (ONE at a time)
   const handleSubmitSelectedAdvertisers = async () => {
     if (selectedAdvertisersForTracking.length === 0) {
       alert('Please select at least one advertiser');
       return;
     }
+    
+    // Only allow ONE advertiser per task
+    if (selectedAdvertisersForTracking.length > 1) {
+      alert('Please submit one advertiser at a time');
+      return;
+    }
+    
     setIsSubmittingManual(true);
     try {
-      const names = selectedAdvertisersForTracking.map(a => a.name);
-      addAdvertiserJob('manual', `Track: ${names.slice(0, 3).join(', ')}${names.length > 3 ? '...' : ''}`, 'meta');
+      const advertiser = selectedAdvertisersForTracking[0];
+      addAdvertiserJob('manual', advertiser.name, 'meta');
       setSelectedAdvertisersForTracking([]);
       setAdvertiserSearchInput('');
     } finally {
@@ -879,8 +887,8 @@ export default function OneCollectPage() {
                 ...job, 
                 status: 'completed', 
                 progress: 100, 
-                advertiserCount: Math.floor(Math.random() * 10) + 1,
-                advertisers: mockAdvertiserData.slice(0, Math.floor(Math.random() * 5) + 1)
+                advertiserCount: 1,
+                advertisers: mockAdvertiserData.slice(0, 1)
               }
             : job
         ));
@@ -1425,13 +1433,13 @@ export default function OneCollectPage() {
                   {/* Submit Button */}
                   <Button
                     onClick={handleSubmitSelectedAdvertisers}
-                    disabled={isSubmittingManual || selectedAdvertisersForTracking.length === 0}
+                    disabled={isSubmittingManual || selectedAdvertisersForTracking.length === 0 || selectedAdvertisersForTracking.length > 1}
                     className="w-full bg-blue-600 hover:bg-blue-700 text-white mt-4"
                   >
-                    {isSubmittingManual ? 'Submitting...' : `Start Tracking${selectedAdvertisersForTracking.length > 0 ? ` (${selectedAdvertisersForTracking.length} advertiser${selectedAdvertisersForTracking.length > 1 ? 's' : ''})` : ''}`}
+                    {isSubmittingManual ? 'Submitting...' : selectedAdvertisersForTracking.length > 1 ? 'Please submit one advertiser at a time' : `Start Tracking${selectedAdvertisersForTracking.length > 0 ? ` (${selectedAdvertisersForTracking[0].name})` : ''}`}
                   </Button>
 
-                  <p className="text-xs text-gray-500 text-center">Search and select advertisers from Meta Ads Library to track.</p>
+                  <p className="text-xs text-gray-500 text-center">Select ONE advertiser from Meta Ads Library to track.</p>
                   </div>
                 </div>
               </div>
@@ -1458,8 +1466,18 @@ export default function OneCollectPage() {
                       <div className="col-span-4">Task Name</div>
                       <div className="col-span-2">Platform</div>
                       <div className="col-span-2">Status</div>
-                      <div className="col-span-1">Results</div>
-                      <div className="col-span-2 text-right">Actions</div>
+                      <div className="col-span-2">Results</div>
+                      <div className="col-span-1 text-right flex items-center justify-end gap-1">
+                        <span>Actions</span>
+                        <div className="relative group">
+                          <svg className="w-3.5 h-3.5 text-gray-400 cursor-help" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                          </svg>
+                          <div className="absolute right-0 top-full mt-1 w-64 p-2 bg-gray-900 text-white text-xs rounded-lg shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-10">
+                            Enable auto-update to track advertiser data daily with real-time updates
+                          </div>
+                        </div>
+                      </div>
                     </div>
                     
                     {/* Table Body */}
@@ -1509,36 +1527,58 @@ export default function OneCollectPage() {
                           </div>
                         </div>
                         
-                        {/* Results Count */}
-                        <div className="col-span-1">
-                          <p className="text-sm text-gray-600">
-                            {job.advertiserCount ? `${job.advertiserCount} found` : '-'}
-                          </p>
+                        {/* Results - with View Button */}
+                        <div className="col-span-2">
+                          {job.status === 'completed' ? (
+                            <Button
+                              variant="outline"
+                              size="sm"
+                              className="h-8"
+                              onClick={() => setPreviewAdvertiserJob(job)}
+                            >
+                              <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                              </svg>
+                              View Details
+                            </Button>
+                          ) : (
+                            <p className="text-sm text-gray-400">-</p>
+                          )}
                         </div>
                         
-                        {/* Actions */}
-                        <div className="col-span-2 flex items-center justify-end gap-2">
-                          {job.status === 'completed' && (
+                        {/* Actions - Auto Update Toggle Only */}
+                        <div className="col-span-1 flex items-center justify-end gap-2">
+                          {job.status === 'completed' ? (
                             <>
-                              <Button
-                                variant="outline"
-                                size="sm"
-                                className="h-8"
-                                onClick={() => setPreviewAdvertiserJob(job)}
+                              <button
+                                onClick={() => {
+                                  setAdvertiserTrackingJobs(prev => prev.map(j => 
+                                    j.id === job.id ? { ...j, autoUpdate: !j.autoUpdate } : j
+                                  ));
+                                }}
+                                className={cn(
+                                  'relative inline-flex h-5 w-9 items-center rounded-full transition-colors',
+                                  job.autoUpdate ? 'bg-blue-600' : 'bg-gray-300'
+                                )}
                               >
-                                <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                                <span
+                                  className={cn(
+                                    'inline-block h-3.5 w-3.5 transform rounded-full bg-white transition-transform',
+                                    job.autoUpdate ? 'translate-x-5' : 'translate-x-0.5'
+                                  )}
+                                />
+                              </button>
+                              {job.autoUpdate && (
+                                <svg className="w-4 h-4 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
                                 </svg>
-                                View
-                              </Button>
+                              )}
                             </>
-                          )}
-                          {job.status === 'running' && (
+                          ) : job.status === 'running' ? (
                             <span className="text-sm text-blue-600">{job.progress}%</span>
-                          )}
-                          {job.status === 'pending' && (
-                            <span className="text-sm text-gray-400">Waiting...</span>
+                          ) : (
+                            <span className="text-sm text-gray-400">-</span>
                           )}
                         </div>
                       </div>
@@ -1962,7 +2002,7 @@ export default function OneCollectPage() {
           />
           
           {/* Modal Content */}
-          <div className="relative bg-white rounded-xl shadow-2xl w-[90%] max-w-6xl max-h-[85vh] overflow-hidden flex flex-col">
+          <div className="relative bg-white rounded-xl shadow-2xl w-[600px] max-h-[85vh] overflow-hidden flex flex-col">
             {/* Modal Header */}
             <div className="flex items-center justify-between px-6 py-4 border-b border-gray-200">
               <div>
@@ -1981,11 +2021,11 @@ export default function OneCollectPage() {
             
             {/* Modal Body - Advertiser Cards */}
             <div className="flex-1 overflow-auto p-6">
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              <div className="flex justify-center">
                 {(previewAdvertiserJob.advertisers || mockAdvertiserData).map((advertiser) => (
                   <div 
                     key={advertiser.id} 
-                    className="bg-white border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow"
+                    className="bg-white border border-gray-200 rounded-lg p-5 hover:shadow-md transition-shadow w-full"
                   >
                     <div className="flex items-start gap-3 mb-3">
                       <img 
