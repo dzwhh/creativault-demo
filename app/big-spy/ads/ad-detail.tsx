@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { NormalDetail } from '@/components/normal-detail';
 import { FacebookIcon, InstagramIcon, ThreadsIcon } from '@/components/icons/platform-icons';
-import { SaveToBrandModal } from '@/components/save-to-brand-modal';
+import { AdvertiserTrackingModal } from '@/components/advertiser-tracking-modal';
 
 interface AdDetailProps {
   ad: any;
@@ -873,10 +873,11 @@ export function AdDetail({ ad, onClose }: AdDetailProps) {
       </div>
 
       {/* Advertiser Tracking Modal */}
-      <SaveToBrandModal
+      <AdvertiserTrackingModal
         isOpen={isBrandModalOpen}
         onClose={() => setIsBrandModalOpen(false)}
-        onSave={handleSaveToBrand}
+        advertiserName={ad.title || 'Unknown Advertiser'}
+        advertiserDomain={ad.domain}
       />
     </>
   );

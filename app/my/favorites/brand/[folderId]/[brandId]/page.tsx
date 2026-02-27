@@ -96,47 +96,87 @@ export default function BrandDetailPage() {
   const [selectedTimeline, setSelectedTimeline] = useState<number | null>(null);
   
   // Trending Creatives Radar states
-  const [activeRadarTab, setActiveRadarTab] = useState<'fast' | 'scaling' | 'resurrection'>('fast');
+  const [activeRadarTab, setActiveRadarTab] = useState<'emerging' | 'breakout' | 'scaling' | 'one-hit' | 'fading' | 'exhausted'>('emerging');
   const [selectedCreative, setSelectedCreative] = useState<typeof trendingCreatives[0] | null>(null);
   const [showInsightModal, setShowInsightModal] = useState(false);
 
   // Trending Creatives Data with Breakout Confidence Score
   const trendingCreatives = [
-    // Fast Breakout creatives (8 items for 2 rows)
+    // Emerging creatives (3 items)
     {
-      id: 'c1',
-      type: 'fast' as const,
-      thumbnail: 'https://picsum.photos/seed/fast1/400/300',
-      caption: '"You won\'t believe how fast these sold out..."',
-      badge: 'breakout',
-      confidenceScore: 78,
+      id: 'e1',
+      type: 'emerging' as const,
+      thumbnail: 'https://picsum.photos/seed/emerge1/400/300',
+      caption: '"Just discovered this hidden gem..."',
+      badge: 'emerging',
+      confidenceScore: 45,
       signals: {
-        trafficStatus: { passed: true, days: 3 },
-        activeAds: 12,
-        formats: ['9:16', '1:1', '16:9'],
-        survivorRatio: '10:1',
+        trafficStatus: { passed: false, days: 2 },
+        activeAds: 2,
+        formats: ['9:16'],
+        survivorRatio: '2:1',
       },
       timeline: [
         { day: 1, event: 'Launched', status: 'start', detail: 'Initial upload with <100 impressions' },
-        { day: 2, event: 'Breakout', status: 'breakout', detail: '🚀 Passed <100 threshold' },
-        { day: 3, event: 'Format Split', status: 'format', detail: '📐 9:16 vertical variant detected' },
-        { day: 4, event: 'Scaling', status: 'scaling', detail: '💰 5 Ad Sets duplicated' },
-        { day: 5, event: 'Today', status: 'current', detail: 'Active & Growing' },
+        { day: 2, event: 'Growing', status: 'current', detail: 'Spend increasing daily' },
       ],
       variants: [
-        { id: 'v1', thumbnail: 'https://picsum.photos/seed/var1/100/80', format: '9:16', status: 'active' },
-        { id: 'v2', thumbnail: 'https://picsum.photos/seed/var2/100/80', format: '1:1', status: 'active' },
-        { id: 'v3', thumbnail: 'https://picsum.photos/seed/var3/100/80', format: '16:9', status: 'active' },
+        { id: 'v1', thumbnail: 'https://picsum.photos/seed/evar1/100/80', format: '9:16', status: 'active' },
       ],
-      graveyard: { total: 10, failed: 9, reason: 'Did not pass <100 threshold within 7 days' },
+      graveyard: { total: 2, failed: 1, reason: 'Early stage testing' },
     },
     {
-      id: 'c2',
-      type: 'fast' as const,
-      thumbnail: 'https://picsum.photos/seed/fast2/400/300',
-      caption: '"POV: Your morning routine just got upgraded..."',
+      id: 'e2',
+      type: 'emerging' as const,
+      thumbnail: 'https://picsum.photos/seed/emerge2/400/300',
+      caption: '"Day 1 of trying this new trend..."',
+      badge: 'emerging',
+      confidenceScore: 42,
+      signals: {
+        trafficStatus: { passed: false, days: 1 },
+        activeAds: 1,
+        formats: ['9:16'],
+        survivorRatio: '1:0',
+      },
+      timeline: [
+        { day: 1, event: 'Launched', status: 'start', detail: 'Fresh upload' },
+        { day: 2, event: 'Today', status: 'current', detail: 'Monitoring growth' },
+      ],
+      variants: [
+        { id: 'v1', thumbnail: 'https://picsum.photos/seed/evar2/100/80', format: '9:16', status: 'active' },
+      ],
+      graveyard: { total: 1, failed: 0, reason: 'Brand new' },
+    },
+    {
+      id: 'e3',
+      type: 'emerging' as const,
+      thumbnail: 'https://picsum.photos/seed/emerge3/400/300',
+      caption: '"Testing something different today..."',
+      badge: 'emerging',
+      confidenceScore: 48,
+      signals: {
+        trafficStatus: { passed: false, days: 3 },
+        activeAds: 3,
+        formats: ['9:16', '1:1'],
+        survivorRatio: '3:1',
+      },
+      timeline: [
+        { day: 1, event: 'Launched', status: 'start', detail: 'Initial test' },
+        { day: 3, event: 'Today', status: 'current', detail: 'Spend trending up' },
+      ],
+      variants: [
+        { id: 'v1', thumbnail: 'https://picsum.photos/seed/evar3/100/80', format: '9:16', status: 'active' },
+      ],
+      graveyard: { total: 3, failed: 2, reason: 'Testing phase' },
+    },
+    // Breakout creatives (4 items)
+    {
+      id: 'b1',
+      type: 'breakout' as const,
+      thumbnail: 'https://picsum.photos/seed/break1/400/300',
+      caption: '"You won\'t believe how fast these sold out..."',
       badge: 'breakout',
-      confidenceScore: 72,
+      confidenceScore: 78,
       signals: {
         trafficStatus: { passed: true, days: 5 },
         activeAds: 8,
@@ -144,145 +184,64 @@ export default function BrandDetailPage() {
         survivorRatio: '8:1',
       },
       timeline: [
-        { day: 1, event: 'Launched', status: 'start', detail: 'Initial upload' },
-        { day: 4, event: 'Breakout', status: 'breakout', detail: '🚀 Traffic surge detected' },
-        { day: 5, event: 'Today', status: 'current', detail: 'Active' },
+        { day: 1, event: 'Launched', status: 'start', detail: 'Initial upload with <100 impressions' },
+        { day: 3, event: 'Breakout', status: 'breakout', detail: '🚀 Passed <100 threshold' },
+        { day: 5, event: 'Today', status: 'current', detail: 'Spend growth >50%' },
       ],
       variants: [
-        { id: 'v1', thumbnail: 'https://picsum.photos/seed/var3/100/80', format: '9:16', status: 'active' },
-        { id: 'v2', thumbnail: 'https://picsum.photos/seed/var4/100/80', format: '1:1', status: 'active' },
+        { id: 'v1', thumbnail: 'https://picsum.photos/seed/bvar1/100/80', format: '9:16', status: 'active' },
+        { id: 'v2', thumbnail: 'https://picsum.photos/seed/bvar2/100/80', format: '1:1', status: 'active' },
       ],
       graveyard: { total: 8, failed: 7, reason: 'Low engagement in first 48h' },
     },
     {
-      id: 'c3',
-      type: 'fast' as const,
-      thumbnail: 'https://picsum.photos/seed/fast3/400/300',
-      caption: '"I tested this for 30 days and here\'s what happened..."',
+      id: 'b2',
+      type: 'breakout' as const,
+      thumbnail: 'https://picsum.photos/seed/break2/400/300',
+      caption: '"POV: Your morning routine just got upgraded..."',
       badge: 'breakout',
-      confidenceScore: 68,
+      confidenceScore: 72,
       signals: {
-        trafficStatus: { passed: true, days: 4 },
+        trafficStatus: { passed: true, days: 6 },
         activeAds: 6,
-        formats: ['9:16'],
-        survivorRatio: '5:1',
-      },
-      timeline: [
-        { day: 1, event: 'Launched', status: 'start', detail: 'Initial upload' },
-        { day: 4, event: 'Breakout', status: 'breakout', detail: '🚀 Passed threshold' },
-        { day: 5, event: 'Today', status: 'current', detail: 'Active' },
-      ],
-      variants: [{ id: 'v1', thumbnail: 'https://picsum.photos/seed/var5/100/80', format: '9:16', status: 'active' }],
-      graveyard: { total: 5, failed: 4, reason: 'Audience mismatch' },
-    },
-    {
-      id: 'c3b',
-      type: 'fast' as const,
-      thumbnail: 'https://picsum.photos/seed/fast4/400/300',
-      caption: '"This hack changed everything for me..."',
-      badge: 'breakout',
-      confidenceScore: 65,
-      signals: {
-        trafficStatus: { passed: true, days: 4 },
-        activeAds: 5,
         formats: ['9:16', '1:1'],
         survivorRatio: '6:1',
       },
       timeline: [
         { day: 1, event: 'Launched', status: 'start', detail: 'Initial upload' },
-        { day: 4, event: 'Breakout', status: 'breakout', detail: '🚀 Traffic surge' },
-        { day: 5, event: 'Today', status: 'current', detail: 'Active' },
+        { day: 4, event: 'Breakout', status: 'breakout', detail: '🚀 Traffic surge detected' },
+        { day: 6, event: 'Today', status: 'current', detail: '2-3 variants active' },
       ],
-      variants: [{ id: 'v1', thumbnail: 'https://picsum.photos/seed/var6/100/80', format: '9:16', status: 'active' }],
-      graveyard: { total: 6, failed: 5, reason: 'Poor hook performance' },
+      variants: [
+        { id: 'v1', thumbnail: 'https://picsum.photos/seed/bvar3/100/80', format: '9:16', status: 'active' },
+        { id: 'v2', thumbnail: 'https://picsum.photos/seed/bvar4/100/80', format: '1:1', status: 'active' },
+      ],
+      graveyard: { total: 6, failed: 5, reason: 'Audience mismatch' },
     },
     {
-      id: 'c3c',
-      type: 'fast' as const,
-      thumbnail: 'https://picsum.photos/seed/fast5/400/300',
-      caption: '"Wait for it... the ending is crazy..."',
-      badge: 'breakout',
-      confidenceScore: 71,
-      signals: {
-        trafficStatus: { passed: true, days: 4 },
-        activeAds: 9,
-        formats: ['9:16'],
-        survivorRatio: '7:1',
-      },
-      timeline: [
-        { day: 1, event: 'Launched', status: 'start', detail: 'Initial upload' },
-        { day: 4, event: 'Breakout', status: 'breakout', detail: '🚀 Viral potential' },
-        { day: 5, event: 'Today', status: 'current', detail: 'Active' },
-      ],
-      variants: [{ id: 'v1', thumbnail: 'https://picsum.photos/seed/var7/100/80', format: '9:16', status: 'active' }],
-      graveyard: { total: 7, failed: 6, reason: 'Weak CTA' },
-    },
-    {
-      id: 'c3d',
-      type: 'fast' as const,
-      thumbnail: 'https://picsum.photos/seed/fast6/400/300',
-      caption: '"Stop scrolling if you love deals..."',
+      id: 'b3',
+      type: 'breakout' as const,
+      thumbnail: 'https://picsum.photos/seed/break3/400/300',
+      caption: '"This hack changed everything for me..."',
       badge: 'breakout',
       confidenceScore: 69,
       signals: {
-        trafficStatus: { passed: true, days: 3 },
-        activeAds: 7,
-        formats: ['9:16', '1:1'],
-        survivorRatio: '4:1',
-      },
-      timeline: [
-        { day: 1, event: 'Launched', status: 'start', detail: 'Initial upload' },
-        { day: 3, event: 'Breakout', status: 'breakout', detail: '🚀 Strong hook' },
-        { day: 4, event: 'Today', status: 'current', detail: 'Active' },
-      ],
-      variants: [{ id: 'v1', thumbnail: 'https://picsum.photos/seed/var8/100/80', format: '9:16', status: 'active' }],
-      graveyard: { total: 4, failed: 3, reason: 'Audience fatigue' },
-    },
-    {
-      id: 'c3e',
-      type: 'fast' as const,
-      thumbnail: 'https://picsum.photos/seed/fast7/400/300',
-      caption: '"Why didn\'t anyone tell me about this sooner?"',
-      badge: 'breakout',
-      confidenceScore: 74,
-      signals: {
-        trafficStatus: { passed: true, days: 5 },
-        activeAds: 11,
-        formats: ['9:16', '1:1', '16:9'],
-        survivorRatio: '9:1',
-      },
-      timeline: [
-        { day: 1, event: 'Launched', status: 'start', detail: 'Initial upload' },
-        { day: 4, event: 'Breakout', status: 'breakout', detail: '🚀 High engagement' },
-        { day: 5, event: 'Today', status: 'current', detail: 'Active' },
-      ],
-      variants: [{ id: 'v1', thumbnail: 'https://picsum.photos/seed/var9/100/80', format: '9:16', status: 'active' }],
-      graveyard: { total: 9, failed: 8, reason: 'Low retention' },
-    },
-    {
-      id: 'c3f',
-      type: 'fast' as const,
-      thumbnail: 'https://picsum.photos/seed/fast8/400/300',
-      caption: '"The results after just one week..."',
-      badge: 'breakout',
-      confidenceScore: 67,
-      signals: {
-        trafficStatus: { passed: true, days: 5 },
-        activeAds: 4,
+        trafficStatus: { passed: true, days: 4 },
+        activeAds: 5,
         formats: ['9:16'],
-        survivorRatio: '3:1',
+        survivorRatio: '5:1',
       },
       timeline: [
         { day: 1, event: 'Launched', status: 'start', detail: 'Initial upload' },
-        { day: 4, event: 'Breakout', status: 'breakout', detail: '🚀 Late breakout' },
-        { day: 5, event: 'Today', status: 'current', detail: 'Active' },
+        { day: 4, event: 'Breakout', status: 'breakout', detail: '🚀 Traffic surge' },
+        { day: 5, event: 'Today', status: 'current', detail: 'Growing fast' },
       ],
-      variants: [{ id: 'v1', thumbnail: 'https://picsum.photos/seed/var10/100/80', format: '9:16', status: 'active' }],
-      graveyard: { total: 3, failed: 2, reason: 'Slow start' },
+      variants: [{ id: 'v1', thumbnail: 'https://picsum.photos/seed/bvar5/100/80', format: '9:16', status: 'active' }],
+      graveyard: { total: 5, failed: 4, reason: 'Poor hook performance' },
     },
-    // Scaling Now creatives (8 items for 2 rows)
+    // Scaling creatives (3 items)
     {
-      id: 'c4',
+      id: 's1',
       type: 'scaling' as const,
       thumbnail: 'https://picsum.photos/seed/scale1/400/300',
       caption: '"The secret ingredient no one talks about..."',
@@ -296,21 +255,20 @@ export default function BrandDetailPage() {
       },
       timeline: [
         { day: 1, event: 'Launched', status: 'start', detail: 'Initial test' },
-        { day: 3, event: 'Breakout', status: 'breakout', detail: '🚀 Early traction' },
         { day: 7, event: 'Validation', status: 'format', detail: '📐 Multi-format expansion' },
-        { day: 10, event: 'Heavy Scaling', status: 'scaling', detail: '💰 28 Ad Sets active' },
-        { day: 14, event: 'Today', status: 'current', detail: 'Peak Performance' },
+        { day: 14, event: 'Today', status: 'current', detail: 'Peak Performance, 5+ variants' },
       ],
       variants: [
         { id: 'v1', thumbnail: 'https://picsum.photos/seed/svar1/100/80', format: '9:16', status: 'active' },
         { id: 'v2', thumbnail: 'https://picsum.photos/seed/svar2/100/80', format: '1:1', status: 'active' },
         { id: 'v3', thumbnail: 'https://picsum.photos/seed/svar3/100/80', format: '16:9', status: 'active' },
         { id: 'v4', thumbnail: 'https://picsum.photos/seed/svar4/100/80', format: '4:5', status: 'active' },
+        { id: 'v5', thumbnail: 'https://picsum.photos/seed/svar5/100/80', format: '9:16', status: 'active' },
       ],
       graveyard: { total: 15, failed: 14, reason: 'This creative outperformed all competitors' },
     },
     {
-      id: 'c5',
+      id: 's2',
       type: 'scaling' as const,
       thumbnail: 'https://picsum.photos/seed/scale2/400/300',
       caption: '"Buy 1 Get 1 FREE - Limited time only..."',
@@ -324,19 +282,19 @@ export default function BrandDetailPage() {
       },
       timeline: [
         { day: 1, event: 'Launched', status: 'start', detail: 'Initial test' },
-        { day: 4, event: 'Breakout', status: 'breakout', detail: '🚀 Strong CTR' },
-        { day: 8, event: 'Scaling', status: 'scaling', detail: '💰 Budget increase 5x' },
-        { day: 12, event: 'Today', status: 'current', detail: 'Heavy Investment' },
+        { day: 12, event: 'Today', status: 'current', detail: 'Cumulative spend 600+, 5+ variants' },
       ],
       variants: [
-        { id: 'v1', thumbnail: 'https://picsum.photos/seed/svar5/100/80', format: '9:16', status: 'active' },
-        { id: 'v2', thumbnail: 'https://picsum.photos/seed/svar6/100/80', format: '1:1', status: 'active' },
-        { id: 'v3', thumbnail: 'https://picsum.photos/seed/svar7/100/80', format: '16:9', status: 'active' },
+        { id: 'v1', thumbnail: 'https://picsum.photos/seed/svar6/100/80', format: '9:16', status: 'active' },
+        { id: 'v2', thumbnail: 'https://picsum.photos/seed/svar7/100/80', format: '1:1', status: 'active' },
+        { id: 'v3', thumbnail: 'https://picsum.photos/seed/svar8/100/80', format: '16:9', status: 'active' },
+        { id: 'v4', thumbnail: 'https://picsum.photos/seed/svar9/100/80', format: '9:16', status: 'active' },
+        { id: 'v5', thumbnail: 'https://picsum.photos/seed/svar10/100/80', format: '1:1', status: 'active' },
       ],
       graveyard: { total: 12, failed: 11, reason: 'High CPA in comparison ads' },
     },
     {
-      id: 'c5b',
+      id: 's3',
       type: 'scaling' as const,
       thumbnail: 'https://picsum.photos/seed/scale3/400/300',
       caption: '"Everyone\'s asking where I got this..."',
@@ -350,302 +308,149 @@ export default function BrandDetailPage() {
       },
       timeline: [
         { day: 1, event: 'Launched', status: 'start', detail: 'Initial test' },
-        { day: 5, event: 'Breakout', status: 'breakout', detail: '🚀 Viral shares' },
-        { day: 10, event: 'Today', status: 'current', detail: 'Scaling fast' },
+        { day: 10, event: 'Today', status: 'current', detail: 'Stable daily spend, 5+ variants' },
       ],
       variants: [
-        { id: 'v1', thumbnail: 'https://picsum.photos/seed/svar8/100/80', format: '9:16', status: 'active' },
-        { id: 'v2', thumbnail: 'https://picsum.photos/seed/svar9/100/80', format: '1:1', status: 'active' },
+        { id: 'v1', thumbnail: 'https://picsum.photos/seed/svar11/100/80', format: '9:16', status: 'active' },
+        { id: 'v2', thumbnail: 'https://picsum.photos/seed/svar12/100/80', format: '1:1', status: 'active' },
+        { id: 'v3', thumbnail: 'https://picsum.photos/seed/svar13/100/80', format: '9:16', status: 'active' },
+        { id: 'v4', thumbnail: 'https://picsum.photos/seed/svar14/100/80', format: '1:1', status: 'active' },
+        { id: 'v5', thumbnail: 'https://picsum.photos/seed/svar15/100/80', format: '9:16', status: 'active' },
       ],
       graveyard: { total: 10, failed: 9, reason: 'Outperformed competition' },
     },
+    // One-Hit creatives (2 items)
     {
-      id: 'c5c',
-      type: 'scaling' as const,
-      thumbnail: 'https://picsum.photos/seed/scale4/400/300',
-      caption: '"My honest review after 6 months..."',
-      badge: 'scaling',
-      confidenceScore: 90,
+      id: 'oh1',
+      type: 'one-hit' as const,
+      thumbnail: 'https://picsum.photos/seed/onehit1/400/300',
+      caption: '"Went viral for 24 hours then nothing..."',
+      badge: 'one-hit',
+      confidenceScore: 25,
       signals: {
-        trafficStatus: { passed: true, days: 21 },
-        activeAds: 35,
-        formats: ['9:16', '1:1', '16:9', '4:5'],
-        survivorRatio: '20:1',
+        trafficStatus: { passed: false, days: 5 },
+        activeAds: 0,
+        formats: ['9:16'],
+        survivorRatio: '0:1',
       },
       timeline: [
-        { day: 1, event: 'Launched', status: 'start', detail: 'Initial test' },
-        { day: 7, event: 'Breakout', status: 'breakout', detail: '🚀 Strong retention' },
-        { day: 21, event: 'Today', status: 'current', detail: 'Mega scaling' },
+        { day: 1, event: 'Launched', status: 'start', detail: 'Initial upload' },
+        { day: 2, event: 'Spike', status: 'breakout', detail: '📈 Brief traffic surge' },
+        { day: 5, event: 'Dropped', status: 'paused', detail: '📉 Quickly dropped off' },
       ],
-      variants: [
-        { id: 'v1', thumbnail: 'https://picsum.photos/seed/svar10/100/80', format: '9:16', status: 'active' },
-        { id: 'v2', thumbnail: 'https://picsum.photos/seed/svar11/100/80', format: '1:1', status: 'active' },
-      ],
-      graveyard: { total: 20, failed: 19, reason: 'Exceptional performance' },
+      variants: [{ id: 'v1', thumbnail: 'https://picsum.photos/seed/ohvar1/100/80', format: '9:16', status: 'inactive' }],
+      graveyard: { total: 1, failed: 1, reason: 'No staying power' },
     },
     {
-      id: 'c5d',
-      type: 'scaling' as const,
-      thumbnail: 'https://picsum.photos/seed/scale5/400/300',
-      caption: '"This is what $50 gets you..."',
-      badge: 'scaling',
-      confidenceScore: 82,
+      id: 'oh2',
+      type: 'one-hit' as const,
+      thumbnail: 'https://picsum.photos/seed/onehit2/400/300',
+      caption: '"Flash in the pan performance..."',
+      badge: 'one-hit',
+      confidenceScore: 22,
       signals: {
-        trafficStatus: { passed: true, days: 9 },
-        activeAds: 16,
-        formats: ['9:16', '1:1'],
-        survivorRatio: '8:1',
+        trafficStatus: { passed: false, days: 4 },
+        activeAds: 0,
+        formats: ['9:16'],
+        survivorRatio: '0:1',
       },
       timeline: [
-        { day: 1, event: 'Launched', status: 'start', detail: 'Initial test' },
-        { day: 4, event: 'Breakout', status: 'breakout', detail: '🚀 Value hook worked' },
-        { day: 9, event: 'Today', status: 'current', detail: 'Budget doubled' },
+        { day: 1, event: 'Launched', status: 'start', detail: 'Initial upload' },
+        { day: 3, event: 'Spike', status: 'breakout', detail: '📈 Quick spike' },
+        { day: 4, event: 'Stopped', status: 'paused', detail: '⏹️ Stopped after spike' },
       ],
-      variants: [{ id: 'v1', thumbnail: 'https://picsum.photos/seed/svar12/100/80', format: '9:16', status: 'active' }],
-      graveyard: { total: 8, failed: 7, reason: 'Price point resonated' },
+      variants: [{ id: 'v1', thumbnail: 'https://picsum.photos/seed/ohvar2/100/80', format: '9:16', status: 'inactive' }],
+      graveyard: { total: 1, failed: 1, reason: 'Spiked then dropped' },
     },
+    // Fading creatives (2 items)
     {
-      id: 'c5e',
-      type: 'scaling' as const,
-      thumbnail: 'https://picsum.photos/seed/scale6/400/300',
-      caption: '"Unboxing the viral product..."',
-      badge: 'scaling',
-      confidenceScore: 86,
+      id: 'f1',
+      type: 'fading' as const,
+      thumbnail: 'https://picsum.photos/seed/fading1/400/300',
+      caption: '"Was working well but now declining..."',
+      badge: 'fading',
+      confidenceScore: 35,
       signals: {
-        trafficStatus: { passed: true, days: 11 },
-        activeAds: 20,
-        formats: ['9:16', '1:1', '16:9'],
-        survivorRatio: '11:1',
+        trafficStatus: { passed: true, days: 20 },
+        activeAds: 3,
+        formats: ['9:16'],
+        survivorRatio: '3:5',
       },
       timeline: [
-        { day: 1, event: 'Launched', status: 'start', detail: 'Initial test' },
-        { day: 6, event: 'Breakout', status: 'breakout', detail: '🚀 ASMR appeal' },
-        { day: 11, event: 'Today', status: 'current', detail: 'Heavy investment' },
+        { day: 1, event: 'Launched', status: 'start', detail: 'Initial success' },
+        { day: 10, event: 'Peak', status: 'scaling', detail: '📈 Peak performance' },
+        { day: 18, event: 'Declining', status: 'paused', detail: '📉 3 days consecutive drop' },
+        { day: 20, event: 'Today', status: 'current', detail: 'Still running but fading' },
       ],
-      variants: [{ id: 'v1', thumbnail: 'https://picsum.photos/seed/svar13/100/80', format: '9:16', status: 'active' }],
-      graveyard: { total: 11, failed: 10, reason: 'Unboxing format won' },
+      variants: [{ id: 'v1', thumbnail: 'https://picsum.photos/seed/fvar1/100/80', format: '9:16', status: 'active' }],
+      graveyard: { total: 5, failed: 2, reason: 'Declining engagement' },
     },
     {
-      id: 'c5f',
-      type: 'scaling' as const,
-      thumbnail: 'https://picsum.photos/seed/scale7/400/300',
-      caption: '"Before and after - 30 days..."',
-      badge: 'scaling',
-      confidenceScore: 84,
+      id: 'f2',
+      type: 'fading' as const,
+      thumbnail: 'https://picsum.photos/seed/fading2/400/300',
+      caption: '"Started strong but losing steam..."',
+      badge: 'fading',
+      confidenceScore: 32,
       signals: {
         trafficStatus: { passed: true, days: 15 },
-        activeAds: 25,
+        activeAds: 2,
         formats: ['9:16', '1:1'],
-        survivorRatio: '13:1',
+        survivorRatio: '2:4',
       },
       timeline: [
-        { day: 1, event: 'Launched', status: 'start', detail: 'Initial test' },
-        { day: 8, event: 'Breakout', status: 'breakout', detail: '🚀 Transformation proof' },
-        { day: 15, event: 'Today', status: 'current', detail: 'Scaling aggressively' },
+        { day: 1, event: 'Launched', status: 'start', detail: 'Good start' },
+        { day: 8, event: 'Peak', status: 'scaling', detail: '📈 Strong performance' },
+        { day: 13, event: 'Declining', status: 'paused', detail: '📉 Spend dropping 3 days' },
+        { day: 15, event: 'Today', status: 'current', detail: 'Not yet stopped' },
       ],
-      variants: [{ id: 'v1', thumbnail: 'https://picsum.photos/seed/svar14/100/80', format: '9:16', status: 'active' }],
-      graveyard: { total: 13, failed: 12, reason: 'Social proof worked' },
+      variants: [{ id: 'v1', thumbnail: 'https://picsum.photos/seed/fvar2/100/80', format: '9:16', status: 'active' }],
+      graveyard: { total: 4, failed: 2, reason: 'Audience fatigue' },
     },
+    // Exhausted creatives (2 items)
     {
-      id: 'c5g',
-      type: 'scaling' as const,
-      thumbnail: 'https://picsum.photos/seed/scale8/400/300',
-      caption: '"My kitchen transformation..."',
-      badge: 'scaling',
-      confidenceScore: 81,
-      signals: {
-        trafficStatus: { passed: true, days: 8 },
-        activeAds: 14,
-        formats: ['9:16'],
-        survivorRatio: '7:1',
-      },
-      timeline: [
-        { day: 1, event: 'Launched', status: 'start', detail: 'Initial test' },
-        { day: 3, event: 'Breakout', status: 'breakout', detail: '🚀 Relatable content' },
-        { day: 8, event: 'Today', status: 'current', detail: 'Budget tripled' },
-      ],
-      variants: [{ id: 'v1', thumbnail: 'https://picsum.photos/seed/svar15/100/80', format: '9:16', status: 'active' }],
-      graveyard: { total: 7, failed: 6, reason: 'Niche resonance' },
-    },
-    // Resurrection creatives (8 items for 2 rows)
-    {
-      id: 'c6',
-      type: 'resurrection' as const,
-      thumbnail: 'https://picsum.photos/seed/revive1/400/300',
-      caption: '"This classic trend is BACK and better than ever..."',
-      badge: 'revived',
-      confidenceScore: 75,
+      id: 'ex1',
+      type: 'exhausted' as const,
+      thumbnail: 'https://picsum.photos/seed/exhaust1/400/300',
+      caption: '"This one is completely dead now..."',
+      badge: 'exhausted',
+      confidenceScore: 10,
       signals: {
         trafficStatus: { passed: true, days: 45 },
-        activeAds: 15,
-        formats: ['9:16', '1:1'],
-        survivorRatio: '1:1',
+        activeAds: 0,
+        formats: ['9:16'],
+        survivorRatio: '0:8',
       },
       timeline: [
-        { day: 1, event: 'First Run', status: 'start', detail: 'Original campaign 6 months ago' },
-        { day: 30, event: 'Paused', status: 'paused', detail: '⏸️ Campaign stopped' },
-        { day: 40, event: 'Revived', status: 'revived', detail: '♻️ Re-launched with new targeting' },
-        { day: 45, event: 'Today', status: 'current', detail: 'Second life performing well' },
+        { day: 1, event: 'Launched', status: 'start', detail: 'Initial run' },
+        { day: 20, event: 'Peak', status: 'scaling', detail: '📈 Good performance' },
+        { day: 40, event: 'Stopped', status: 'paused', detail: '⏹️ All ads stopped' },
+        { day: 45, event: 'Today', status: 'current', detail: 'Lifecycle ended' },
       ],
-      variants: [
-        { id: 'v1', thumbnail: 'https://picsum.photos/seed/rvar1/100/80', format: '9:16', status: 'active' },
-        { id: 'v2', thumbnail: 'https://picsum.photos/seed/rvar2/100/80', format: '1:1', status: 'active' },
-      ],
-      graveyard: { total: 1, failed: 0, reason: 'Evergreen content with long lifespan' },
+      variants: [{ id: 'v1', thumbnail: 'https://picsum.photos/seed/exvar1/100/80', format: '9:16', status: 'inactive' }],
+      graveyard: { total: 8, failed: 8, reason: 'Completely exhausted' },
     },
     {
-      id: 'c7',
-      type: 'resurrection' as const,
-      thumbnail: 'https://picsum.photos/seed/revive2/400/300',
-      caption: '"Remember this viral moment? It\'s working again..."',
-      badge: 'revived',
-      confidenceScore: 70,
+      id: 'ex2',
+      type: 'exhausted' as const,
+      thumbnail: 'https://picsum.photos/seed/exhaust2/400/300',
+      caption: '"Ran its full course and done..."',
+      badge: 'exhausted',
+      confidenceScore: 8,
       signals: {
         trafficStatus: { passed: true, days: 60 },
-        activeAds: 10,
-        formats: ['9:16'],
-        survivorRatio: '1:1',
-      },
-      timeline: [
-        { day: 1, event: 'First Run', status: 'start', detail: 'Original viral campaign' },
-        { day: 45, event: 'Paused', status: 'paused', detail: '⏸️ Seasonal end' },
-        { day: 55, event: 'Revived', status: 'revived', detail: '♻️ Seasonal return' },
-        { day: 60, event: 'Today', status: 'current', detail: 'Proven longevity' },
-      ],
-      variants: [{ id: 'v1', thumbnail: 'https://picsum.photos/seed/rvar3/100/80', format: '9:16', status: 'active' }],
-      graveyard: { total: 1, failed: 0, reason: 'Seasonal content with recurring value' },
-    },
-    {
-      id: 'c7b',
-      type: 'resurrection' as const,
-      thumbnail: 'https://picsum.photos/seed/revive3/400/300',
-      caption: '"They said this trend was dead..."',
-      badge: 'revived',
-      confidenceScore: 72,
-      signals: {
-        trafficStatus: { passed: true, days: 90 },
-        activeAds: 12,
+        activeAds: 0,
         formats: ['9:16', '1:1'],
-        survivorRatio: '1:1',
+        survivorRatio: '0:6',
       },
       timeline: [
-        { day: 1, event: 'First Run', status: 'start', detail: 'Original campaign 1 year ago' },
-        { day: 60, event: 'Paused', status: 'paused', detail: '⏸️ Trend faded' },
-        { day: 85, event: 'Revived', status: 'revived', detail: '♻️ Trend comeback' },
-        { day: 90, event: 'Today', status: 'current', detail: 'Thriving again' },
+        { day: 1, event: 'Launched', status: 'start', detail: 'Campaign start' },
+        { day: 30, event: 'Peak', status: 'scaling', detail: '📈 Best performance' },
+        { day: 55, event: 'Near Zero', status: 'paused', detail: '📉 Spend near zero' },
+        { day: 60, event: 'Today', status: 'current', detail: 'Lifecycle ended' },
       ],
-      variants: [{ id: 'v1', thumbnail: 'https://picsum.photos/seed/rvar4/100/80', format: '9:16', status: 'active' }],
-      graveyard: { total: 1, failed: 0, reason: 'Trend cycles' },
-    },
-    {
-      id: 'c7c',
-      type: 'resurrection' as const,
-      thumbnail: 'https://picsum.photos/seed/revive4/400/300',
-      caption: '"Bringing back the OG..."',
-      badge: 'revived',
-      confidenceScore: 68,
-      signals: {
-        trafficStatus: { passed: true, days: 120 },
-        activeAds: 8,
-        formats: ['9:16'],
-        survivorRatio: '1:1',
-      },
-      timeline: [
-        { day: 1, event: 'First Run', status: 'start', detail: 'Original 2 years ago' },
-        { day: 90, event: 'Paused', status: 'paused', detail: '⏸️ Long hiatus' },
-        { day: 115, event: 'Revived', status: 'revived', detail: '♻️ Nostalgia marketing' },
-        { day: 120, event: 'Today', status: 'current', detail: 'Legacy content works' },
-      ],
-      variants: [{ id: 'v1', thumbnail: 'https://picsum.photos/seed/rvar5/100/80', format: '9:16', status: 'active' }],
-      graveyard: { total: 1, failed: 0, reason: 'Nostalgia appeal' },
-    },
-    {
-      id: 'c7d',
-      type: 'resurrection' as const,
-      thumbnail: 'https://picsum.photos/seed/revive5/400/300',
-      caption: '"Still works in 2024..."',
-      badge: 'revived',
-      confidenceScore: 73,
-      signals: {
-        trafficStatus: { passed: true, days: 75 },
-        activeAds: 14,
-        formats: ['9:16', '1:1'],
-        survivorRatio: '1:1',
-      },
-      timeline: [
-        { day: 1, event: 'First Run', status: 'start', detail: 'Q1 campaign' },
-        { day: 50, event: 'Paused', status: 'paused', detail: '⏸️ Q1 ended' },
-        { day: 70, event: 'Revived', status: 'revived', detail: '♻️ Q3 relaunch' },
-        { day: 75, event: 'Today', status: 'current', detail: 'Consistent performer' },
-      ],
-      variants: [{ id: 'v1', thumbnail: 'https://picsum.photos/seed/rvar6/100/80', format: '9:16', status: 'active' }],
-      graveyard: { total: 1, failed: 0, reason: 'Quarterly evergreen' },
-    },
-    {
-      id: 'c7e',
-      type: 'resurrection' as const,
-      thumbnail: 'https://picsum.photos/seed/revive6/400/300',
-      caption: '"The comeback story..."',
-      badge: 'revived',
-      confidenceScore: 69,
-      signals: {
-        trafficStatus: { passed: true, days: 55 },
-        activeAds: 9,
-        formats: ['9:16'],
-        survivorRatio: '1:1',
-      },
-      timeline: [
-        { day: 1, event: 'First Run', status: 'start', detail: 'Summer campaign' },
-        { day: 35, event: 'Paused', status: 'paused', detail: '⏸️ Season change' },
-        { day: 50, event: 'Revived', status: 'revived', detail: '♻️ New audience' },
-        { day: 55, event: 'Today', status: 'current', detail: 'New life' },
-      ],
-      variants: [{ id: 'v1', thumbnail: 'https://picsum.photos/seed/rvar7/100/80', format: '9:16', status: 'active' }],
-      graveyard: { total: 1, failed: 0, reason: 'Audience refresh' },
-    },
-    {
-      id: 'c7f',
-      type: 'resurrection' as const,
-      thumbnail: 'https://picsum.photos/seed/revive7/400/300',
-      caption: '"Can\'t keep this one down..."',
-      badge: 'revived',
-      confidenceScore: 76,
-      signals: {
-        trafficStatus: { passed: true, days: 80 },
-        activeAds: 18,
-        formats: ['9:16', '1:1', '16:9'],
-        survivorRatio: '1:1',
-      },
-      timeline: [
-        { day: 1, event: 'First Run', status: 'start', detail: 'Original hit' },
-        { day: 55, event: 'Paused', status: 'paused', detail: '⏸️ Budget pause' },
-        { day: 75, event: 'Revived', status: 'revived', detail: '♻️ Relaunched bigger' },
-        { day: 80, event: 'Today', status: 'current', detail: 'Better than ever' },
-      ],
-      variants: [{ id: 'v1', thumbnail: 'https://picsum.photos/seed/rvar8/100/80', format: '9:16', status: 'active' }],
-      graveyard: { total: 1, failed: 0, reason: 'Proven resilience' },
-    },
-    {
-      id: 'c7g',
-      type: 'resurrection' as const,
-      thumbnail: 'https://picsum.photos/seed/revive8/400/300',
-      caption: '"Oldie but goodie..."',
-      badge: 'revived',
-      confidenceScore: 71,
-      signals: {
-        trafficStatus: { passed: true, days: 100 },
-        activeAds: 11,
-        formats: ['9:16'],
-        survivorRatio: '1:1',
-      },
-      timeline: [
-        { day: 1, event: 'First Run', status: 'start', detail: 'Classic creative' },
-        { day: 70, event: 'Paused', status: 'paused', detail: '⏸️ Retired' },
-        { day: 95, event: 'Revived', status: 'revived', detail: '♻️ Brought back by demand' },
-        { day: 100, event: 'Today', status: 'current', detail: 'Fan favorite' },
-      ],
-      variants: [{ id: 'v1', thumbnail: 'https://picsum.photos/seed/rvar9/100/80', format: '9:16', status: 'active' }],
-      graveyard: { total: 1, failed: 0, reason: 'Audience demand' },
+      variants: [{ id: 'v1', thumbnail: 'https://picsum.photos/seed/exvar2/100/80', format: '9:16', status: 'inactive' }],
+      graveyard: { total: 6, failed: 6, reason: 'Full lifecycle complete' },
     },
   ];
 
@@ -787,44 +592,153 @@ export default function BrandDetailPage() {
                   <span className="text-xs text-gray-500">Updated 2h ago</span>
                 </div>
                 
-                {/* Three Tabs - Breakout Forms */}
-                <div className="flex gap-2 mb-4 border-b border-gray-200 pb-3">
-                  <button
-                    onClick={() => setActiveRadarTab('fast')}
-                    className={cn(
-                      'flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium transition-all',
-                      activeRadarTab === 'fast'
-                        ? 'bg-orange-100 text-orange-700 ring-2 ring-orange-400'
-                        : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
-                    )}
-                  >
-                    <span>🚀</span>
-                    <span>Fast Breakout</span>
-                  </button>
-                  <button
-                    onClick={() => setActiveRadarTab('scaling')}
-                    className={cn(
-                      'flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium transition-all',
-                      activeRadarTab === 'scaling'
-                        ? 'bg-emerald-100 text-emerald-700 ring-2 ring-emerald-400'
-                        : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
-                    )}
-                  >
-                    <span>💎</span>
-                    <span>Scaling Now</span>
-                  </button>
-                  <button
-                    onClick={() => setActiveRadarTab('resurrection')}
-                    className={cn(
-                      'flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium transition-all',
-                      activeRadarTab === 'resurrection'
-                        ? 'bg-purple-100 text-purple-700 ring-2 ring-purple-400'
-                        : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
-                    )}
-                  >
-                    <span>🧟</span>
-                    <span>Resurrection</span>
-                  </button>
+                {/* Three Tabs - Signal / Noise Layout */}
+                <div className="flex gap-8 mb-4 pb-3 border-b border-gray-200">
+                  {/* Signal Column */}
+                  <div>
+                    <span className="text-xs text-gray-400 font-medium mb-2 block">Signal</span>
+                    <div className="flex gap-2">
+                      <button
+                        onClick={() => setActiveRadarTab('emerging')}
+                        className={cn(
+                          'flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium transition-all',
+                          activeRadarTab === 'emerging'
+                            ? 'bg-green-100 text-green-700 ring-2 ring-green-400'
+                            : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                        )}
+                      >
+                        <span>🌱</span>
+                        <span>Emerging</span>
+                        <div className="relative group/tip">
+                          <svg className="w-3.5 h-3.5 text-gray-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                            <circle cx="12" cy="12" r="10"/>
+                            <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/>
+                            <circle cx="12" cy="17" r="0.5" fill="currentColor"/>
+                          </svg>
+                          <div className="absolute left-1/2 -translate-x-1/2 bottom-full mb-2 w-56 p-2 bg-gray-900 text-white text-xs rounded-lg shadow-lg opacity-0 invisible group-hover/tip:opacity-100 group-hover/tip:visible transition-all z-20">
+                            Fresh sprouts worth watching. Less than 3 days old with consecutively increasing spend.
+                          </div>
+                        </div>
+                      </button>
+                      <button
+                        onClick={() => setActiveRadarTab('breakout')}
+                        className={cn(
+                          'flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium transition-all',
+                          activeRadarTab === 'breakout'
+                            ? 'bg-orange-100 text-orange-700 ring-2 ring-orange-400'
+                            : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                        )}
+                      >
+                        <span>🚀</span>
+                        <span>Breakout</span>
+                        <div className="relative group/tip">
+                          <svg className="w-3.5 h-3.5 text-gray-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                            <circle cx="12" cy="12" r="10"/>
+                            <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/>
+                            <circle cx="12" cy="17" r="0.5" fill="currentColor"/>
+                          </svg>
+                          <div className="absolute left-1/2 -translate-x-1/2 bottom-full mb-2 w-64 p-2 bg-gray-900 text-white text-xs rounded-lg shadow-lg opacity-0 invisible group-hover/tip:opacity-100 group-hover/tip:visible transition-all z-20">
+                            Rapidly scaling up - best window to follow. 3-7 days old, just passed &lt;100 threshold, spend growth &gt;50%, 2-3 variants.
+                          </div>
+                        </div>
+                      </button>
+                      <button
+                        onClick={() => setActiveRadarTab('scaling')}
+                        className={cn(
+                          'flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium transition-all',
+                          activeRadarTab === 'scaling'
+                            ? 'bg-emerald-100 text-emerald-700 ring-2 ring-emerald-400'
+                            : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                        )}
+                      >
+                        <span>💎</span>
+                        <span>Scaling</span>
+                        <div className="relative group/tip">
+                          <svg className="w-3.5 h-3.5 text-gray-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                            <circle cx="12" cy="12" r="10"/>
+                            <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/>
+                            <circle cx="12" cy="17" r="0.5" fill="currentColor"/>
+                          </svg>
+                          <div className="absolute left-1/2 -translate-x-1/2 bottom-full mb-2 w-64 p-2 bg-gray-900 text-white text-xs rounded-lg shadow-lg opacity-0 invisible group-hover/tip:opacity-100 group-hover/tip:visible transition-all z-20">
+                            Proven winners with highest certainty. Over 7 days old, cumulative spend 600+, stable or growing daily spend, 5+ variants.
+                          </div>
+                        </div>
+                      </button>
+                    </div>
+                  </div>
+                  
+                  {/* Noise Column */}
+                  <div>
+                    <span className="text-xs text-gray-400 font-medium mb-2 block">Noise</span>
+                    <div className="flex gap-2">
+                      <button
+                        onClick={() => setActiveRadarTab('one-hit')}
+                        className={cn(
+                          'flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium transition-all',
+                          activeRadarTab === 'one-hit'
+                            ? 'bg-yellow-100 text-yellow-700 ring-2 ring-yellow-400'
+                            : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                        )}
+                      >
+                        <span>💥</span>
+                        <span>One-Hit</span>
+                        <div className="relative group/tip">
+                          <svg className="w-3.5 h-3.5 text-gray-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                            <circle cx="12" cy="12" r="10"/>
+                            <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/>
+                            <circle cx="12" cy="17" r="0.5" fill="currentColor"/>
+                          </svg>
+                          <div className="absolute left-1/2 -translate-x-1/2 bottom-full mb-2 w-64 p-2 bg-gray-900 text-white text-xs rounded-lg shadow-lg opacity-0 invisible group-hover/tip:opacity-100 group-hover/tip:visible transition-all z-20">
+                            No staying power. Less than 7 days old, spiked briefly then quickly dropped or stopped.
+                          </div>
+                        </div>
+                      </button>
+                      <button
+                        onClick={() => setActiveRadarTab('fading')}
+                        className={cn(
+                          'flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium transition-all',
+                          activeRadarTab === 'fading'
+                            ? 'bg-orange-100 text-orange-700 ring-2 ring-orange-400'
+                            : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                        )}
+                      >
+                        <span>📉</span>
+                        <span>Fading</span>
+                        <div className="relative group/tip">
+                          <svg className="w-3.5 h-3.5 text-gray-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                            <circle cx="12" cy="12" r="10"/>
+                            <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/>
+                            <circle cx="12" cy="17" r="0.5" fill="currentColor"/>
+                          </svg>
+                          <div className="absolute left-1/2 -translate-x-1/2 bottom-full mb-2 w-64 p-2 bg-gray-900 text-white text-xs rounded-lg shadow-lg opacity-0 invisible group-hover/tip:opacity-100 group-hover/tip:visible transition-all z-20">
+                            Starting to decline. Spend/impressions dropping for 3 consecutive days but not yet stopped.
+                          </div>
+                        </div>
+                      </button>
+                      <button
+                        onClick={() => setActiveRadarTab('exhausted')}
+                        className={cn(
+                          'flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium transition-all',
+                          activeRadarTab === 'exhausted'
+                            ? 'bg-gray-200 text-gray-700 ring-2 ring-gray-400'
+                            : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                        )}
+                      >
+                        <span>💀</span>
+                        <span>Exhausted</span>
+                        <div className="relative group/tip">
+                          <svg className="w-3.5 h-3.5 text-gray-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                            <circle cx="12" cy="12" r="10"/>
+                            <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/>
+                            <circle cx="12" cy="17" r="0.5" fill="currentColor"/>
+                          </svg>
+                          <div className="absolute left-1/2 -translate-x-1/2 bottom-full mb-2 w-64 p-2 bg-gray-900 text-white text-xs rounded-lg shadow-lg opacity-0 invisible group-hover/tip:opacity-100 group-hover/tip:visible transition-all z-20">
+                            Completely dead. Already stopped or spend near zero, lifecycle ended.
+                          </div>
+                        </div>
+                      </button>
+                    </div>
+                  </div>
                 </div>
                 
                 {/* Waterfall Cards - 4 per row, 2 rows */}

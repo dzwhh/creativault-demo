@@ -1,7 +1,7 @@
 'use client';
 
-import { useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { useState, useEffect, Suspense } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { SearchIcon, FilterIcon, FavoritesIcon } from '@/components/icons';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
@@ -85,13 +85,24 @@ const mockFolders: Folder[] = [
   },
 ];
 
-export default function FavoritesPage() {
+// Main content component that uses useSearchParams
+function FavoritesContent() {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const tabParam = searchParams.get('tab');
+  
   const [activeNav, setActiveNav] = useState('ads');
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedFolder, setSelectedFolder] = useState<Folder | null>(null);
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   const [newFolderName, setNewFolderName] = useState('');
+
+  // Set initial tab from URL parameter
+  useEffect(() => {
+    if (tabParam && navItems.find(item => item.id === tabParam)) {
+      setActiveNav(tabParam);
+    }
+  }, [tabParam]);
 
   // Filter folders based on active nav and search query
   const filteredFolders = mockFolders.filter((folder) => {
@@ -324,5 +335,14 @@ export default function FavoritesPage() {
         </>
       )}
     </div>
+  );
+}
+
+// Main page component with Suspense wrapper
+export default function FavoritesPage() {
+  return (
+    <Suspense fallback={null}>
+      <FavoritesContent />
+    </Suspense>
   );
 }

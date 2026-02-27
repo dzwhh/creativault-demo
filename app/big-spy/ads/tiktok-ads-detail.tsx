@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from 'react';
 import { NormalDetail } from '@/components/normal-detail';
-import { SaveToBrandModal } from '@/components/save-to-brand-modal';
+import { AdvertiserTrackingModal } from '@/components/advertiser-tracking-modal';
 
 interface TikTokAd {
   id: string;
@@ -537,10 +537,11 @@ export function TikTokAdsDetail({ ad, onClose }: TikTokAdsDetailProps) {
       </div>
 
       {/* Advertiser Tracking Modal */}
-      <SaveToBrandModal
+      <AdvertiserTrackingModal
         isOpen={isBrandModalOpen}
         onClose={() => setIsBrandModalOpen(false)}
-        onSave={handleSaveToBrand}
+        advertiserName={ad.brandName || 'Unknown Advertiser'}
+        advertiserDomain={ad.landingPage}
       />
     </>
   );

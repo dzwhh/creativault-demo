@@ -130,11 +130,22 @@ const sections: NavSection[] = [
   },
 ];
 
+// 获取所有菜单项ID的函数
+const getAllMenuIds = () => {
+  const allIds = new Set<string>();
+  sections.forEach(section => {
+    section.items.forEach(item => {
+      if (item.id) allIds.add(item.id);
+    });
+  });
+  return allIds;
+};
+
 export function Sidebar() {
   const pathname = usePathname();
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [isAccountMenuOpen, setIsAccountMenuOpen] = useState(false);
-  const [visibleMenuItems, setVisibleMenuItems] = useState<Set<string>>(new Set());
+  const [visibleMenuItems, setVisibleMenuItems] = useState<Set<string>>(() => getAllMenuIds());
   const accountMenuRef = useRef<HTMLDivElement>(null);
 
   // 初始化可见菜单项
