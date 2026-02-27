@@ -1,6 +1,7 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect, Suspense } from 'react';
+import { useSearchParams } from 'next/navigation';
 import { cn } from '@/lib/utils';
 import { EmptyStateCollection } from '@/components/ui/empty-state-collection';
 import { PageHeader } from '@/components/ui/page-header';
@@ -497,7 +498,10 @@ const mockAdvertiserFolders: AdvertiserFolder[] = [
   { id: 'folder4', name: 'Sports Advertisers', itemCount: 6 },
 ];
 
-export default function OneCollectPage() {
+
+// Main component with URL params handling
+function OneCollectPageContent() {
+  const searchParams = useSearchParams();
   const [activeMenu, setActiveMenu] = useState<MenuType>('influencer');
   const [influencerTab, setInfluencerTab] = useState<InfluencerTab>('operations');
   const [jobs, setJobs] = useState<CollectionJob[]>([
@@ -662,6 +666,19 @@ export default function OneCollectPage() {
   const [isCreatingNewFolder, setIsCreatingNewFolder] = useState(false);
   const [newFolderName, setNewFolderName] = useState('');
   const [isSaving, setIsSaving] = useState(false);
+
+  // Handle URL parameters for tab navigation
+  useEffect(() => {
+    const tab = searchParams.get('tab');
+    const subtab = searchParams.get('subtab');
+    
+    if (tab === 'advertiser') {
+      setActiveMenu('advertiser');
+      if (subtab === 'results') {
+        setAdvertiserTab('results');
+      }
+    }
+  }, [searchParams]);
 
   // Filter advertisers based on search input
   const filteredAdvertisers = metaAdsLibraryAdvertisers.filter(adv => 
@@ -1446,6 +1463,42 @@ export default function OneCollectPage() {
             ) : (
               /* Advertiser Job Results */
               <div className="space-y-4">
+                {/* Header with My Favorites, Refresh and Total */}
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-4">
+                    <h3 className="text-sm font-medium text-gray-700">
+                      Total Tasks: <span className="text-gray-900 font-semibold">{advertiserTrackingJobs.length}</span>
+                    </h3>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => window.location.href = '/my/favorites?tab=brand'}
+                      className="h-8"
+                    >
+                      <svg className="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z" />
+                      </svg>
+                      My Favorites
+                    </Button>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => {
+                        // Refresh logic - trigger re-fetch
+                        setAdvertiserTrackingJobs(prev => [...prev]);
+                      }}
+                      className="h-8"
+                    >
+                      <svg className="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                      </svg>
+                      Refresh
+                    </Button>
+                  </div>
+                </div>
+
                 {advertiserTrackingJobs.length === 0 ? (
                   <div className="flex items-center justify-center py-20">
                     <div className="text-center">
@@ -1462,12 +1515,11 @@ export default function OneCollectPage() {
                   <div className="bg-white rounded-lg border border-gray-200 overflow-hidden">
                     {/* Table Header */}
                     <div className="grid grid-cols-12 gap-4 px-6 py-3 bg-gray-50 border-b border-gray-200 text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      <div className="col-span-1">Type</div>
                       <div className="col-span-4">Task Name</div>
                       <div className="col-span-2">Platform</div>
                       <div className="col-span-2">Status</div>
                       <div className="col-span-2">Results</div>
-                      <div className="col-span-1 text-right flex items-center justify-end gap-1">
+                      <div className="col-span-2 text-right flex items-center justify-end gap-1">
                         <span>Actions</span>
                         <div className="relative group">
                           <svg className="w-3.5 h-3.5 text-gray-400 cursor-help" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -1483,17 +1535,17 @@ export default function OneCollectPage() {
                     {/* Table Body */}
                     {advertiserTrackingJobs.map((job) => (
                       <div key={job.id} className="grid grid-cols-12 gap-4 px-6 py-4 border-b border-gray-100 last:border-b-0 items-center hover:bg-gray-50">
-                        {/* Type */}
-                        <div className="col-span-1">
-                          <div className="w-8 h-8 rounded-lg bg-gray-100 flex items-center justify-center text-gray-600">
-                            {getAdvertiserTypeIcon(job.type)}
-                          </div>
-                        </div>
-                        
                         {/* Task Name */}
                         <div className="col-span-4">
-                          <p className="text-sm font-medium text-gray-900 truncate">{job.name}</p>
-                          <p className="text-xs text-gray-500">{job.createdAt}</p>
+                          <div className="flex items-center gap-3">
+                            <div className="w-8 h-8 rounded-lg bg-gray-100 flex items-center justify-center text-gray-600">
+                              {getAdvertiserTypeIcon(job.type)}
+                            </div>
+                            <div>
+                              <p className="text-sm font-medium text-gray-900 truncate">{job.name}</p>
+                              <p className="text-xs text-gray-500">{job.createdAt}</p>
+                            </div>
+                          </div>
                         </div>
                         
                         {/* Platform */}
@@ -1548,7 +1600,7 @@ export default function OneCollectPage() {
                         </div>
                         
                         {/* Actions - Auto Update Toggle Only */}
-                        <div className="col-span-1 flex items-center justify-end gap-2">
+                        <div className="col-span-2 flex items-center justify-end gap-2">
                           {job.status === 'completed' ? (
                             <>
                               <button
@@ -2659,5 +2711,14 @@ export default function OneCollectPage() {
         </div>
       </div>
     </div>
+  );
+}
+
+// Export with Suspense wrapper
+export default function OneCollectPage() {
+  return (
+    <Suspense fallback={null}>
+      <OneCollectPageContent />
+    </Suspense>
   );
 }
