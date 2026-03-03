@@ -127,9 +127,21 @@ interface Email {
 }
 
 // Submission status types
-type SubmissionStatus = 'pending' | 'submitted' | 'approved';
+type SubmissionStatus = 'pending' | 'submitted' | 'completed';
 
-// Creator collaboration progress status
+// Task status - Task 整体状态
+type TaskStatus = 'pending' | 'completed';
+
+// Creator screening status - 运营初筛状态
+type ScreeningStatus = 'pending' | 'pre_screened';
+
+// Client approval status - 客户确认状态
+type ClientApprovalStatus = 'awaiting' | 'approved' | 'rejected';
+
+// Reviewer approval status - Reviewer 审批状态（用于 UI 状态管理）
+type ReviewerApprovalStatus = 'awaiting' | 'approved' | 'rejected';
+
+// Creator collaboration progress status (legacy)
 type CreatorApprovalStatus = 'on_track' | 'at_risk' | 'blocked';
 
 // Creator collaboration step/stage
@@ -160,6 +172,15 @@ interface CollectionTask {
   shareLink?: string;
 }
 
+// Client approval record - 客户确认记录
+interface ClientApproval {
+  clientId: string;
+  clientName: string;
+  status: ClientApprovalStatus;  // awaiting | approved | rejected
+  reviewedAt?: string;
+  reviewedBy?: string;
+}
+
 // Creator interface
 interface Creator {
   id: string;
@@ -171,6 +192,13 @@ interface Creator {
   followers: number;
   gender: 'Male' | 'Female' | 'Other';
   contact: string;
+  // 运营初筛状态
+  screeningStatus: ScreeningStatus;
+  screenedAt?: string;
+  screenedBy?: string;
+  // 多客户确认状态
+  clientApprovals: ClientApproval[];
+  // Legacy fields
   approvalStatus: CreatorApprovalStatus; // 客户审核状态
   avgPlayRate: number; // 近10条视频的均播率
   engagementRate: number; // 粉丝互动率
@@ -226,6 +254,13 @@ const mockSubmissions: Submission[] = [
         followers: 2500000,
         gender: 'Female',
         contact: 'emma.w@example.com',
+        screeningStatus: 'pre_screened',
+        screenedAt: '2024-03-10',
+        screenedBy: 'John Doe',
+        clientApprovals: [
+          { clientId: 'client1', clientName: 'Nike Inc.', status: 'approved', reviewedAt: '2024-03-11' },
+          { clientId: 'client2', clientName: 'Nike Asia', status: 'awaiting' },
+        ],
         approvalStatus: 'on_track',
         avgPlayRate: 75.5,
         engagementRate: 8.2,
@@ -262,6 +297,8 @@ const mockSubmissions: Submission[] = [
         followers: 1800000,
         gender: 'Male',
         contact: 'david.chen@example.com',
+        screeningStatus: 'pending',
+        clientApprovals: [],
         approvalStatus: 'at_risk',
         avgPlayRate: 82.3,
         engagementRate: 6.8,
@@ -308,6 +345,12 @@ const mockSubmissions: Submission[] = [
         followers: 3200000,
         gender: 'Female',
         contact: 'lisa.park@example.com',
+        screeningStatus: 'pre_screened',
+        screenedAt: '2024-03-09',
+        screenedBy: 'Sarah Johnson',
+        clientApprovals: [
+          { clientId: 'client3', clientName: 'Adidas Group', status: 'approved', reviewedAt: '2024-03-10' },
+        ],
         approvalStatus: 'on_track',
         avgPlayRate: 78.9,
         engagementRate: 9.5,
@@ -341,7 +384,7 @@ const mockSubmissions: Submission[] = [
     submissionNumber: 'SUB-2024-003',
     submitter: 'Michael Brown',
     submissionDate: '2024-03-05',
-    status: 'approved',
+    status: 'completed',
     clientNames: ['Puma Corporation', 'Puma Europe'],
     creators: [
       {
@@ -354,6 +397,13 @@ const mockSubmissions: Submission[] = [
         followers: 1500000,
         gender: 'Male',
         contact: 'alex.r@example.com',
+        screeningStatus: 'pre_screened',
+        screenedAt: '2024-03-05',
+        screenedBy: 'Michael Brown',
+        clientApprovals: [
+          { clientId: 'client4', clientName: 'Puma Corporation', status: 'rejected', reviewedAt: '2024-03-06' },
+          { clientId: 'client5', clientName: 'Puma Europe', status: 'awaiting' },
+        ],
         approvalStatus: 'blocked',
         avgPlayRate: 85.2,
         engagementRate: 7.3,
@@ -383,6 +433,34 @@ const mockSubmissions: Submission[] = [
     ],
   },
 ];
+
+// Calculate task progress - 计算 Task 进度（矩阵计算）
+const calculateTaskProgress = (submission: Submission): { status: TaskStatus; progress: number; decided: number; total: number } => {
+  const preScreenedCreators = submission.creators.filter(c => c.screeningStatus === 'pre_screened');
+  const clientCount = submission.clientNames.length;
+  
+  // 总决定点 = Pre-screened达人数 × 客户数
+  const totalDecisionPoints = preScreenedCreators.length * clientCount;
+  
+  if (totalDecisionPoints === 0) {
+    return { status: 'pending', progress: 0, decided: 0, total: 0 };
+  }
+  
+  // 已决定数 = approved + rejected 的数量
+  let decidedCount = 0;
+  for (const creator of preScreenedCreators) {
+    for (const approval of creator.clientApprovals) {
+      if (approval.status === 'approved' || approval.status === 'rejected') {
+        decidedCount++;
+      }
+    }
+  }
+  
+  const progress = Math.round((decidedCount / totalDecisionPoints) * 100);
+  const status: TaskStatus = progress === 100 ? 'completed' : 'pending';
+  
+  return { status, progress, decided: decidedCount, total: totalDecisionPoints };
+};
 
 const formatNumber = (num: number): string => {
   if (num >= 1000000) {
@@ -419,7 +497,7 @@ const getStatusBadge = (status: SubmissionStatus) => {
   const statusConfig = {
     pending: { label: 'Pending', className: 'bg-yellow-100 text-yellow-700' },
     submitted: { label: 'Submitted', className: 'bg-blue-100 text-blue-700' },
-    approved: { label: 'Approved', className: 'bg-green-100 text-green-700' },
+    completed: { label: 'Completed', className: 'bg-green-100 text-green-700' },
   };
 
   const config = statusConfig[status];
@@ -445,6 +523,132 @@ const getCreatorApprovalBadge = (status: CreatorApprovalStatus) => {
   );
 };
 
+// Reviewer Approval Status Badge - 客户审核状态（使用 SVG）
+const getReviewerApprovalBadge = (status: ReviewerApprovalStatus | CreatorApprovalStatus) => {
+  // Handle ReviewerApprovalStatus values
+  if (status === 'approved') {
+    return (
+      <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-medium bg-green-100 text-green-700 border border-green-300">
+        <svg className="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+          <polyline points="20 6 9 17 4 12" />
+        </svg>
+        Approved
+      </span>
+    );
+  }
+  if (status === 'rejected') {
+    return (
+      <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-medium bg-red-100 text-red-700 border border-red-300">
+        <svg className="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+          <line x1="18" y1="6" x2="6" y2="18" />
+          <line x1="6" y1="6" x2="18" y2="18" />
+        </svg>
+        Rejected
+      </span>
+    );
+  }
+  if (status === 'awaiting') {
+    return (
+      <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-medium bg-yellow-100 text-yellow-700 border border-yellow-300">
+        <svg className="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+          <circle cx="12" cy="12" r="10" />
+          <polyline points="12 6 12 12 16 14" />
+        </svg>
+        Awaiting
+      </span>
+    );
+  }
+  // Fallback to CreatorApprovalStatus handling
+  return getCreatorApprovalBadge(status as CreatorApprovalStatus);
+};
+
+// Screening Status Badge - 运营初筛状态（使用 SVG）
+const getScreeningStatusBadge = (status: ScreeningStatus) => {
+  if (status === 'pre_screened') {
+    return (
+      <span className="inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium bg-yellow-100 text-yellow-700">
+        <svg className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="currentColor">
+          <circle cx="12" cy="12" r="6" />
+        </svg>
+        Pre-screened
+      </span>
+    );
+  }
+  return (
+    <span className="inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium bg-gray-100 text-gray-500">
+      <svg className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+        <circle cx="12" cy="12" r="6" />
+      </svg>
+      Pending
+    </span>
+  );
+};
+
+// Client Approvals Summary - 客户确认汇总显示
+const getClientApprovalsSummary = (clientApprovals: ClientApproval[]) => {
+  const approved = clientApprovals.filter(a => a.status === 'approved').length;
+  const rejected = clientApprovals.filter(a => a.status === 'rejected').length;
+  const awaiting = clientApprovals.filter(a => a.status === 'awaiting').length;
+  
+  if (clientApprovals.length === 0) return null;
+  
+  return (
+    <div className="flex items-center gap-2 text-xs">
+      {approved > 0 && (
+        <span className="inline-flex items-center gap-0.5 text-green-600">
+          <svg className="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <polyline points="20 6 9 17 4 12" />
+          </svg>
+          {approved}
+        </span>
+      )}
+      {rejected > 0 && (
+        <span className="inline-flex items-center gap-0.5 text-red-600">
+          <svg className="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <line x1="18" y1="6" x2="6" y2="18" />
+            <line x1="6" y1="6" x2="18" y2="18" />
+          </svg>
+          {rejected}
+        </span>
+      )}
+      {awaiting > 0 && (
+        <span className="inline-flex items-center gap-0.5 text-yellow-600">
+          <svg className="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <circle cx="12" cy="12" r="10" />
+            <polyline points="12 6 12 12 16 14" />
+          </svg>
+          {awaiting}
+        </span>
+      )}
+      <span className="text-gray-400">({clientApprovals.length})</span>
+    </div>
+  );
+};
+
+// Task Status Badge - Task 整体状态（使用 SVG）
+const getTaskStatusBadge = (status: TaskStatus, progress: number) => {
+  if (status === 'completed') {
+    return (
+      <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-green-100 text-green-700">
+        <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+          <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
+          <polyline points="22 4 12 14.01 9 11.01" />
+        </svg>
+        Completed
+      </span>
+    );
+  }
+  return (
+    <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-yellow-100 text-yellow-700">
+      <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+        <circle cx="12" cy="12" r="10" />
+        <polyline points="12 6 12 12 16 14" />
+      </svg>
+      {progress}%
+    </span>
+  );
+};
+
 const getPlatformIcon = (platform: string) => {
   switch (platform.toLowerCase()) {
     case 'tiktok':
@@ -465,12 +669,14 @@ export default function InfluencerSubmissionPage() {
   const [expandedSubmissions, setExpandedSubmissions] = useState<Set<string>>(new Set());
   const [selectedSubmissions, setSelectedSubmissions] = useState<Set<string>>(new Set());
   const [viewMode, setViewMode] = useState<ViewMode>('submitter');
+  // Submissions state for dynamic updates
+  const [submissions, setSubmissions] = useState<Submission[]>(mockSubmissions);
   const [showShareModal, setShowShareModal] = useState(false);
   const [currentShareSubmissionId, setCurrentShareSubmissionId] = useState<string | null>(null);
   const [selectedClients, setSelectedClients] = useState<Set<string>>(new Set());
   const [newClientName, setNewClientName] = useState('');
   const [reviewerSubmissions, setReviewerSubmissions] = useState<ReviewerSubmission[]>([]);
-  const [creatorApprovalStates, setCreatorApprovalStates] = useState<Record<string, CreatorApprovalStatus>>({});
+  const [creatorApprovalStates, setCreatorApprovalStates] = useState<Record<string, ReviewerApprovalStatus>>({});
   const [showContactEmail, setShowContactEmail] = useState(false);
   const [contactCreators, setContactCreators] = useState<Creator[]>([]);
   
@@ -706,6 +912,8 @@ Nike Marketing Team`,
   // Creator collaboration progress states
   const [creatorProgressSteps, setCreatorProgressSteps] = useState<Record<string, CollaborationStep>>({});
   const [showProgressPopover, setShowProgressPopover] = useState<string | null>(null);
+  // Client approvals popover state
+  const [showClientApprovalsPopover, setShowClientApprovalsPopover] = useState<string | null>(null);
   const [showPreviewModal, setShowPreviewModal] = useState(false);
   const [previewData, setPreviewData] = useState<{
     taskNumber: string;
@@ -837,7 +1045,7 @@ Nike Marketing Team`,
     }
 
     // Get selected submissions and their creators with submitter selections
-    const selectedSubs = mockSubmissions.filter(s => selectedSubmissions.has(s.id));
+    const selectedSubs = submissions.filter(s => selectedSubmissions.has(s.id));
     
     // Create reviewer submissions for the selected submissions
     const newReviewerSubmissions: ReviewerSubmission[] = selectedSubs.map(submission => {
@@ -959,7 +1167,7 @@ Nike Marketing Team`,
       return;
     }
 
-    const submission = mockSubmissions.find(s => s.id === currentShareSubmissionId);
+    const submission = submissions.find(s => s.id === currentShareSubmissionId);
     if (!submission) return;
 
     // Generate share link
@@ -985,6 +1193,79 @@ Nike Marketing Team`,
 
     setShowShareModal(false);
     setCurrentShareSubmissionId(null);
+  };
+
+  // Handle screening creator - 运营初筛操作
+  const handleScreenCreator = (submissionId: string, creatorId: string, submitterName: string = 'Current User') => {
+    // Update submissions state
+    setSubmissions(prev => prev.map(sub => {
+      if (sub.id === submissionId) {
+        return {
+          ...sub,
+          creators: sub.creators.map(c => {
+            if (c.id === creatorId) {
+              // Initialize client approvals for each client
+              const clientApprovals: ClientApproval[] = sub.clientNames.map((clientName, idx) => ({
+                clientId: `client_${idx}`,
+                clientName: clientName,
+                status: 'awaiting' as ClientApprovalStatus,
+              }));
+              
+              return {
+                ...c,
+                screeningStatus: 'pre_screened' as ScreeningStatus,
+                screenedAt: new Date().toISOString().split('T')[0],
+                screenedBy: submitterName,
+                clientApprovals: clientApprovals,
+              };
+            }
+            return c;
+          }),
+        };
+      }
+      return sub;
+    }));
+    
+    console.log('Screened creator:', creatorId, 'in submission:', submissionId);
+  };
+
+  // Handle cancel screening - 取消初筛操作
+  const handleCancelScreening = (submissionId: string, creatorId: string) => {
+    // Update submissions state
+    setSubmissions(prev => prev.map(sub => {
+      if (sub.id === submissionId) {
+        return {
+          ...sub,
+          creators: sub.creators.map(c => {
+            if (c.id === creatorId) {
+              return {
+                ...c,
+                screeningStatus: 'pending' as ScreeningStatus,
+                screenedAt: undefined,
+                screenedBy: undefined,
+                clientApprovals: [], // Clear client approvals
+              };
+            }
+            return c;
+          }),
+        };
+      }
+      return sub;
+    }));
+    
+    console.log('Cancelled screening for creator:', creatorId, 'in submission:', submissionId);
+  };
+
+  // Handle client approval update - 客户确认/撤回操作
+  const handleUpdateClientApproval = (
+    submissionId: string, 
+    creatorId: string, 
+    clientId: string, 
+    newStatus: ClientApprovalStatus
+  ) => {
+    console.log('Updating client approval:', { submissionId, creatorId, clientId, newStatus });
+    // In production, call API to update
+    alert(`Client approval updated to: ${newStatus}`);
   };
 
   const handleApproveCreator = (submissionId: string, creatorId: string) => {
@@ -1028,7 +1309,7 @@ Nike Marketing Team`,
   };
 
   // Filter submissions based on search
-  const filteredSubmissions = mockSubmissions.filter((submission) =>
+  const filteredSubmissions = submissions.filter((submission) =>
     submission.submissionNumber.toLowerCase().includes(searchQuery.toLowerCase()) ||
     submission.submitter.toLowerCase().includes(searchQuery.toLowerCase()) ||
     submission.creators.some(c => c.name.toLowerCase().includes(searchQuery.toLowerCase()))
@@ -1044,15 +1325,22 @@ Nike Marketing Team`,
   // Calculate review progress and approval rate for reviewer submissions
   const getReviewProgress = (creators: Creator[]) => {
     const totalCount = creators.length;
-    const reviewedCount = creators.filter(c => c.approvalStatus !== 'pending').length;
-    return totalCount > 0 ? `${reviewedCount}/${totalCount}` : '0/0';
+    const preScreenedCount = creators.filter(c => c.screeningStatus === 'pre_screened').length;
+    return totalCount > 0 ? `${preScreenedCount}/${totalCount}` : '0/0';
   };
 
   const getApprovalRate = (creators: Creator[]) => {
-    const reviewedCreators = creators.filter(c => c.approvalStatus !== 'pending');
-    const approvedCount = creators.filter(c => c.approvalStatus === 'approved').length;
-    if (reviewedCreators.length === 0) return '—';
-    const rate = (approvedCount / reviewedCreators.length) * 100;
+    const preScreenedCreators = creators.filter(c => c.screeningStatus === 'pre_screened');
+    if (preScreenedCreators.length === 0) return '—';
+    
+    // Count total approved across all clients
+    let approvedCount = 0;
+    for (const creator of preScreenedCreators) {
+      if (creator.clientApprovals.some(a => a.status === 'approved')) {
+        approvedCount++;
+      }
+    }
+    const rate = (approvedCount / preScreenedCreators.length) * 100;
     return `${Math.round(rate)}%`;
   };
 
@@ -1195,9 +1483,14 @@ Nike Marketing Team`,
             {/* Empty space for expand icon */}
             <div className="flex-shrink-0 w-5"></div>
 
-            {/* Submission Number */}
+            {/* Submission No. */}
             <div className="flex-1">
               <span className="text-xs font-semibold text-gray-700 uppercase">Submission No.</span>
+            </div>
+
+            {/* Submission Name */}
+            <div className="flex-1">
+              <span className="text-xs font-semibold text-gray-700 uppercase">Submission Name</span>
             </div>
 
             {/* Submitter */}
@@ -1205,7 +1498,12 @@ Nike Marketing Team`,
               <span className="text-xs font-semibold text-gray-700 uppercase">Submitter</span>
             </div>
 
-            {/* Submission Date */}
+            {/* Platform */}
+            <div className="flex-1">
+              <span className="text-xs font-semibold text-gray-700 uppercase">Platform</span>
+            </div>
+
+            {/* Date */}
             <div className="flex-1">
               <span className="text-xs font-semibold text-gray-700 uppercase">Date</span>
             </div>
@@ -1215,19 +1513,14 @@ Nike Marketing Team`,
               <span className="text-xs font-semibold text-gray-700 uppercase">Status</span>
             </div>
 
-            {/* Approved Creators */}
+            {/* Process */}
             <div className="flex-1">
-              <span className="text-xs font-semibold text-gray-700 uppercase">Approved Creators</span>
+              <span className="text-xs font-semibold text-gray-700 uppercase">Process</span>
             </div>
 
-            {/* Total Creators */}
+            {/* Influencers */}
             <div className="flex-1">
-              <span className="text-xs font-semibold text-gray-700 uppercase">Total Creators</span>
-            </div>
-
-            {/* Client Name */}
-            <div className="flex-1">
-              <span className="text-xs font-semibold text-gray-700 uppercase">Client Name</span>
+              <span className="text-xs font-semibold text-gray-700 uppercase">Influencers</span>
             </div>
 
             {/* Actions */}
@@ -1254,8 +1547,26 @@ Nike Marketing Team`,
             {/* Data Rows */}
             {filteredSubmissions.map((submission) => {
               const isExpanded = expandedSubmissions.has(submission.id);
-              const approvedCount = submission.creators.filter(c => c.approvalStatus === 'approved').length;
+              // Calculate task progress using matrix calculation
+              const taskProgress = calculateTaskProgress(submission);
+              const preScreenedCount = submission.creators.filter(c => c.screeningStatus === 'pre_screened').length;
               const totalCount = submission.creators.length;
+              
+              // Calculate reviewer progress - check how many pre_screened creators have been reviewed
+              const preScreenedCreators = submission.creators.filter(c => c.screeningStatus === 'pre_screened');
+              const reviewedCount = preScreenedCreators.filter(c => 
+                reviewerCreatorSelections[c.id] === 'approved' || reviewerCreatorSelections[c.id] === 'rejected'
+              ).length;
+              const reviewerProgress = preScreenedCreators.length > 0 
+                ? Math.round((reviewedCount / preScreenedCreators.length) * 100) 
+                : 0;
+              
+              // Check if all creators are completed (all pre_screened creators have been reviewed)
+              const allCreatorsCompleted = preScreenedCreators.length > 0 && 
+                preScreenedCreators.every(c => reviewerCreatorSelections[c.id] === 'approved' || reviewerCreatorSelections[c.id] === 'rejected');
+              
+              // Determine effective status: Completed if all creators done, otherwise use original status
+              const effectiveStatus = allCreatorsCompleted ? 'completed' : submission.status;
               
               return (
                 <div key={submission.id} className="bg-white rounded-lg border border-gray-200 overflow-hidden">
@@ -1289,7 +1600,7 @@ Nike Marketing Team`,
                         />
                       </div>
 
-                      {/* Submission Number */}
+                      {/* Submission No. */}
                       <div 
                         className="flex-1 cursor-pointer"
                         onClick={() => toggleSubmission(submission.id)}
@@ -1304,6 +1615,14 @@ Nike Marketing Team`,
                         </div>
                       </div>
 
+                      {/* Submission Name */}
+                      <div 
+                        className="flex-1 cursor-pointer"
+                        onClick={() => toggleSubmission(submission.id)}
+                      >
+                        <span className="text-sm text-gray-600">{submission.clientNames[0] || '-'}</span>
+                      </div>
+
                       {/* Submitter */}
                       <div 
                         className="flex-1 cursor-pointer"
@@ -1312,7 +1631,28 @@ Nike Marketing Team`,
                         <span className="text-sm text-gray-600">{submission.submitter}</span>
                       </div>
 
-                      {/* Submission Date */}
+                      {/* Platform */}
+                      <div 
+                        className="flex-1 cursor-pointer"
+                        onClick={() => toggleSubmission(submission.id)}
+                      >
+                        <div className="flex items-center gap-1">
+                          {/* Show unique platforms from creators */}
+                          {(() => {
+                            const platforms = Array.from(new Set(submission.creators.map(c => c.platform)));
+                            return platforms.slice(0, 2).map((platform, idx) => (
+                              <span key={idx} className="text-xs px-1.5 py-0.5 bg-gray-100 text-gray-600 rounded">
+                                {platform}
+                              </span>
+                            ));
+                          })()}
+                          {Array.from(new Set(submission.creators.map(c => c.platform))).length > 2 && (
+                            <span className="text-xs text-gray-400">+{Array.from(new Set(submission.creators.map(c => c.platform))).length - 2}</span>
+                          )}
+                        </div>
+                      </div>
+
+                      {/* Date */}
                       <div 
                         className="flex-1 cursor-pointer"
                         onClick={() => toggleSubmission(submission.id)}
@@ -1327,49 +1667,48 @@ Nike Marketing Team`,
                         className="flex-1 cursor-pointer"
                         onClick={() => toggleSubmission(submission.id)}
                       >
-                        {getStatusBadge(submission.status)}
+                        {getStatusBadge(effectiveStatus)}
                       </div>
 
-                      {/* Approved Creators */}
+                      {/* Process */}
                       <div 
                         className="flex-1 cursor-pointer"
                         onClick={() => toggleSubmission(submission.id)}
                       >
-                        <span className="text-sm font-semibold text-green-600">
-                          {approvedCount} / {totalCount} ({totalCount > 0 ? Math.round((approvedCount / totalCount) * 100) : 0}%)
-                        </span>
+                        <div className="flex items-center gap-2">
+                          <span className={cn(
+                            "inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium",
+                            reviewerProgress === 100 
+                              ? "bg-green-100 text-green-700" 
+                              : "bg-yellow-100 text-yellow-700"
+                          )}>
+                            {reviewerProgress === 100 ? (
+                              <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
+                                <polyline points="22 4 12 14.01 9 11.01" />
+                              </svg>
+                            ) : (
+                              <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                                <circle cx="12" cy="12" r="10" />
+                                <polyline points="12 6 12 12 16 14" />
+                              </svg>
+                            )}
+                            {reviewerProgress}%
+                          </span>
+                          <span className="text-xs text-gray-500">
+                            ({reviewedCount}/{preScreenedCreators.length})
+                          </span>
+                        </div>
                       </div>
 
-                      {/* Total Creators Count */}
+                      {/* Influencers */}
                       <div 
                         className="flex-1 cursor-pointer"
                         onClick={() => toggleSubmission(submission.id)}
                       >
                         <span className="text-sm text-gray-500">
-                          {totalCount} creator{totalCount > 1 ? 's' : ''}
+                          {totalCount} influencer{totalCount > 1 ? 's' : ''}
                         </span>
-                      </div>
-
-                      {/* Client Name */}
-                      <div 
-                        className="flex-1 cursor-pointer relative group"
-                        onClick={() => toggleSubmission(submission.id)}
-                      >
-                        <div className="flex items-center">
-                          <span className="text-sm text-gray-900 font-medium">{submission.clientNames[0]}</span>
-                          {submission.clientNames.length > 1 && (
-                            <span className="ml-1 text-xs text-gray-400">+{submission.clientNames.length - 1}</span>
-                          )}
-                        </div>
-                        {/* Hover tooltip */}
-                        {submission.clientNames.length > 1 && (
-                          <div className="absolute left-0 top-full mt-1 hidden group-hover:block z-50 bg-white border border-gray-200 rounded-lg shadow-lg p-3 min-w-[200px]">
-                            <div className="text-xs font-medium text-gray-500 mb-2">All Clients:</div>
-                            {submission.clientNames.map((client, idx) => (
-                              <div key={idx} className="text-sm text-gray-900 py-1">{client}</div>
-                            ))}
-                          </div>
-                        )}
                       </div>
 
                       {/* Actions */}
@@ -1435,64 +1774,301 @@ Nike Marketing Team`,
                           
                           return (
                           <div key={creator.id} className="px-6 py-5 hover:bg-gray-100 transition-colors relative">
-                            {/* Quick Approve/Reject Capsule Buttons - centered, aligned with avatar top */}
+                            {/* Screening Action Buttons - positioned center */}
                             <div className="absolute left-1/2 -translate-x-1/2 top-5 z-10">
                               {(() => {
-                                // Use creator.id to match with Reviewer View
+                                const popoverKey = `${submission.id}_${creator.id}`;
+                                // Check if reviewer has approved/rejected this creator
                                 const reviewerSelection = reviewerCreatorSelections[creator.id];
                                 
-                                // If reviewer has made a selection, show the status badge
-                                if (reviewerSelection) {
-                                  return reviewerSelection === 'approved' ? (
-                                    <div className="inline-flex items-center gap-1.5 px-4 py-1.5 bg-green-100 text-green-700 rounded-full text-sm font-medium">
-                                      <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-                                        <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
-                                      </svg>
-                                      Approved
-                                    </div>
-                                  ) : (
-                                    <div className="inline-flex items-center gap-1.5 px-4 py-1.5 bg-red-100 text-red-700 rounded-full text-sm font-medium">
-                                      <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-                                        <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
-                                      </svg>
-                                      Rejected
-                                    </div>
-                                  );
-                                }
-                                
-                                // If submitter has made a selection, show Cancel button
-                                if (selectionState) {
+                                // If creator is pre-screened: show Cancel button + status button
+                                if (creator.screeningStatus === 'pre_screened') {
+                                  // If reviewer approved: show green Completed button (no Cancel - reviewer has confirmed)
+                                  if (reviewerSelection === 'approved') {
+                                    return (
+                                      <div className="inline-flex items-center gap-2">
+                                        {/* Completed Button with View Icon - No Cancel since reviewer confirmed */}
+                                        <div className="relative">
+                                          <button
+                                            onClick={(e) => {
+                                              e.stopPropagation();
+                                              setShowClientApprovalsPopover(showClientApprovalsPopover === popoverKey ? null : popoverKey);
+                                            }}
+                                            className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-green-100 hover:bg-green-200 text-green-700 rounded-full text-sm font-medium transition-all border border-green-300"
+                                          >
+                                            {/* Checkmark Icon */}
+                                            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                                              <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                                            </svg>
+                                            Completed
+                                            {/* View/Eye Icon */}
+                                            <svg className="w-4 h-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                                              <path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                              <path strokeLinecap="round" strokeLinejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                                            </svg>
+                                          </button>
+                                          
+                                          {/* Client Approvals Popover */}
+                                          {showClientApprovalsPopover === popoverKey && (
+                                            <div 
+                                              className="absolute top-full left-1/2 -translate-x-1/2 mt-2 w-80 bg-white rounded-lg shadow-xl border border-gray-200 p-4 z-50"
+                                              onClick={(e) => e.stopPropagation()}
+                                            >
+                                              <div className="flex items-center justify-between mb-3">
+                                                <h5 className="text-sm font-semibold text-gray-900">Client Approval Status</h5>
+                                                <button
+                                                  onClick={() => setShowClientApprovalsPopover(null)}
+                                                  className="text-gray-400 hover:text-gray-600"
+                                                >
+                                                  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                                                    <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                                                  </svg>
+                                                </button>
+                                              </div>
+                                              
+                                              {/* Client List - All show as Approved since reviewerSelection is approved */}
+                                              <div className="space-y-2">
+                                                {creator.clientApprovals.length > 0 ? (
+                                                  creator.clientApprovals.map((approval) => (
+                                                    <div key={approval.clientId} className="flex items-center justify-between py-2 px-3 bg-gray-50 rounded-lg">
+                                                      <span className="text-sm text-gray-700">{approval.clientName}</span>
+                                                      <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-700">
+                                                        <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                                                          <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                                                        </svg>
+                                                        Approved
+                                                      </span>
+                                                    </div>
+                                                  ))
+                                                ) : (
+                                                  <div className="text-center py-4 text-sm text-gray-500">
+                                                    No clients assigned yet
+                                                  </div>
+                                                )}
+                                              </div>
+                                              
+                                              {/* Summary */}
+                                              {creator.clientApprovals.length > 0 && (
+                                                <div className="mt-3 pt-3 border-t border-gray-200">
+                                                  <div className="flex justify-between text-xs text-gray-500">
+                                                    <span>Total: {creator.clientApprovals.length} clients</span>
+                                                    <span>
+                                                      {creator.clientApprovals.length} approved, 
+                                                      {' '}0 rejected
+                                                    </span>
+                                                  </div>
+                                                </div>
+                                              )}
+                                            </div>
+                                          )}
+                                        </div>
+                                      </div>
+                                    );
+                                  }
+                                  
+                                  // If reviewer rejected: show green Completed button (no Cancel - reviewer has confirmed)
+                                  if (reviewerSelection === 'rejected') {
+                                    return (
+                                      <div className="inline-flex items-center gap-2">
+                                        {/* Completed Button with View Icon - No Cancel since reviewer confirmed */}
+                                        <div className="relative">
+                                          <button
+                                            onClick={(e) => {
+                                              e.stopPropagation();
+                                              setShowClientApprovalsPopover(showClientApprovalsPopover === popoverKey ? null : popoverKey);
+                                            }}
+                                            className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-green-100 hover:bg-green-200 text-green-700 rounded-full text-sm font-medium transition-all border border-green-300"
+                                          >
+                                            {/* Checkmark Icon */}
+                                            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                                              <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                                            </svg>
+                                            Completed
+                                            {/* View/Eye Icon */}
+                                            <svg className="w-4 h-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                                              <path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                              <path strokeLinecap="round" strokeLinejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                                            </svg>
+                                          </button>
+                                          
+                                          {/* Client Approvals Popover */}
+                                          {showClientApprovalsPopover === popoverKey && (
+                                            <div 
+                                              className="absolute top-full left-1/2 -translate-x-1/2 mt-2 w-80 bg-white rounded-lg shadow-xl border border-gray-200 p-4 z-50"
+                                              onClick={(e) => e.stopPropagation()}
+                                            >
+                                              <div className="flex items-center justify-between mb-3">
+                                                <h5 className="text-sm font-semibold text-gray-900">Client Approval Status</h5>
+                                                <button
+                                                  onClick={() => setShowClientApprovalsPopover(null)}
+                                                  className="text-gray-400 hover:text-gray-600"
+                                                >
+                                                  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                                                    <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                                                  </svg>
+                                                </button>
+                                              </div>
+                                              
+                                              {/* Client List - All show as Rejected since reviewerSelection is rejected */}
+                                              <div className="space-y-2">
+                                                {creator.clientApprovals.length > 0 ? (
+                                                  creator.clientApprovals.map((approval) => (
+                                                    <div key={approval.clientId} className="flex items-center justify-between py-2 px-3 bg-gray-50 rounded-lg">
+                                                      <span className="text-sm text-gray-700">{approval.clientName}</span>
+                                                      <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-700">
+                                                        <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                                                          <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                                                        </svg>
+                                                        Rejected
+                                                      </span>
+                                                    </div>
+                                                  ))
+                                                ) : (
+                                                  <div className="text-center py-4 text-sm text-gray-500">
+                                                    No clients assigned yet
+                                                  </div>
+                                                )}
+                                              </div>
+                                              
+                                              {/* Summary */}
+                                              {creator.clientApprovals.length > 0 && (
+                                                <div className="mt-3 pt-3 border-t border-gray-200">
+                                                  <div className="flex justify-between text-xs text-gray-500">
+                                                    <span>Total: {creator.clientApprovals.length} clients</span>
+                                                    <span>
+                                                      0 approved, 
+                                                      {' '}{creator.clientApprovals.length} rejected
+                                                    </span>
+                                                  </div>
+                                                </div>
+                                              )}
+                                            </div>
+                                          )}
+                                        </div>
+                                      </div>
+                                    );
+                                  }
+                                  
+                                  // Default pre-screened: show yellow Pre-screened button
                                   return (
-                                    <button
-                                      onClick={(e) => {
-                                        e.stopPropagation();
-                                        setCreatorSelectionStates(prev => ({
-                                          ...prev,
-                                          [selectionKey]: null
-                                        }));
-                                      }}
-                                      className="inline-flex items-center gap-1.5 px-4 py-1.5 bg-gray-100 hover:bg-gray-200 text-gray-600 hover:text-gray-800 rounded-full text-sm font-medium transition-all"
-                                      title="Cancel selection"
-                                    >
-                                      <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-                                        <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
-                                      </svg>
-                                      Cancel
-                                    </button>
+                                    <div className="inline-flex items-center gap-2">
+                                      {/* Cancel Button */}
+                                      <button
+                                        onClick={(e) => {
+                                          e.stopPropagation();
+                                          handleCancelScreening(submission.id, creator.id);
+                                        }}
+                                        className="px-3 py-1.5 border border-gray-300 bg-white hover:bg-gray-50 text-gray-600 hover:text-gray-800 rounded-full text-sm font-medium transition-all"
+                                        title="Cancel pre-screening"
+                                      >
+                                        Cancel
+                                      </button>
+                                      {/* Pre-screened Button with View Icon */}
+                                      <div className="relative">
+                                        <button
+                                          onClick={(e) => {
+                                            e.stopPropagation();
+                                            setShowClientApprovalsPopover(showClientApprovalsPopover === popoverKey ? null : popoverKey);
+                                          }}
+                                          className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-yellow-100 hover:bg-yellow-200 text-yellow-700 rounded-full text-sm font-medium transition-all border border-yellow-300"
+                                        >
+                                          {/* Checkmark Icon */}
+                                          <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                                            <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                                          </svg>
+                                          Pre-screened
+                                          {/* View/Eye Icon */}
+                                          <svg className="w-4 h-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                                            <path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                            <path strokeLinecap="round" strokeLinejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                                          </svg>
+                                        </button>
+                                        
+                                        {/* Client Approvals Popover */}
+                                        {showClientApprovalsPopover === popoverKey && (
+                                          <div 
+                                            className="absolute top-full left-1/2 -translate-x-1/2 mt-2 w-80 bg-white rounded-lg shadow-xl border border-gray-200 p-4 z-50"
+                                            onClick={(e) => e.stopPropagation()}
+                                          >
+                                            <div className="flex items-center justify-between mb-3">
+                                              <h5 className="text-sm font-semibold text-gray-900">Client Approval Status</h5>
+                                              <button
+                                                onClick={() => setShowClientApprovalsPopover(null)}
+                                                className="text-gray-400 hover:text-gray-600"
+                                              >
+                                                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                                                  <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                                                </svg>
+                                              </button>
+                                            </div>
+                                            
+                                            {/* Client List */}
+                                            <div className="space-y-2">
+                                              {creator.clientApprovals.length > 0 ? (
+                                                creator.clientApprovals.map((approval) => (
+                                                  <div key={approval.clientId} className="flex items-center justify-between py-2 px-3 bg-gray-50 rounded-lg">
+                                                    <span className="text-sm text-gray-700">{approval.clientName}</span>
+                                                    <span className={cn(
+                                                      "inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium",
+                                                      approval.status === 'approved' && "bg-green-100 text-green-700",
+                                                      approval.status === 'rejected' && "bg-red-100 text-red-700",
+                                                      approval.status === 'awaiting' && "bg-yellow-100 text-yellow-700"
+                                                    )}>
+                                                      {approval.status === 'approved' && (
+                                                        <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                                                          <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                                                        </svg>
+                                                      )}
+                                                      {approval.status === 'rejected' && (
+                                                        <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                                                          <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                                                        </svg>
+                                                      )}
+                                                      {approval.status === 'awaiting' && (
+                                                        <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                                                          <circle cx="12" cy="12" r="10" />
+                                                          <polyline points="12 6 12 12 16 14" />
+                                                        </svg>
+                                                      )}
+                                                      {approval.status === 'approved' ? 'Approved' : approval.status === 'rejected' ? 'Rejected' : 'Awaiting'}
+                                                    </span>
+                                                  </div>
+                                                ))
+                                              ) : (
+                                                <div className="text-center py-4 text-sm text-gray-500">
+                                                  No clients assigned yet
+                                                </div>
+                                              )}
+                                            </div>
+                                            
+                                            {/* Summary */}
+                                            {creator.clientApprovals.length > 0 && (
+                                              <div className="mt-3 pt-3 border-t border-gray-200">
+                                                <div className="flex justify-between text-xs text-gray-500">
+                                                  <span>Total: {creator.clientApprovals.length} clients</span>
+                                                  <span>
+                                                    {creator.clientApprovals.filter(a => a.status === 'approved').length} approved, 
+                                                    {' '}{creator.clientApprovals.filter(a => a.status === 'rejected').length} rejected
+                                                  </span>
+                                                </div>
+                                              </div>
+                                            )}
+                                          </div>
+                                        )}
+                                      </div>
+                                    </div>
                                   );
                                 }
                                 
-                                // Default: show approve/reject buttons
+                                // Default (pending): show X and checkmark buttons
                                 return (
                                   <div className="inline-flex items-center bg-gray-100 rounded-full p-0.5" style={{ gap: '2px' }}>
                                     {/* Reject Button (X) */}
                                     <button
                                       onClick={(e) => {
                                         e.stopPropagation();
-                                        setCreatorSelectionStates(prev => ({
-                                          ...prev,
-                                          [selectionKey]: 'rejected'
-                                        }));
+                                        // For now, just log - can implement reject logic later
+                                        console.log('Rejected creator:', creator.id);
                                       }}
                                       className="px-3 py-1.5 rounded-full flex items-center justify-center transition-all bg-white text-gray-400 hover:text-red-500 hover:bg-red-50"
                                       title="Reject"
@@ -1505,13 +2081,10 @@ Nike Marketing Team`,
                                     <button
                                       onClick={(e) => {
                                         e.stopPropagation();
-                                        setCreatorSelectionStates(prev => ({
-                                          ...prev,
-                                          [selectionKey]: 'approved'
-                                        }));
+                                        handleScreenCreator(submission.id, creator.id);
                                       }}
                                       className="px-3 py-1.5 rounded-full flex items-center justify-center transition-all bg-white text-gray-400 hover:text-green-500 hover:bg-green-50"
-                                      title="Approve"
+                                      title="Pre-screen"
                                     >
                                       <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
                                         <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
@@ -1530,18 +2103,11 @@ Nike Marketing Team`,
                                   alt={creator.name}
                                   className="w-12 h-12 rounded-lg object-cover"
                                 />
-                                {/* Selection indicator on top-left of avatar */}
-                                {selectionState === 'approved' && (
-                                  <div className="absolute -top-1.5 -left-1.5 w-5 h-5 bg-green-500 rounded-full flex items-center justify-center shadow-md">
+                                {/* Screening status indicator on top-left of avatar */}
+                                {creator.screeningStatus === 'pre_screened' && (
+                                  <div className="absolute -top-1.5 -left-1.5 w-5 h-5 bg-yellow-500 rounded-full flex items-center justify-center shadow-md">
                                     <svg className="w-3 h-3 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="3">
                                       <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
-                                    </svg>
-                                  </div>
-                                )}
-                                {selectionState === 'rejected' && (
-                                  <div className="absolute -top-1.5 -left-1.5 w-5 h-5 bg-red-500 rounded-full flex items-center justify-center shadow-md">
-                                    <svg className="w-3 h-3 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="3">
-                                      <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
                                     </svg>
                                   </div>
                                 )}
@@ -1691,6 +2257,21 @@ Nike Marketing Team`,
                                     </div>
                                   )}
                                 </div>
+                                {/* Email Button - with mail icon + text */}
+                                <button
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    setShowContactEmail(true);
+                                    setContactCreators([creator]);
+                                  }}
+                                  className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-medium bg-gray-100 text-gray-600 hover:bg-gray-200 hover:text-gray-800 transition-colors border border-gray-200"
+                                >
+                                  {/* Mail Icon SVG */}
+                                  <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                                    <path strokeLinecap="round" strokeLinejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                                  </svg>
+                                  Email
+                                </button>
                               </div>
                               
                               {/* Price Input */}
@@ -2394,6 +2975,10 @@ Nike Marketing Team`,
                   const isExpanded = expandedSubmissions.has(submission.id);
                   const reviewProgress = getReviewProgress(submission.creators);
                   const approvalRate = getApprovalRate(submission.creators);
+                  
+                  // Check if all creators in this submission have been approved
+                  const allCreatorsApproved = submission.creators.length > 0 && 
+                    submission.creators.every(c => reviewerCreatorSelections[c.id] === 'approved');
 
                   return (
                     <div key={submission.id} className="bg-white rounded-lg border border-gray-200 overflow-hidden">
@@ -2419,7 +3004,13 @@ Nike Marketing Team`,
                             <span className="text-sm text-gray-500">{new Date(submission.submissionDate).toLocaleDateString()}</span>
                           </div>
                           <div className="flex-1 cursor-pointer" onClick={() => toggleSubmission(submission.id)}>
-                            {getStatusBadge(submission.status)}
+                            {allCreatorsApproved ? (
+                              <span className="px-2 py-1 rounded-full text-xs font-medium bg-green-100 text-green-700">
+                                Completed
+                              </span>
+                            ) : (
+                              getStatusBadge(submission.status)
+                            )}
                           </div>
                           <div className="flex-1 cursor-pointer" onClick={() => toggleSubmission(submission.id)}>
                             <span className="text-sm text-gray-900">{reviewProgress}</span>
@@ -2450,24 +3041,56 @@ Nike Marketing Team`,
                                 <div key={creator.id} className="px-6 py-5 hover:bg-gray-100 transition-colors relative">
                                   {/* Quick Approve/Reject Capsule Buttons - centered, aligned with avatar top */}
                                   <div className="absolute left-1/2 -translate-x-1/2 top-5 z-10">
-                                    {reviewerSelection ? (
-                                      /* Cancel button when selection is made */
-                                      <button
-                                        onClick={(e) => {
-                                          e.stopPropagation();
-                                          setReviewerCreatorSelections(prev => ({
-                                            ...prev,
-                                            [reviewerKey]: null
-                                          }));
-                                        }}
-                                        className="inline-flex items-center gap-1.5 px-4 py-1.5 bg-gray-100 hover:bg-gray-200 text-gray-600 hover:text-gray-800 rounded-full text-sm font-medium transition-all"
-                                        title="Cancel selection"
-                                      >
-                                        <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-                                          <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
-                                        </svg>
-                                        Cancel
-                                      </button>
+                                    {reviewerSelection === 'approved' ? (
+                                      /* Cancel + Approved buttons when approved */
+                                      <div className="inline-flex items-center gap-2">
+                                        <button
+                                          onClick={(e) => {
+                                            e.stopPropagation();
+                                            setReviewerCreatorSelections(prev => ({
+                                              ...prev,
+                                              [reviewerKey]: null
+                                            }));
+                                          }}
+                                          className="px-3 py-1.5 border border-gray-300 bg-white hover:bg-gray-50 text-gray-600 hover:text-gray-800 rounded-full text-sm font-medium transition-all"
+                                          title="Cancel approval"
+                                        >
+                                          Cancel
+                                        </button>
+                                        <button
+                                          className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-green-100 text-green-700 rounded-full text-sm font-medium border border-green-300"
+                                        >
+                                          <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                                            <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                                          </svg>
+                                          Approved
+                                        </button>
+                                      </div>
+                                    ) : reviewerSelection === 'rejected' ? (
+                                      /* Cancel + Rejected buttons when rejected */
+                                      <div className="inline-flex items-center gap-2">
+                                        <button
+                                          onClick={(e) => {
+                                            e.stopPropagation();
+                                            setReviewerCreatorSelections(prev => ({
+                                              ...prev,
+                                              [reviewerKey]: null
+                                            }));
+                                          }}
+                                          className="px-3 py-1.5 border border-gray-300 bg-white hover:bg-gray-50 text-gray-600 hover:text-gray-800 rounded-full text-sm font-medium transition-all"
+                                          title="Cancel rejection"
+                                        >
+                                          Cancel
+                                        </button>
+                                        <button
+                                          className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-red-100 text-red-700 rounded-full text-sm font-medium border border-red-300"
+                                        >
+                                          <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                                            <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                                          </svg>
+                                          Rejected
+                                        </button>
+                                      </div>
                                     ) : (
                                       /* Approve/Reject buttons when no selection */
                                       <div className="inline-flex items-center bg-gray-100 rounded-full p-0.5" style={{ gap: '2px' }}>
@@ -2528,7 +3151,7 @@ Nike Marketing Team`,
                                     </div>
                                     <div className="flex items-center gap-2 flex-1">
                                       <h4 className="font-semibold text-gray-900 text-base">{creator.name}</h4>
-                                      {getCreatorApprovalBadge(creatorStatus)}
+                                      {getReviewerApprovalBadge(creatorStatus)}
                                     </div>
                                   </div>
                                   {/* Creator details grid (same as submitter view) */}
