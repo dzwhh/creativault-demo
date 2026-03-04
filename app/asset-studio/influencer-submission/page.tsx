@@ -1716,6 +1716,22 @@ Nike Marketing Team`,
                         <button
                           onClick={(e) => {
                             e.stopPropagation();
+                            // Quick submit all creators
+                            alert(`Quick submit: ${submission.id}`);
+                          }}
+                          className="group relative p-2 hover:bg-blue-100 rounded-lg transition-colors z-30"
+                          title="Quick Submit"
+                        >
+                          <svg className="w-4 h-4 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
+                          </svg>
+                          <span className="absolute right-full mr-1 top-1/2 -translate-y-1/2 px-2 py-1 bg-gray-900 text-white text-xs rounded whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-[100]">
+                            Quick Submit
+                          </span>
+                        </button>
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation();
                             handleExport(submission.id);
                           }}
                           className="group relative p-2 hover:bg-gray-200 rounded-lg transition-colors z-30"
