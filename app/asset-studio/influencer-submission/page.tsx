@@ -1716,17 +1716,17 @@ Nike Marketing Team`,
                         <button
                           onClick={(e) => {
                             e.stopPropagation();
-                            // Quick submit all creators
-                            alert(`Quick submit: ${submission.id}`);
+                            // Quick screen all creators
+                            alert(`Quick screen: ${submission.id}`);
                           }}
                           className="group relative p-2 hover:bg-blue-100 rounded-lg transition-colors z-30"
-                          title="Quick Submit"
+                          title="Quick Screen"
                         >
                           <svg className="w-4 h-4 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-                            <path strokeLinecap="round" strokeLinejoin="round" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
                           </svg>
                           <span className="absolute right-full mr-1 top-1/2 -translate-y-1/2 px-2 py-1 bg-gray-900 text-white text-xs rounded whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-[100]">
-                            Quick Submit
+                            Quick Screen
                           </span>
                         </button>
                         <button
