@@ -959,271 +959,276 @@ export function ProductDetail({ product, onClose }: ProductDetailProps) {
               
               {/* Section 5: Associated Influencers */}
               <div className="mb-6">
-                <h4 className="text-lg font-medium text-gray-800 mb-3">Associated Influencers</h4>
+                <div className="flex items-center justify-between mb-3">
+                  <h4 className="text-lg font-medium text-gray-800">Associated Influencers</h4>
+                  <div className="flex items-center gap-3">
+                    <span className="text-sm text-gray-500">Sort:</span>
+                    <select className="text-sm border border-gray-200 rounded-md px-2 py-1 bg-white">
+                      <option value="gmv">GMV</option>
+                      <option value="sales">Sales</option>
+                      <option value="views">Views</option>
+                      <option value="conv">Conv. Rate</option>
+                    </select>
+                  </div>
+                </div>
                 
-                <div className="bg-white rounded-lg border border-gray-200" style={{ boxShadow: '0 1px 3px 0 rgba(0, 0, 0, 0.1)' }}>
-                  {/* Table Header */}
-                  <div className="px-4 py-3 bg-gray-50 border-b border-gray-200">
-                    <div className="grid grid-cols-10 gap-4">
-                      <div className="col-span-2">
-                        <span className="text-xs font-medium text-gray-600">Influencer</span>
+                <div className="space-y-3">
+                  {/* Influencer Card 1 - Top Performer */}
+                  <div className="bg-white rounded-lg border border-gray-200 p-4 hover:shadow-md transition-shadow" style={{ boxShadow: '0 1px 3px 0 rgba(0, 0, 0, 0.1)' }}>
+                    <div className="flex gap-6">
+                      {/* Left: Influencer Info */}
+                      <div className="flex-shrink-0 w-48">
+                        <div className="flex items-start gap-3">
+                          <img
+                            src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&h=100&fit=crop"
+                            alt="Demi Does It"
+                            className="w-12 h-12 rounded-full object-cover"
+                          />
+                          <div className="flex-1 min-w-0">
+                            <div className="text-sm font-semibold text-gray-900 truncate">Demi Does It</div>
+                            <div className="text-xs text-gray-500">Food & Beverage</div>
+                            <div className="text-xs text-gray-500 mt-0.5">United States</div>
+                            <div className="flex items-center gap-1 mt-1">
+                              <svg className="w-3.5 h-3.5" viewBox="0 0 256 290" fill="none">
+                                <path d="M189.72 104.421c18.678-13.345 41.56-21.197 66.273-21.197v-47.53a117.04 117.04 0 01-22.273-2.132c-13.716-2.787-26.652-8.09-38.184-15.466a117.58 117.58 0 01-13.623-10.264c-11.534-9.792-20.97-21.73-27.436-34.93a117.166 117.166 0 01-8.96-19.435A117.742 117.742 0 01138.049 0h-47.53c0 29.656-11.022 56.72-29.154 77.218a117.616 117.616 0 01-42.608 32.192C7.49 115.088 0 126.784 0 139.942v47.53h.008c24.713 0 47.595 7.852 66.273 21.197 18.678 13.345 33.168 31.757 41.056 53.244 1.98 5.409 3.524 11.013 4.608 16.764.543 2.876.995 5.788 1.346 8.733.351 2.945.594 5.925.726 8.93.132 3.005.155 6.038.069 9.079h47.53c.086-3.041.109-6.074-.023-9.079a117.678 117.678 0 00-1.346-8.93 117.71 117.71 0 00-4.608-16.764c-7.888-21.487-22.378-39.899-41.056-53.244-18.678-13.345-41.56-21.197-66.273-21.197v-.008c0-13.158 7.49-24.854 18.757-30.532a117.616 117.616 0 0042.608-32.192c18.132-20.498 29.154-47.562 29.154-77.218v-.008z" fill="#FF004F"/>
+                                <path d="M256 139.942c0-13.158-7.49-24.854-18.757-30.532a117.616 117.616 0 01-42.608-32.192c-18.132-20.498-29.154-47.562-29.154-77.218h-47.53c0 29.656 11.022 56.72 29.154 77.218a117.616 117.616 0 0042.608 32.192c11.267 5.678 18.757 17.374 18.757 30.532z" fill="#00F2EA"/>
+                              </svg>
+                              <span className="text-xs font-medium text-gray-700">273.8K</span>
+                            </div>
+                          </div>
+                        </div>
+                        <div className="mt-2">
+                          <span className="inline-flex items-center gap-1 px-2 py-0.5 bg-amber-50 text-amber-700 text-xs font-medium rounded-full">
+                            <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 24 24">
+                              <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                            </svg>
+                            Top Performer
+                          </span>
+                        </div>
                       </div>
-                      <div className="col-span-2">
-                        <span className="text-xs font-medium text-gray-600">Start Date</span>
+                      
+                      {/* Middle: Performance Metrics */}
+                      <div className="flex-1 border-l border-r border-gray-100 px-6">
+                        <div className="grid grid-cols-4 gap-6">
+                          <div className="text-center">
+                            <div className="text-xs text-gray-500 mb-1">Sales</div>
+                            <div className="text-lg font-semibold text-gray-900">1.69万</div>
+                          </div>
+                          <div className="text-center">
+                            <div className="text-xs text-gray-500 mb-1">GMV</div>
+                            <div className="text-lg font-semibold text-gray-900">$3.73万</div>
+                          </div>
+                          <div className="text-center">
+                            <div className="text-xs text-gray-500 mb-1">Views</div>
+                            <div className="text-lg font-semibold text-gray-900">89.2万</div>
+                          </div>
+                          <div className="text-center">
+                            <div className="text-xs text-gray-500 mb-1">Conv. Rate</div>
+                            <div className="text-lg font-semibold text-green-600 flex items-center justify-center gap-1">
+                              2.3%
+                              <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M5 10l7-7m0 0l7 7m-7-7v18"/>
+                              </svg>
+                            </div>
+                          </div>
+                        </div>
                       </div>
-                      <div className="col-span-2">
-                        <span className="text-xs font-medium text-gray-600">Product Sales</span>
-                      </div>
-                      <div className="col-span-2">
-                        <span className="text-xs font-medium text-gray-600">GMV</span>
-                      </div>
-                      <div className="col-span-2">
-                        <span className="text-xs font-medium text-gray-600">Top Videos</span>
+                      
+                      {/* Right: Top Video */}
+                      <div className="flex-shrink-0">
+                        <div className="w-20 h-20 rounded-md overflow-hidden relative bg-gray-200 group cursor-pointer">
+                          <img src="https://images.unsplash.com/photo-1611162617474-5b21e879e113?w=100&h=100&fit=crop" alt="Video" className="w-full h-full object-cover"/>
+                          <div className="absolute inset-0 flex items-center justify-center bg-black/20 group-hover:bg-black/40 transition-colors">
+                            <div className="w-8 h-8 bg-white/90 rounded-full flex items-center justify-center">
+                              <svg className="w-4 h-4 text-gray-800 ml-0.5" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                            </div>
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </div>
                   
-                  {/* Influencer List */}
-                  <div className="divide-y divide-gray-200">
-                    {/* Influencer Item 1 */}
-                    <div className="p-4 hover:bg-gray-50 transition-colors">
-                      <div className="grid grid-cols-10 gap-4 items-center">
-                        {/* Influencer Info */}
-                        <div className="col-span-2">
-                          <div className="flex items-center gap-3">
-                            <img
-                              src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&h=100&fit=crop"
-                              alt="Demi Does It"
-                              className="w-12 h-12 rounded-full object-cover"
-                            />
-                            <div>
-                              <div className="text-sm font-medium text-gray-900">Demi Does It</div>
-                              <div className="text-xs text-gray-500 mb-0.5">Food & Beverage</div>
-                              <div className="flex items-center gap-1">
-                                <svg className="w-3.5 h-3.5" viewBox="0 0 256 290" fill="none">
-                                  <path d="M189.72 104.421c18.678-13.345 41.56-21.197 66.273-21.197v-47.53a117.04 117.04 0 01-22.273-2.132c-13.716-2.787-26.652-8.09-38.184-15.466a117.58 117.58 0 01-13.623-10.264c-11.534-9.792-20.97-21.73-27.436-34.93a117.166 117.166 0 01-8.96-19.435A117.742 117.742 0 01138.049 0h-47.53c0 29.656-11.022 56.72-29.154 77.218a117.616 117.616 0 01-42.608 32.192C7.49 115.088 0 126.784 0 139.942v47.53h.008c24.713 0 47.595 7.852 66.273 21.197 18.678 13.345 33.168 31.757 41.056 53.244 1.98 5.409 3.524 11.013 4.608 16.764.543 2.876.995 5.788 1.346 8.733.351 2.945.594 5.925.726 8.93.132 3.005.155 6.038.069 9.079h47.53c.086-3.041.109-6.074-.023-9.079a117.678 117.678 0 00-1.346-8.93 117.71 117.71 0 00-4.608-16.764c-7.888-21.487-22.378-39.899-41.056-53.244-18.678-13.345-41.56-21.197-66.273-21.197v-.008c0-13.158 7.49-24.854 18.757-30.532a117.616 117.616 0 0042.608-32.192c18.132-20.498 29.154-47.562 29.154-77.218v-.008z" fill="#FF004F"/>
-                                  <path d="M256 139.942c0-13.158-7.49-24.854-18.757-30.532a117.616 117.616 0 01-42.608-32.192c-18.132-20.498-29.154-47.562-29.154-77.218h-47.53c0 29.656 11.022 56.72 29.154 77.218a117.616 117.616 0 0042.608 32.192c11.267 5.678 18.757 17.374 18.757 30.532z" fill="#00F2EA"/>
-                                  <path d="M0 187.472v47.53c0 13.158 7.49 24.854 18.757 30.532a117.616 117.616 0 0142.608 32.192C79.497 318.224 90.519 345.288 90.519 374.944h47.53c0-29.656-11.022-56.72-29.154-77.218a117.616 117.616 0 00-42.608-32.192C55.02 259.856 47.53 248.16 47.53 235.002z" fill="#00F2EA"/>
-                                </svg>
-                                <span className="text-xs text-gray-600">273.8K</span>
-                              </div>
+                  {/* Influencer Card 2 */}
+                  <div className="bg-white rounded-lg border border-gray-200 p-4 hover:shadow-md transition-shadow" style={{ boxShadow: '0 1px 3px 0 rgba(0, 0, 0, 0.1)' }}>
+                    <div className="flex gap-6">
+                      {/* Left: Influencer Info */}
+                      <div className="flex-shrink-0 w-48">
+                        <div className="flex items-start gap-3">
+                          <img
+                            src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100&h=100&fit=crop"
+                            alt="Steph Shares Life"
+                            className="w-12 h-12 rounded-full object-cover"
+                          />
+                          <div className="flex-1 min-w-0">
+                            <div className="text-sm font-semibold text-gray-900 truncate">Steph Shares Life</div>
+                            <div className="text-xs text-gray-500">Home & Appliances</div>
+                            <div className="text-xs text-gray-500 mt-0.5">United Kingdom</div>
+                            <div className="flex items-center gap-1 mt-1">
+                              <svg className="w-3.5 h-3.5" viewBox="0 0 256 290" fill="none">
+                                <path d="M189.72 104.421c18.678-13.345 41.56-21.197 66.273-21.197v-47.53a117.04 117.04 0 01-22.273-2.132c-13.716-2.787-26.652-8.09-38.184-15.466a117.58 117.58 0 01-13.623-10.264c-11.534-9.792-20.97-21.73-27.436-34.93a117.166 117.166 0 01-8.96-19.435A117.742 117.742 0 01138.049 0h-47.53c0 29.656-11.022 56.72-29.154 77.218a117.616 117.616 0 01-42.608 32.192C7.49 115.088 0 126.784 0 139.942v47.53h.008c24.713 0 47.595 7.852 66.273 21.197 18.678 13.345 33.168 31.757 41.056 53.244 1.98 5.409 3.524 11.013 4.608 16.764.543 2.876.995 5.788 1.346 8.733.351 2.945.594 5.925.726 8.93.132 3.005.155 6.038.069 9.079h47.53c.086-3.041.109-6.074-.023-9.079a117.678 117.678 0 00-1.346-8.93 117.71 117.71 0 00-4.608-16.764c-7.888-21.487-22.378-39.899-41.056-53.244-18.678-13.345-41.56-21.197-66.273-21.197v-.008c0-13.158 7.49-24.854 18.757-30.532a117.616 117.616 0 0042.608-32.192c18.132-20.498 29.154-47.562 29.154-77.218v-.008z" fill="#FF004F"/>
+                                <path d="M256 139.942c0-13.158-7.49-24.854-18.757-30.532a117.616 117.616 0 01-42.608-32.192c-18.132-20.498-29.154-47.562-29.154-77.218h-47.53c0 29.656 11.022 56.72 29.154 77.218a117.616 117.616 0 0042.608 32.192c11.267 5.678 18.757 17.374 18.757 30.532z" fill="#00F2EA"/>
+                              </svg>
+                              <span className="text-xs font-medium text-gray-700">11.5K</span>
                             </div>
                           </div>
                         </div>
-                        
-                        {/* Start Date */}
-                        <div className="col-span-2">
-                          <span className="text-sm text-gray-900">2025-10-21 01:19:43</span>
+                      </div>
+                      
+                      {/* Middle: Performance Metrics */}
+                      <div className="flex-1 border-l border-r border-gray-100 px-6">
+                        <div className="grid grid-cols-4 gap-6">
+                          <div className="text-center">
+                            <div className="text-xs text-gray-500 mb-1">Sales</div>
+                            <div className="text-lg font-semibold text-gray-900">8385</div>
+                          </div>
+                          <div className="text-center">
+                            <div className="text-xs text-gray-500 mb-1">GMV</div>
+                            <div className="text-lg font-semibold text-gray-900">$2.17万</div>
+                          </div>
+                          <div className="text-center">
+                            <div className="text-xs text-gray-500 mb-1">Views</div>
+                            <div className="text-lg font-semibold text-gray-900">45.6万</div>
+                          </div>
+                          <div className="text-center">
+                            <div className="text-xs text-gray-500 mb-1">Conv. Rate</div>
+                            <div className="text-lg font-semibold text-gray-900">1.8%</div>
+                          </div>
                         </div>
-                        
-                        {/* Product Sales */}
-                        <div className="col-span-2">
-                          <span className="text-sm font-medium text-gray-900">1.69万</span>
-                        </div>
-                        
-                        {/* GMV */}
-                        <div className="col-span-2">
-                          <span className="text-sm font-medium text-gray-900">$3.73万</span>
-                        </div>
-                        
-                        {/* Top Videos */}
-                        <div className="col-span-2">
-                          <div className="flex gap-2">
-                            <div className="w-16 h-16 rounded-md overflow-hidden relative bg-gray-200 flex-shrink-0">
-                              <img
-                                src="https://images.unsplash.com/photo-1611162617474-5b21e879e113?w=100&h=100&fit=crop"
-                                alt="Video 1"
-                                className="w-full h-full object-cover"
-                              />
-                              <div className="absolute inset-0 flex items-center justify-center">
-                                <div className="w-6 h-6 bg-black/60 rounded-full flex items-center justify-center">
-                                  <svg className="w-3 h-3 text-white ml-0.5" fill="currentColor" viewBox="0 0 24 24">
-                                    <path d="M8 5v14l11-7z"/>
-                                  </svg>
-                                </div>
-                              </div>
-                            </div>
-                            <div className="w-16 h-16 rounded-md overflow-hidden relative bg-gray-200 flex-shrink-0">
-                              <img
-                                src="https://images.unsplash.com/photo-1556228578-0d85b1a4d571?w=100&h=100&fit=crop"
-                                alt="Video 2"
-                                className="w-full h-full object-cover"
-                              />
-                              <div className="absolute inset-0 flex items-center justify-center">
-                                <div className="w-6 h-6 bg-black/60 rounded-full flex items-center justify-center">
-                                  <svg className="w-3 h-3 text-white ml-0.5" fill="currentColor" viewBox="0 0 24 24">
-                                    <path d="M8 5v14l11-7z"/>
-                                  </svg>
-                                </div>
-                              </div>
+                      </div>
+                      
+                      {/* Right: Top Video */}
+                      <div className="flex-shrink-0">
+                        <div className="w-20 h-20 rounded-md overflow-hidden relative bg-gray-200 group cursor-pointer">
+                          <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=100&h=100&fit=crop" alt="Video" className="w-full h-full object-cover"/>
+                          <div className="absolute inset-0 flex items-center justify-center bg-black/20 group-hover:bg-black/40 transition-colors">
+                            <div className="w-8 h-8 bg-white/90 rounded-full flex items-center justify-center">
+                              <svg className="w-4 h-4 text-gray-800 ml-0.5" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
                             </div>
                           </div>
                         </div>
                       </div>
                     </div>
-                    
-                    {/* Influencer Item 2 */}
-                    <div className="p-4 hover:bg-gray-50 transition-colors">
-                      <div className="grid grid-cols-10 gap-4 items-center">
-                        <div className="col-span-2">
-                          <div className="flex items-center gap-3">
-                            <img
-                              src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100&h=100&fit=crop"
-                              alt="Steph Shares Life"
-                              className="w-12 h-12 rounded-full object-cover"
-                            />
-                            <div>
-                              <div className="text-sm font-medium text-gray-900">Steph Shares Life</div>
-                              <div className="text-xs text-gray-500 mb-0.5">Home & Appliances</div>
-                              <div className="flex items-center gap-1">
-                                <svg className="w-3.5 h-3.5" viewBox="0 0 256 290" fill="none">
-                                  <path d="M189.72 104.421c18.678-13.345 41.56-21.197 66.273-21.197v-47.53a117.04 117.04 0 01-22.273-2.132c-13.716-2.787-26.652-8.09-38.184-15.466a117.58 117.58 0 01-13.623-10.264c-11.534-9.792-20.97-21.73-27.436-34.93a117.166 117.166 0 01-8.96-19.435A117.742 117.742 0 01138.049 0h-47.53c0 29.656-11.022 56.72-29.154 77.218a117.616 117.616 0 01-42.608 32.192C7.49 115.088 0 126.784 0 139.942v47.53h.008c24.713 0 47.595 7.852 66.273 21.197 18.678 13.345 33.168 31.757 41.056 53.244 1.98 5.409 3.524 11.013 4.608 16.764.543 2.876.995 5.788 1.346 8.733.351 2.945.594 5.925.726 8.93.132 3.005.155 6.038.069 9.079h47.53c.086-3.041.109-6.074-.023-9.079a117.678 117.678 0 00-1.346-8.93 117.71 117.71 0 00-4.608-16.764c-7.888-21.487-22.378-39.899-41.056-53.244-18.678-13.345-41.56-21.197-66.273-21.197v-.008c0-13.158 7.49-24.854 18.757-30.532a117.616 117.616 0 0042.608-32.192c18.132-20.498 29.154-47.562 29.154-77.218v-.008z" fill="#FF004F"/>
-                                  <path d="M256 139.942c0-13.158-7.49-24.854-18.757-30.532a117.616 117.616 0 01-42.608-32.192c-18.132-20.498-29.154-47.562-29.154-77.218h-47.53c0 29.656 11.022 56.72 29.154 77.218a117.616 117.616 0 0042.608 32.192c11.267 5.678 18.757 17.374 18.757 30.532z" fill="#00F2EA"/>
-                                  <path d="M0 187.472v47.53c0 13.158 7.49 24.854 18.757 30.532a117.616 117.616 0 0142.608 32.192C79.497 318.224 90.519 345.288 90.519 374.944h47.53c0-29.656-11.022-56.72-29.154-77.218a117.616 117.616 0 00-42.608-32.192C55.02 259.856 47.53 248.16 47.53 235.002z" fill="#00F2EA"/>
-                                </svg>
-                                <span className="text-xs text-gray-600">11.5K</span>
-                              </div>
+                  </div>
+                  
+                  {/* Influencer Card 3 */}
+                  <div className="bg-white rounded-lg border border-gray-200 p-4 hover:shadow-md transition-shadow" style={{ boxShadow: '0 1px 3px 0 rgba(0, 0, 0, 0.1)' }}>
+                    <div className="flex gap-6">
+                      <div className="flex-shrink-0 w-48">
+                        <div className="flex items-start gap-3">
+                          <img
+                            src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&h=100&fit=crop"
+                            alt="Allie ISAHM"
+                            className="w-12 h-12 rounded-full object-cover"
+                          />
+                          <div className="flex-1 min-w-0">
+                            <div className="text-sm font-semibold text-gray-900 truncate">Allie ISAHM</div>
+                            <div className="text-xs text-gray-500">Food & Beverage</div>
+                            <div className="text-xs text-gray-500 mt-0.5">Canada</div>
+                            <div className="flex items-center gap-1 mt-1">
+                              <svg className="w-3.5 h-3.5" viewBox="0 0 256 290" fill="none">
+                                <path d="M189.72 104.421c18.678-13.345 41.56-21.197 66.273-21.197v-47.53a117.04 117.04 0 01-22.273-2.132c-13.716-2.787-26.652-8.09-38.184-15.466a117.58 117.58 0 01-13.623-10.264c-11.534-9.792-20.97-21.73-27.436-34.93a117.166 117.166 0 01-8.96-19.435A117.742 117.742 0 01138.049 0h-47.53c0 29.656-11.022 56.72-29.154 77.218a117.616 117.616 0 01-42.608 32.192C7.49 115.088 0 126.784 0 139.942v47.53h.008c24.713 0 47.595 7.852 66.273 21.197 18.678 13.345 33.168 31.757 41.056 53.244 1.98 5.409 3.524 11.013 4.608 16.764.543 2.876.995 5.788 1.346 8.733.351 2.945.594 5.925.726 8.93.132 3.005.155 6.038.069 9.079h47.53c.086-3.041.109-6.074-.023-9.079a117.678 117.678 0 00-1.346-8.93 117.71 117.71 0 00-4.608-16.764c-7.888-21.487-22.378-39.899-41.056-53.244-18.678-13.345-41.56-21.197-66.273-21.197v-.008c0-13.158 7.49-24.854 18.757-30.532a117.616 117.616 0 0042.608-32.192c18.132-20.498 29.154-47.562 29.154-77.218v-.008z" fill="#FF004F"/>
+                                <path d="M256 139.942c0-13.158-7.49-24.854-18.757-30.532a117.616 117.616 0 01-42.608-32.192c-18.132-20.498-29.154-47.562-29.154-77.218h-47.53c0 29.656 11.022 56.72 29.154 77.218a117.616 117.616 0 0042.608 32.192c11.267 5.678 18.757 17.374 18.757 30.532z" fill="#00F2EA"/>
+                              </svg>
+                              <span className="text-xs font-medium text-gray-700">5.0K</span>
                             </div>
                           </div>
                         </div>
-                        <div className="col-span-2">
-                          <span className="text-sm text-gray-900">2025-02-13 03:06:14</span>
+                      </div>
+                      
+                      <div className="flex-1 border-l border-r border-gray-100 px-6">
+                        <div className="grid grid-cols-4 gap-6">
+                          <div className="text-center">
+                            <div className="text-xs text-gray-500 mb-1">Sales</div>
+                            <div className="text-lg font-semibold text-gray-900">6198</div>
+                          </div>
+                          <div className="text-center">
+                            <div className="text-xs text-gray-500 mb-1">GMV</div>
+                            <div className="text-lg font-semibold text-gray-900">$2.14万</div>
+                          </div>
+                          <div className="text-center">
+                            <div className="text-xs text-gray-500 mb-1">Views</div>
+                            <div className="text-lg font-semibold text-gray-900">32.1万</div>
+                          </div>
+                          <div className="text-center">
+                            <div className="text-xs text-gray-500 mb-1">Conv. Rate</div>
+                            <div className="text-lg font-semibold text-gray-900">1.9%</div>
+                          </div>
                         </div>
-                        <div className="col-span-2">
-                          <span className="text-sm font-medium text-gray-900">8385</span>
-                        </div>
-                        <div className="col-span-2">
-                          <span className="text-sm font-medium text-gray-900">$2.17万</span>
-                        </div>
-                        <div className="col-span-2">
-                          <div className="flex gap-2">
-                            <div className="w-16 h-16 rounded-md overflow-hidden relative bg-gray-200 flex-shrink-0">
-                              <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=100&h=100&fit=crop" alt="Video 1" className="w-full h-full object-cover"/>
-                              <div className="absolute inset-0 flex items-center justify-center">
-                                <div className="w-6 h-6 bg-black/60 rounded-full flex items-center justify-center">
-                                  <svg className="w-3 h-3 text-white ml-0.5" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-                                </div>
-                              </div>
-                            </div>
-                            <div className="w-16 h-16 rounded-md overflow-hidden relative bg-gray-200 flex-shrink-0">
-                              <img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=100&h=100&fit=crop" alt="Video 2" className="w-full h-full object-cover"/>
-                              <div className="absolute inset-0 flex items-center justify-center">
-                                <div className="w-6 h-6 bg-black/60 rounded-full flex items-center justify-center">
-                                  <svg className="w-3 h-3 text-white ml-0.5" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-                                </div>
-                              </div>
+                      </div>
+                      
+                      <div className="flex-shrink-0">
+                        <div className="w-20 h-20 rounded-md overflow-hidden relative bg-gray-200 group cursor-pointer">
+                          <img src="https://images.unsplash.com/photo-1572635196237-14b3f281503f?w=100&h=100&fit=crop" alt="Video" className="w-full h-full object-cover"/>
+                          <div className="absolute inset-0 flex items-center justify-center bg-black/20 group-hover:bg-black/40 transition-colors">
+                            <div className="w-8 h-8 bg-white/90 rounded-full flex items-center justify-center">
+                              <svg className="w-4 h-4 text-gray-800 ml-0.5" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
                             </div>
                           </div>
                         </div>
                       </div>
                     </div>
-                    
-                    {/* Influencer Item 3 */}
-                    <div className="p-4 hover:bg-gray-50 transition-colors">
-                      <div className="grid grid-cols-10 gap-4 items-center">
-                        <div className="col-span-2">
-                          <div className="flex items-center gap-3">
-                            <img
-                              src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&h=100&fit=crop"
-                              alt="Allie ISAHM"
-                              className="w-12 h-12 rounded-full object-cover"
-                            />
-                            <div>
-                              <div className="text-sm font-medium text-gray-900">Allie ISAHM</div>
-                              <div className="text-xs text-gray-500 mb-0.5">Food & Beverage</div>
-                              <div className="flex items-center gap-1">
-                                <svg className="w-3.5 h-3.5" viewBox="0 0 256 290" fill="none">
-                                  <path d="M189.72 104.421c18.678-13.345 41.56-21.197 66.273-21.197v-47.53a117.04 117.04 0 01-22.273-2.132c-13.716-2.787-26.652-8.09-38.184-15.466a117.58 117.58 0 01-13.623-10.264c-11.534-9.792-20.97-21.73-27.436-34.93a117.166 117.166 0 01-8.96-19.435A117.742 117.742 0 01138.049 0h-47.53c0 29.656-11.022 56.72-29.154 77.218a117.616 117.616 0 01-42.608 32.192C7.49 115.088 0 126.784 0 139.942v47.53h.008c24.713 0 47.595 7.852 66.273 21.197 18.678 13.345 33.168 31.757 41.056 53.244 1.98 5.409 3.524 11.013 4.608 16.764.543 2.876.995 5.788 1.346 8.733.351 2.945.594 5.925.726 8.93.132 3.005.155 6.038.069 9.079h47.53c.086-3.041.109-6.074-.023-9.079a117.678 117.678 0 00-1.346-8.93 117.71 117.71 0 00-4.608-16.764c-7.888-21.487-22.378-39.899-41.056-53.244-18.678-13.345-41.56-21.197-66.273-21.197v-.008c0-13.158 7.49-24.854 18.757-30.532a117.616 117.616 0 0042.608-32.192c18.132-20.498 29.154-47.562 29.154-77.218v-.008z" fill="#FF004F"/>
-                                  <path d="M256 139.942c0-13.158-7.49-24.854-18.757-30.532a117.616 117.616 0 01-42.608-32.192c-18.132-20.498-29.154-47.562-29.154-77.218h-47.53c0 29.656 11.022 56.72 29.154 77.218a117.616 117.616 0 0042.608 32.192c11.267 5.678 18.757 17.374 18.757 30.532z" fill="#00F2EA"/>
-                                  <path d="M0 187.472v47.53c0 13.158 7.49 24.854 18.757 30.532a117.616 117.616 0 0142.608 32.192C79.497 318.224 90.519 345.288 90.519 374.944h47.53c0-29.656-11.022-56.72-29.154-77.218a117.616 117.616 0 00-42.608-32.192C55.02 259.856 47.53 248.16 47.53 235.002z" fill="#00F2EA"/>
-                                </svg>
-                                <span className="text-xs text-gray-600">5.0K</span>
-                              </div>
+                  </div>
+                  
+                  {/* Influencer Card 4 */}
+                  <div className="bg-white rounded-lg border border-gray-200 p-4 hover:shadow-md transition-shadow" style={{ boxShadow: '0 1px 3px 0 rgba(0, 0, 0, 0.1)' }}>
+                    <div className="flex gap-6">
+                      <div className="flex-shrink-0 w-48">
+                        <div className="flex items-start gap-3">
+                          <img
+                            src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop"
+                            alt="Caffeine Candles Chaos"
+                            className="w-12 h-12 rounded-full object-cover"
+                          />
+                          <div className="flex-1 min-w-0">
+                            <div className="text-sm font-semibold text-gray-900 truncate">Caffeine Candles Chaos</div>
+                            <div className="text-xs text-gray-500">Food & Beverage</div>
+                            <div className="text-xs text-gray-500 mt-0.5">Australia</div>
+                            <div className="flex items-center gap-1 mt-1">
+                              <svg className="w-3.5 h-3.5" viewBox="0 0 256 290" fill="none">
+                                <path d="M189.72 104.421c18.678-13.345 41.56-21.197 66.273-21.197v-47.53a117.04 117.04 0 01-22.273-2.132c-13.716-2.787-26.652-8.09-38.184-15.466a117.58 117.58 0 01-13.623-10.264c-11.534-9.792-20.97-21.73-27.436-34.93a117.166 117.166 0 01-8.96-19.435A117.742 117.742 0 01138.049 0h-47.53c0 29.656-11.022 56.72-29.154 77.218a117.616 117.616 0 01-42.608 32.192C7.49 115.088 0 126.784 0 139.942v47.53h.008c24.713 0 47.595 7.852 66.273 21.197 18.678 13.345 33.168 31.757 41.056 53.244 1.98 5.409 3.524 11.013 4.608 16.764.543 2.876.995 5.788 1.346 8.733.351 2.945.594 5.925.726 8.93.132 3.005.155 6.038.069 9.079h47.53c.086-3.041.109-6.074-.023-9.079a117.678 117.678 0 00-1.346-8.93 117.71 117.71 0 00-4.608-16.764c-7.888-21.487-22.378-39.899-41.056-53.244-18.678-13.345-41.56-21.197-66.273-21.197v-.008c0-13.158 7.49-24.854 18.757-30.532a117.616 117.616 0 0042.608-32.192c18.132-20.498 29.154-47.562 29.154-77.218v-.008z" fill="#FF004F"/>
+                                <path d="M256 139.942c0-13.158-7.49-24.854-18.757-30.532a117.616 117.616 0 01-42.608-32.192c-18.132-20.498-29.154-47.562-29.154-77.218h-47.53c0 29.656 11.022 56.72 29.154 77.218a117.616 117.616 0 0042.608 32.192c11.267 5.678 18.757 17.374 18.757 30.532z" fill="#00F2EA"/>
+                              </svg>
+                              <span className="text-xs font-medium text-gray-700">61.9K</span>
                             </div>
                           </div>
                         </div>
-                        <div className="col-span-2">
-                          <span className="text-sm text-gray-900">2024-12-03 02:00:36</span>
+                        <div className="mt-2">
+                          <span className="inline-flex items-center gap-1 px-2 py-0.5 bg-blue-50 text-blue-700 text-xs font-medium rounded-full">
+                            <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                              <path strokeLinecap="round" strokeLinejoin="round" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/>
+                            </svg>
+                            Rising Star
+                          </span>
                         </div>
-                        <div className="col-span-2">
-                          <span className="text-sm font-medium text-gray-900">6198</span>
-                        </div>
-                        <div className="col-span-2">
-                          <span className="text-sm font-medium text-gray-900">$2.14万</span>
-                        </div>
-                        <div className="col-span-2">
-                          <div className="flex gap-2">
-                            <div className="w-16 h-16 rounded-md overflow-hidden relative bg-gray-200 flex-shrink-0">
-                              <img src="https://images.unsplash.com/photo-1572635196237-14b3f281503f?w=100&h=100&fit=crop" alt="Video 1" className="w-full h-full object-cover"/>
-                              <div className="absolute inset-0 flex items-center justify-center">
-                                <div className="w-6 h-6 bg-black/60 rounded-full flex items-center justify-center">
-                                  <svg className="w-3 h-3 text-white ml-0.5" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-                                </div>
-                              </div>
-                            </div>
-                            <div className="w-16 h-16 rounded-md overflow-hidden relative bg-gray-200 flex-shrink-0">
-                              <img src="https://images.unsplash.com/photo-1560343090-f0409e92791a?w=100&h=100&fit=crop" alt="Video 2" className="w-full h-full object-cover"/>
-                              <div className="absolute inset-0 flex items-center justify-center">
-                                <div className="w-6 h-6 bg-black/60 rounded-full flex items-center justify-center">
-                                  <svg className="w-3 h-3 text-white ml-0.5" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-                                </div>
-                              </div>
-                            </div>
+                      </div>
+                      
+                      <div className="flex-1 border-l border-r border-gray-100 px-6">
+                        <div className="grid grid-cols-4 gap-6">
+                          <div className="text-center">
+                            <div className="text-xs text-gray-500 mb-1">Sales</div>
+                            <div className="text-lg font-semibold text-gray-900">3806</div>
+                          </div>
+                          <div className="text-center">
+                            <div className="text-xs text-gray-500 mb-1">GMV</div>
+                            <div className="text-lg font-semibold text-gray-900">$1.41万</div>
+                          </div>
+                          <div className="text-center">
+                            <div className="text-xs text-gray-500 mb-1">Views</div>
+                            <div className="text-lg font-semibold text-gray-900">28.5万</div>
+                          </div>
+                          <div className="text-center">
+                            <div className="text-xs text-gray-500 mb-1">Conv. Rate</div>
+                            <div className="text-lg font-semibold text-gray-900">1.3%</div>
                           </div>
                         </div>
                       </div>
-                    </div>
-                    
-                    {/* Influencer Item 4 */}
-                    <div className="p-4 hover:bg-gray-50 transition-colors">
-                      <div className="grid grid-cols-10 gap-4 items-center">
-                        <div className="col-span-2">
-                          <div className="flex items-center gap-3">
-                            <img
-                              src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop"
-                              alt="Caffeine Candles Chaos"
-                              className="w-12 h-12 rounded-full object-cover"
-                            />
-                            <div>
-                              <div className="text-sm font-medium text-gray-900">Caffeine Candles Chaos</div>
-                              <div className="text-xs text-gray-500 mb-0.5">Food & Beverage</div>
-                              <div className="flex items-center gap-1">
-                                <svg className="w-3.5 h-3.5" viewBox="0 0 256 290" fill="none">
-                                  <path d="M189.72 104.421c18.678-13.345 41.56-21.197 66.273-21.197v-47.53a117.04 117.04 0 01-22.273-2.132c-13.716-2.787-26.652-8.09-38.184-15.466a117.58 117.58 0 01-13.623-10.264c-11.534-9.792-20.97-21.73-27.436-34.93a117.166 117.166 0 01-8.96-19.435A117.742 117.742 0 01138.049 0h-47.53c0 29.656-11.022 56.72-29.154 77.218a117.616 117.616 0 01-42.608 32.192C7.49 115.088 0 126.784 0 139.942v47.53h.008c24.713 0 47.595 7.852 66.273 21.197 18.678 13.345 33.168 31.757 41.056 53.244 1.98 5.409 3.524 11.013 4.608 16.764.543 2.876.995 5.788 1.346 8.733.351 2.945.594 5.925.726 8.93.132 3.005.155 6.038.069 9.079h47.53c.086-3.041.109-6.074-.023-9.079a117.678 117.678 0 00-1.346-8.93 117.71 117.71 0 00-4.608-16.764c-7.888-21.487-22.378-39.899-41.056-53.244-18.678-13.345-41.56-21.197-66.273-21.197v-.008c0-13.158 7.49-24.854 18.757-30.532a117.616 117.616 0 0042.608-32.192c18.132-20.498 29.154-47.562 29.154-77.218v-.008z" fill="#FF004F"/>
-                                  <path d="M256 139.942c0-13.158-7.49-24.854-18.757-30.532a117.616 117.616 0 01-42.608-32.192c-18.132-20.498-29.154-47.562-29.154-77.218h-47.53c0 29.656 11.022 56.72 29.154 77.218a117.616 117.616 0 0042.608 32.192c11.267 5.678 18.757 17.374 18.757 30.532z" fill="#00F2EA"/>
-                                  <path d="M0 187.472v47.53c0 13.158 7.49 24.854 18.757 30.532a117.616 117.616 0 0142.608 32.192C79.497 318.224 90.519 345.288 90.519 374.944h47.53c0-29.656-11.022-56.72-29.154-77.218a117.616 117.616 0 00-42.608-32.192C55.02 259.856 47.53 248.16 47.53 235.002z" fill="#00F2EA"/>
-                                </svg>
-                                <span className="text-xs text-gray-600">61.9K</span>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                        <div className="col-span-2">
-                          <span className="text-sm text-gray-900">2024-10-03 00:30:56</span>
-                        </div>
-                        <div className="col-span-2">
-                          <span className="text-sm font-medium text-gray-900">3806</span>
-                        </div>
-                        <div className="col-span-2">
-                          <span className="text-sm font-medium text-gray-900">$1.41万</span>
-                        </div>
-                        <div className="col-span-2">
-                          <div className="flex gap-2">
-                            <div className="w-16 h-16 rounded-md overflow-hidden relative bg-gray-200 flex-shrink-0">
-                              <img src="https://images.unsplash.com/photo-1611162617474-5b21e879e113?w=100&h=100&fit=crop" alt="Video 1" className="w-full h-full object-cover"/>
-                              <div className="absolute inset-0 flex items-center justify-center">
-                                <div className="w-6 h-6 bg-black/60 rounded-full flex items-center justify-center">
-                                  <svg className="w-3 h-3 text-white ml-0.5" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-                                </div>
-                              </div>
-                            </div>
-                            <div className="w-16 h-16 rounded-md overflow-hidden relative bg-gray-200 flex-shrink-0">
-                              <img src="https://images.unsplash.com/photo-1556228578-0d85b1a4d571?w=100&h=100&fit=crop" alt="Video 2" className="w-full h-full object-cover"/>
-                              <div className="absolute inset-0 flex items-center justify-center">
-                                <div className="w-6 h-6 bg-black/60 rounded-full flex items-center justify-center">
-                                  <svg className="w-3 h-3 text-white ml-0.5" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-                                </div>
-                              </div>
+                      
+                      <div className="flex-shrink-0">
+                        <div className="w-20 h-20 rounded-md overflow-hidden relative bg-gray-200 group cursor-pointer">
+                          <img src="https://images.unsplash.com/photo-1611162617474-5b21e879e113?w=100&h=100&fit=crop" alt="Video" className="w-full h-full object-cover"/>
+                          <div className="absolute inset-0 flex items-center justify-center bg-black/20 group-hover:bg-black/40 transition-colors">
+                            <div className="w-8 h-8 bg-white/90 rounded-full flex items-center justify-center">
+                              <svg className="w-4 h-4 text-gray-800 ml-0.5" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
                             </div>
                           </div>
                         </div>
