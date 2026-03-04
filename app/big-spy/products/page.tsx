@@ -355,6 +355,25 @@ export default function ProductsPage() {
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [isFavoritesModalOpen, setIsFavoritesModalOpen] = useState(false);
   const [productToSave, setProductToSave] = useState<Product | null>(null);
+  const [selectedQuickTags, setSelectedQuickTags] = useState<string[]>([]);
+  const [columnsView, setColumnsView] = useState('all');
+
+  // Quick Select 标签配置
+  const quickSelectTags = [
+    { id: 'beauty', label: 'Beauty', color: 'bg-pink-50 text-pink-600 hover:bg-pink-100' },
+    { id: 'fashion', label: 'Fashion', color: 'bg-green-50 text-green-600 hover:bg-green-100' },
+    { id: 'top-seller', label: 'Top Seller', color: 'bg-orange-50 text-orange-600 hover:bg-orange-100' },
+    { id: 'rising-star', label: 'Rising Star', color: 'bg-blue-50 text-blue-600 hover:bg-blue-100' },
+    { id: 'influencer-collab', label: 'Influencer Collab', color: 'bg-purple-50 text-purple-600 hover:bg-purple-100' },
+  ];
+
+  const toggleQuickTag = (tagId: string) => {
+    setSelectedQuickTags(prev => 
+      prev.includes(tagId) 
+        ? prev.filter(id => id !== tagId)
+        : [...prev, tagId]
+    );
+  };
 
   const handleWatchTutorial = () => {
     setShowVideoModal(true);
@@ -473,6 +492,43 @@ export default function ProductsPage() {
                   </Select>
                 </div>
               </div>
+
+              {/* Quick Select - TikTok 专属 */}
+              {activeTab === 'tiktok' && (
+                <div className="flex items-center gap-3 mt-4">
+                  <span className="text-sm text-gray-500">Quick Select</span>
+                  
+                  {/* Columns Dropdown */}
+                  <Select value={columnsView} onValueChange={setColumnsView}>
+                    <SelectTrigger className="w-[100px] h-8 text-sm">
+                      <SelectValue placeholder="Columns" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="all">Columns</SelectItem>
+                      <SelectItem value="basic">Basic</SelectItem>
+                      <SelectItem value="advanced">Advanced</SelectItem>
+                    </SelectContent>
+                  </Select>
+
+                  {/* Quick Tags */}
+                  <div className="flex items-center gap-2">
+                    {quickSelectTags.map((tag) => (
+                      <button
+                        key={tag.id}
+                        onClick={() => toggleQuickTag(tag.id)}
+                        className={cn(
+                          'px-3 py-1 rounded-full text-sm font-medium transition-all',
+                          selectedQuickTags.includes(tag.id)
+                            ? `${tag.color} ring-2 ring-offset-1 ring-current`
+                            : tag.color
+                        )}
+                      >
+                        {tag.label}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )}
             </div>
 
             {/* Table Container */}
