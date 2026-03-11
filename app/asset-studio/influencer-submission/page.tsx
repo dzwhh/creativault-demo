@@ -133,7 +133,7 @@ type SubmissionStatus = 'pending' | 'submitted' | 'completed';
 type TaskStatus = 'pending' | 'completed';
 
 // Creator screening status - 运营初筛状态
-type ScreeningStatus = 'pending' | 'pre_screened';
+type ScreeningStatus = 'pending' | 'pre_screened' | 'rejected';
 
 // Client approval status - 客户确认状态
 type ClientApprovalStatus = 'awaiting' | 'approved' | 'rejected';
@@ -1229,8 +1229,8 @@ Nike Marketing Team`,
     console.log('Screened creator:', creatorId, 'in submission:', submissionId);
   };
 
-  // Handle cancel screening - 取消初筛操作
-  const handleCancelScreening = (submissionId: string, creatorId: string) => {
+  // Handle reject screening - 初筛淘汰操作
+  const handleRejectScreening = (submissionId: string, creatorId: string) => {
     // Update submissions state
     setSubmissions(prev => prev.map(sub => {
       if (sub.id === submissionId) {
@@ -1240,9 +1240,9 @@ Nike Marketing Team`,
             if (c.id === creatorId) {
               return {
                 ...c,
-                screeningStatus: 'pending' as ScreeningStatus,
-                screenedAt: undefined,
-                screenedBy: undefined,
+                screeningStatus: 'rejected' as ScreeningStatus,
+                screenedAt: new Date().toISOString(),
+                screenedBy: 'Current User',
                 clientApprovals: [], // Clear client approvals
               };
             }
@@ -1253,7 +1253,7 @@ Nike Marketing Team`,
       return sub;
     }));
     
-    console.log('Cancelled screening for creator:', creatorId, 'in submission:', submissionId);
+    console.log('Rejected screening for creator:', creatorId, 'in submission:', submissionId);
   };
 
   // Handle client approval update - 客户确认/撤回操作
@@ -1797,6 +1797,54 @@ Nike Marketing Team`,
                                 // Check if reviewer has approved/rejected this creator
                                 const reviewerSelection = reviewerCreatorSelections[creator.id];
                                 
+                                // If creator is rejected: show Cancel button + Preliminary Rejected button
+                                if (creator.screeningStatus === 'rejected') {
+                                  return (
+                                    <div className="inline-flex items-center gap-2">
+                                      {/* Cancel Button */}
+                                      <button
+                                        onClick={(e) => {
+                                          e.stopPropagation();
+                                          // Reset to pending state
+                                          setSubmissions(prev => prev.map(sub => {
+                                            if (sub.id === submission.id) {
+                                              return {
+                                                ...sub,
+                                                creators: sub.creators.map(c => {
+                                                  if (c.id === creator.id) {
+                                                    return {
+                                                      ...c,
+                                                      screeningStatus: 'pending' as ScreeningStatus,
+                                                      screenedAt: undefined,
+                                                      screenedBy: undefined,
+                                                      clientApprovals: [],
+                                                    };
+                                                  }
+                                                  return c;
+                                                }),
+                                              };
+                                            }
+                                            return sub;
+                                          }));
+                                        }}
+                                        className="px-3 py-1.5 border border-gray-300 bg-white hover:bg-gray-50 text-gray-600 hover:text-gray-800 rounded-full text-sm font-medium transition-all"
+                                        title="Cancel rejection"
+                                      >
+                                        Cancel
+                                      </button>
+                                      {/* Preliminary Rejected Button */}
+                                      <button
+                                        className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-red-100 text-red-700 rounded-full text-sm font-medium border border-red-300"
+                                      >
+                                        <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                                          <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                                        </svg>
+                                        Pre. Rejected
+                                      </button>
+                                    </div>
+                                  );
+                                }
+                                
                                 // If creator is pre-screened: show Cancel button + status button
                                 if (creator.screeningStatus === 'pre_screened') {
                                   // If reviewer approved: show green Completed button (no Cancel - reviewer has confirmed)
@@ -1965,22 +2013,42 @@ Nike Marketing Team`,
                                     );
                                   }
                                   
-                                  // Default pre-screened: show yellow Pre-screened button
+                                  // Default pre-screened: show Cancel button + Pre-screened button
                                   return (
                                     <div className="inline-flex items-center gap-2">
                                       {/* Cancel Button */}
                                       <button
                                         onClick={(e) => {
                                           e.stopPropagation();
-                                          handleCancelScreening(submission.id, creator.id);
+                                          // Reset to pending state
+                                          setSubmissions(prev => prev.map(sub => {
+                                            if (sub.id === submission.id) {
+                                              return {
+                                                ...sub,
+                                                creators: sub.creators.map(c => {
+                                                  if (c.id === creator.id) {
+                                                    return {
+                                                      ...c,
+                                                      screeningStatus: 'pending' as ScreeningStatus,
+                                                      screenedAt: undefined,
+                                                      screenedBy: undefined,
+                                                      clientApprovals: [],
+                                                    };
+                                                  }
+                                                  return c;
+                                                }),
+                                              };
+                                            }
+                                            return sub;
+                                          }));
                                         }}
                                         className="px-3 py-1.5 border border-gray-300 bg-white hover:bg-gray-50 text-gray-600 hover:text-gray-800 rounded-full text-sm font-medium transition-all"
                                         title="Cancel pre-screening"
                                       >
                                         Cancel
                                       </button>
-                                      {/* Pre-screened Button with View Icon */}
-                                      <div className="relative">
+                                      {/* Pre-screened Button */}
+                                      <div className="relative inline-flex items-center gap-1">
                                         <button
                                           onClick={(e) => {
                                             e.stopPropagation();
@@ -1993,8 +2061,17 @@ Nike Marketing Team`,
                                             <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
                                           </svg>
                                           Pre-screened
-                                          {/* View/Eye Icon */}
-                                          <svg className="w-4 h-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                                        </button>
+                                        {/* View/Eye Icon - positioned to the right of the button */}
+                                        <button
+                                          onClick={(e) => {
+                                            e.stopPropagation();
+                                            setShowClientApprovalsPopover(showClientApprovalsPopover === popoverKey ? null : popoverKey);
+                                          }}
+                                          className="p-1 text-yellow-600 hover:text-yellow-800 hover:bg-yellow-100 rounded-full transition-all"
+                                          title="View client approvals"
+                                        >
+                                          <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
                                             <path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                                             <path strokeLinecap="round" strokeLinejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
                                           </svg>
@@ -2083,8 +2160,7 @@ Nike Marketing Team`,
                                     <button
                                       onClick={(e) => {
                                         e.stopPropagation();
-                                        // For now, just log - can implement reject logic later
-                                        console.log('Rejected creator:', creator.id);
+                                        handleRejectScreening(submission.id, creator.id);
                                       }}
                                       className="px-3 py-1.5 rounded-full flex items-center justify-center transition-all bg-white text-gray-400 hover:text-red-500 hover:bg-red-50"
                                       title="Reject"
@@ -2124,6 +2200,13 @@ Nike Marketing Team`,
                                   <div className="absolute -top-1.5 -left-1.5 w-5 h-5 bg-yellow-500 rounded-full flex items-center justify-center shadow-md">
                                     <svg className="w-3 h-3 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="3">
                                       <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                                    </svg>
+                                  </div>
+                                )}
+                                {creator.screeningStatus === 'rejected' && (
+                                  <div className="absolute -top-1.5 -left-1.5 w-5 h-5 bg-red-500 rounded-full flex items-center justify-center shadow-md">
+                                    <svg className="w-3 h-3 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="3">
+                                      <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
                                     </svg>
                                   </div>
                                 )}
